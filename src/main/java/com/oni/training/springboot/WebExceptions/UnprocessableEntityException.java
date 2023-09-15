@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class UnprocessableEntityException extends RuntimeException{
     public UnprocessableEntityException(String msg){
         super(msg);
+        System.out.println(msg);
     }
 }
