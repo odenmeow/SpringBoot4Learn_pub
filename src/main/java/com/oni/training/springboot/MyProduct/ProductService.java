@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @DependsOn("InitialClearDB")
+// 測試看看到底有沒有push成功而已
 public class ProductService {
     private ProductRepository repository;
 
