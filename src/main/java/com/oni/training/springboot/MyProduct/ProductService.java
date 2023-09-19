@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@DependsOn("DatabaseInitializer")
 public class ProductService {
     private ProductRepository repository;
 
@@ -27,9 +26,8 @@ public class ProductService {
         this.repository=repository;
     }
 
-    @DependsOn("DatabaseInitializer")
     @PostConstruct
-    private  void initDB(){
+    public void initDB(){
         repository.insert(new Product("Android Development (Java)", 380));
         repository.insert(new Product("Android Development (Kotlin)", 420));
         repository.insert(new Product("Data Structure (Java)", 250));

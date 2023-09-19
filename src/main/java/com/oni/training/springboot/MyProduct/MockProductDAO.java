@@ -4,12 +4,14 @@ package com.oni.training.springboot.MyProduct;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@DependsOn("ClearDBConfig")
 public class MockProductDAO {
 
     private final List<Product> productDB = new ArrayList<>();
