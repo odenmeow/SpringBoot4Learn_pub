@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct;
+package com.oni.training.springboot.MyProduct.DBConfiguration;
 
 
 import jakarta.annotation.PostConstruct;

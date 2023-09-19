@@ -11,7 +11,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-@DependsOn("ClearDBConfig")
 public class MockProductDAO {
 
     private final List<Product> productDB = new ArrayList<>();

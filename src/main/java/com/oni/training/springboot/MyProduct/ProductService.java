@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@DependsOn("InitialClearDB")
 public class ProductService {
     private ProductRepository repository;
 

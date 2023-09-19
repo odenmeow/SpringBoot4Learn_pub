@@ -27,6 +27,7 @@ public class SpringbootApplication {
 // ctrl+shift +  (+/-)  展開或收攏到只剩方法標題名稱
 // alt+shift +  (+/-)   最小只能100%  不能往下QQ
 
+
 // run之後會出現target 裡面是你的byte code 。
 // 對應影片https://www.youtube.com/watch?v=XCqVCq249Iw
 // alt+` (~)    (自己選擇要不comment) VCS enable version control integeration

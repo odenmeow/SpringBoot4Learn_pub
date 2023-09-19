@@ -1,5 +1,6 @@
-package com.oni.training.springboot.MyProduct;
+package com.oni.training.springboot.MyProduct.DBConfiguration;
 
+import com.oni.training.springboot.MyProduct.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
