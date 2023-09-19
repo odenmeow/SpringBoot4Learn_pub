@@ -40,10 +40,11 @@ public class ProductController {
     }
 
 
-    @GetMapping
+    @GetMapping  // 這邊ModelAttribute 傳入GET 其實也是解析 ?a="a"&b="b"而已
     public ResponseEntity<List<Product>> getProducts(@ModelAttribute ProductQueryParameter param){
+        System.out.println("進來了(ProductQueryParameter)");
         List<Product> products= productService.getProducts(param);
-
+        System.out.println("準備出去");
 //        return  ResponseEntity.ok().body(products);
         return  ResponseEntity.ok(products);  //等效上方
     }

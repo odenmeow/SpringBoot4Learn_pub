@@ -1,0 +1,15 @@
+// 找出 name 欄位值有包含參數的所有文件，且不分大小寫
+List<Product> findByNameLikeIgnoreCase(String name);
+
+// 找出 id 欄位值有包含在參數之中的所有文件
+List<Product> findByIdIn(List<String> ids);
+
+// 是否有文件的 email 欄位值等於參數
+boolean existsByEmail(String email);
+
+// 找出 username 與 password 欄位值皆符合參數的一筆文件
+Optional<User> findByUsernameAndPassword(String email, String pwd);
+
+
+排序: 使用Sort
+List<Product> findByNameLikeIgnoreCase(String name, Sort sort);

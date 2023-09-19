@@ -24,8 +24,8 @@ public class SpringbootApplication {
 // ctrl+F12=   eclipse (ctrl+o)  自動Import之類
 // shift+F6 = refactor rename
 // 對著資料夾使用Mark as Directory 可以把包com example.demo  合併成com.example.demo 之類  ( 出問題可使用 )
-
-
+// ctrl+shift +  (+/-)  展開或收攏到只剩方法標題名稱
+// alt+shift +  (+/-)   最小只能100%  不能往下QQ
 
 // run之後會出現target 裡面是你的byte code 。
 // 對應影片https://www.youtube.com/watch?v=XCqVCq249Iw
@@ -101,3 +101,4 @@ public class SpringbootApplication {
 
 
 // =======使用   git config --get core.autocrlf 可以看到 目前是?
+
