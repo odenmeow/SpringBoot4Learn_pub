@@ -64,6 +64,7 @@ public class ProductService {
     }
 
     public void deleteProduct(String id){
+        getProduct(id);//多了這個如果不存在    【會說找不到】!
         repository.deleteById(id);
     }
 

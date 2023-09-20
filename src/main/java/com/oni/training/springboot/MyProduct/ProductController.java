@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 // Content-Type   application/json  (那怕回傳是String)
 // 似乎會讓方法都變成JSON表示  原本String 應該直接傳回字串吧?
 // 讓所屬類別加上路徑
+// docker連線測試的時候使用mongosh mongodb://localhost:27017 -u aaa -p ccc
 public class ProductController {
     private ProductService productService;
 
@@ -60,7 +61,12 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product request){
-
+        // RequestBody傳入Product Raw JSON
+        //{
+        //    "name": "Data Structure (Java)",
+        //    "price": 250
+        //}  是真的可以新增哦
+        System.out.println(request.getId()); //null 而已
         Product product=productService.createProduct(request);
         //做出來了把路徑丟上去的感覺捏?
         URI location = ServletUriComponentsBuilder
@@ -68,6 +74,7 @@ public class ProductController {
                 .path("/{id}")
                 .buildAndExpand(product.getId())
                 .toUri();
+        System.out.println(product.getId());
         return ResponseEntity.created(location).body(product);
 //        201 created.
 //        如果去看headers location會出現
