@@ -61,6 +61,9 @@ public class SpringbootApplication {
 //	}
 //  java -jar .\demo-0.0.1-SNAPSHOT.jar --server.port=8081
 
+/**   G    i    t
+ * 		預設會忽略空的folder file 所以建議 folder內要放file然後打字 才會被加入!
+ * */
 // git使用 idea (intellij idea) JetBrain的軟體
 
 // Terminal打開 然後【因為尚未使用git】所以可輸入
@@ -73,17 +76,65 @@ public class SpringbootApplication {
 // 		git push -u origin master
 //		這將把您的本地分支（通常是“master”分支）推送到GitHub倉庫。
 
-
+/** git reset --soft HEAD~1  更改commit消息(僅適用本地端尚未push想修改上一步驟的消息)*/
 // 一旦完成上述步驟，您的項目檔將被推送到GitHub倉庫中。
 // 如果這是您首次推送，您可能需要提供GitHub憑據進行身份驗證。
 // 請注意，這些步驟假定您已在本地安裝了Git並設置了GitHub帳戶。
 // 確保您在執行這些命令之前已經登錄GitHub，並具有推送到倉庫的許可權。
 
 // git只要去下載就好 然後一樣加入環境變數就可以這樣玩了
+/** 移除遠方remote 關聯名稱*/
+// 【git】 git remote remove origin
+/** 關於git init後會產生隱藏的 .git 可以手動也可以命令刪除*/
+// 【linux】 rm -rf .git
+// 【windows】Remove-Item -Recurse -Force .git
+//  關於這刪除 請小心使用 因為可能遞迴 如果沒打好可能全部不見
+/***  【 以下是怎麼把遠方的資料 抓到自己本台電腦的某資料夾 下方 然後進行使用】
+ PS C:\_JSP\spring-workspaceA> Remove-Item -Recurse -Force .git 強制刪除
+ PS C:\_JSP\spring-workspaceA> git branch  		找不到因為沒有init
+		fatal: not a git repository (or any of the parent directories): .git
+ PS C:\_JSP\spring-workspaceA> git init			初始化
+ 		Initialized empty Git repository in C:/_JSP/spring-workspaceA/.git/
+ PS C:\_JSP\spring-workspaceA> git clone https://github.com/odenmeow/SpringHibernate/
+		Cloning into 'SpringHibernate'...				複製過來目前的資料夾
+		remote: Enumerating objects: 1539, done.
+		remote: Counting objects: 100% (1539/1539), done.
+		remote: Compressing objects: 100% (1084/1084), done.
+		remote: Total 1539 (delta 401), reused 1486 (delta 348), pack-reused Receiving objects:  99% (1524/1539), 1.70 MiB | 844.00 KiB/ss
+		Receiving objects: 100% (1539/1539), 2.26 MiB | 925.00 KiB/s, done.
+		Resolving deltas: 100% (401/401), done.
+ PS C:\_JSP\spring-workspaceA> git branch -r					你複製過來但是你看不到遠端喔
+ PS C:\_JSP\spring-workspaceA> git branch -a					一樣看不到啦
+ PS C:\_JSP\spring-workspaceA> cd SpringHibernate 				進去裡面才有!
+ PS C:\_JSP\spring-workspaceA\SpringHibernate> git branch -r   遠方也有了!
+ 		origin/HEAD -> origin/SpringExampleMM22
+ 		origin/HibernateExamplesMM23
+ 		origin/SpringExampleMM22
+ 		origin/master
+ PS C:\_JSP\spring-workspaceA\SpringHibernate> git branch  		 突然有了! 所以資料是藏這裡面!
+		* SpringExampleMM22
+ PS C:\_JSP\spring-workspaceA\SpringHibernate> git switch master  切換分支
+ 		Switched to a new branch 'master'
+ 		branch 'master' set up to track 'origin/master'.
+ PS C:\_JSP\spring-workspaceA\SpringHibernate> git branch		切換本地才會 顯示
+ 		SpringExampleMM22
+ 		* master
 
+
+
+
+
+ PS C:\_JSP\spring-workspaceA\SpringHibernate> git remote -v   查看遠方的 別名 不需要用連接也可pull
+ 		origin  https://github.com/odenmeow/SpringHibernate/ (fetch)
+ 		origin  https://github.com/odenmeow/SpringHibernate/ (push)
+ PS C:\_JSP\spring-workspaceA\SpringHibernate> git remote
+ 		origin
+
+**/
+
+// 【checkout  switch通用 但是最好用新的switch】
 
 // git 你在這一航旁邊數字上方點右鍵 並解打開annotate git blame就可以看到是誰編輯的了
-
 // git log 可以查看所有提交歷史commit部分 回去任意commit
 // git checkout <commit-SHA> 回去任意commit跟branch 不同唷
 // ✔【很重要所以括號】
@@ -120,9 +171,53 @@ public class SpringbootApplication {
 // git reset --hard commitA
 // 【分析為什麼pull沒東西】
 //		因為刪除後沒有提交 所以pull以為是同一個版本就沒做事情!
+// 【如果怕pull發生衝突請選用以下】
+// git fetch
+// {詳細再請自己查看暫時沒用過，好像說有發生衝突會顯示 ，得自己手動解決<但是相對更安全>	}
+
+// 【如果無法切換分支 也確定目前資料夾的非git文件都不需要 則使用這個命令】
+// git clean -f -d
+// 【複製對面Repository】
+// git clone https://github.com/odenmeow/SpringHibernate
+// 隨便找一個 新專案 開啟shell然後輸入  ，會發現 不是這樣用拉~。
+// 以下才是正確方式:
+
+// 		1.先從Terminal切換到管理專案的那個 file
+// 			例如C:\_JSP\spring-workspaceA\SpringHibernate
+//			的 C:\_JSP\spring-workspaceA
+//		2.把檔案clone下來 git clone https://github.com/odenmeow/SpringHibernate
+//			這邊只會git默認的那個branch 並不會把所有都抓下來
+//			透過import 去找到這個檔案位置 在eclipse之類 打開專案以查看
+//		3.如果這時候想透過 git branch HibernateExamplesMM23 會失敗 因為要先fetch
+//			但是其實不強制 這個失敗是有變更未保存 怕你壞事
+//			git checkout -f HibernateExamplesMM23 好像可以強制抓遠端資料
+//   ✔		為什麼使用fetch 是為了保證是去抓新的 否則如果本地端有branch會直接用舊的!
+//
+/**	使用fetch : 搭配 stash 比較安全*/
+//		【使用情境:	覺得有可能衝突的話】
+//		fetch 會把遠端倉儲所有資料、分支暫時抓下來
+//		git stash 可以保存【當前分支】的內容
+//		必須一個個切換branch並使用stash保證等會的fetch 覆蓋後 有機會處理問題
+//
+/***【做任何ˊ事情之前最好都先commit、push 完畢了在做 避免不小心覆蓋就沒了! 】 **/
 
 
 
+
+
+
+
+// 透過 【git branch -a】
+//		C:\_JSP\spring-workspaceA\SpringHibernate>git branch -a
+//		* SpringExampleMM22								是你的本地分支
+//		remotes/origin/HEAD -> origin/SpringExampleMM22	指向遠端儲存庫的預設分支 。SpringExampleMM22
+//		remotes/origin/HibernateExamplesMM23			是遠端儲存庫中的一個分支
+//		remotes/origin/SpringExampleMM22				是遠端儲存庫中的一個分支
+//		remotes/origin/master							是遠端儲存庫中的一個分支
+
+
+
+/**到這邊上方 都是   G i t*/
 
 
 

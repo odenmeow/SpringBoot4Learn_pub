@@ -34,7 +34,6 @@ public interface ProductRepository extends MongoRepository<Product,String> {
     // 查詢 name 字串欄位有包含參數的文件，不分大小寫
     @Query("{'name': {'$regex': ?0, '$options': 'i'}}")
     List<Product> findByNameLikeIgnoreCase(String name);
-
     // 查詢同時符合上述兩個條件的文件
     @Query("{'$and': [{'price': {'$gte': ?0, '$lte': ?1}}, {'name': {'$regex': ?2, '$options': 'i'}}]}")
     List<Product> findByPriceBetweenAndNameLikeIgnoreCase(int priceFrom, int priceTo, String name);
