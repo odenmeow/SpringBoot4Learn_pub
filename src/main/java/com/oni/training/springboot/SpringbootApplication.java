@@ -85,6 +85,10 @@ public class SpringbootApplication {
 // git 你在這一航旁邊數字上方點右鍵 並解打開annotate git blame就可以看到是誰編輯的了
 
 // git log 可以查看所有提交歷史commit部分 回去任意commit
+// git checkout <commit-SHA> 回去任意commit跟branch 不同唷
+// ✔【很重要所以括號】
+//      回到commitA 的話 master 所有在commitA後多新增的file、folder 不會消失
+//		會改變上次提交的內容 (回到上次的修正)而已
 
 // 這邊教你怎麼新增並push branch 分支
 // git branch Chapter8  左邊是章節8的意思  (因為我要依照章節做切換)
@@ -99,6 +103,9 @@ public class SpringbootApplication {
 // 使用分支
 // git checkout Chapter8
 
+// 刪除分支 本地+遠端分支都要刪除喔
+// git branch -d branch-name / git branch -D branch-name
+// git push origin --delete Chapter8
 
 
 // 在 Windows 系統上：
