@@ -101,12 +101,35 @@ public class SpringbootApplication {
 //		* master
 //		PS C:\Users\qw284\IdeaProjects\springboot>
 
-// 使用分支
+// 【使用分支】
 // git checkout Chapter8
 
-// 刪除分支 本地+遠端分支都要刪除喔
+// 【刪除分支 本地+遠端分支都要刪除喔】
 // git branch -d branch-name / git branch -D branch-name
 // git push origin --delete Chapter8
+
+
+// git pull 對於在commitA 後刪除某資料 並不會復原
+// 【依照關鍵字查詢】
+// git log --grep="新增"  # 顯示包含 "bug fix" 關鍵字的提交
+// 【依照時間查詢】
+// git log --since="2 weeks ago" --until="yesterday"  # 顯示過去兩週內的提交
+// 【恢復某個特定文件】
+// git checkout commitA -- path/to/file
+// 【小心使用、拋棄目前所有變更強制跳回某版本、此招可以復原空文件】
+// git reset --hard commitA
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // 在 Windows 系統上：
