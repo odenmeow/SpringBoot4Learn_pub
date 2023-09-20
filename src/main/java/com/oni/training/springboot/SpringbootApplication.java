@@ -73,6 +73,7 @@ public class SpringbootApplication {
 // 		git push -u origin master
 //		這將把您的本地分支（通常是“master”分支）推送到GitHub倉庫。
 
+
 // 一旦完成上述步驟，您的項目檔將被推送到GitHub倉庫中。
 // 如果這是您首次推送，您可能需要提供GitHub憑據進行身份驗證。
 // 請注意，這些步驟假定您已在本地安裝了Git並設置了GitHub帳戶。
@@ -82,6 +83,22 @@ public class SpringbootApplication {
 
 
 // git 你在這一航旁邊數字上方點右鍵 並解打開annotate git blame就可以看到是誰編輯的了
+
+// git log 可以查看所有提交歷史commit部分 回去任意commit
+
+// 這邊教你怎麼新增並push branch 分支
+// git branch Chapter8  左邊是章節8的意思  (因為我要依照章節做切換)
+// git push origin Chapter8 這樣就能推送上去
+
+// 查看分支
+// PS   C:\Users\qw284\IdeaProjects\springboot> git branch
+//		Chapter8
+//		* master
+//		PS C:\Users\qw284\IdeaProjects\springboot>
+
+// 使用分支
+// git checkout Chapter8
+
 
 
 // 在 Windows 系統上：
