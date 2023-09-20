@@ -91,6 +91,7 @@ public class SpringbootApplication {
 //		會改變上次提交的內容 (回到上次的修正)而已
 
 // 這邊教你怎麼新增並push branch 分支
+// 如果下面兩個步驟之前沒有使用 git add. commit push 那麼會是前一個commit的快照
 // git branch Chapter8  左邊是章節8的意思  (因為我要依照章節做切換)
 // git push origin Chapter8 這樣就能推送上去
 
