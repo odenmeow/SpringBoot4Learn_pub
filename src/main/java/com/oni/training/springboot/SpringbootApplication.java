@@ -118,7 +118,8 @@ public class SpringbootApplication {
 // git checkout commitA -- path/to/file
 // 【小心使用、拋棄目前所有變更強制跳回某版本、此招可以復原空文件】
 // git reset --hard commitA
-
+// 【分析為什麼pull沒東西】
+//		因為刪除後沒有提交 所以pull以為是同一個版本就沒做事情!
 
 
 
