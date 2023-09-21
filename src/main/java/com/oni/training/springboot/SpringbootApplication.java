@@ -75,6 +75,9 @@ public class SpringbootApplication {
 // 使用以下命令將您的提交推送到GitHub倉庫：
 // 		git push -u origin master
 //		這將把您的本地分支（通常是“master”分支）推送到GitHub倉庫。
+//      -u是關聯 以後只要push就好( 如果有多個remote add a/b/c )
+//      以後默認就是 push到 origin master ( 如果其他執行的時候沒有使用 -u a/b/c master)
+//			【也不是很重要 以後用到應該就會了拉 反正加減看】
 
 /** git reset --soft HEAD~1  更改commit消息(僅適用本地端尚未push想修改上一步驟的消息)*/
 // 一旦完成上述步驟，您的項目檔將被推送到GitHub倉庫中。
