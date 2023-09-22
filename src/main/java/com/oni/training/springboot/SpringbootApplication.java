@@ -144,7 +144,7 @@ public class SpringbootApplication {
 //      回到commitA 的話 master 所有在commitA後多新增的file、folder 不會消失
 //		會改變上次提交的內容 (回到上次的修正)而已
 
-// 這邊教你怎麼新增並push branch 分支
+// 【新增並push branch 分支】
 // 如果下面兩個步驟之前沒有使用 git add. commit push 那麼會是前一個commit的快照
 // git branch Chapter8  左邊是章節8的意思  (因為我要依照章節做切換)
 // git push origin Chapter8 這樣就能推送上去
@@ -217,6 +217,31 @@ public class SpringbootApplication {
 //		remotes/origin/HibernateExamplesMM23			是遠端儲存庫中的一個分支
 //		remotes/origin/SpringExampleMM22				是遠端儲存庫中的一個分支
 //		remotes/origin/master							是遠端儲存庫中的一個分支
+
+
+
+/**不小心弄錯了push覆蓋上去了(剛好沒衝突)*/
+
+// 是的，您可以使用以下步驟來糾正不小心將分支 A 推送到分支 B 的情況：
+//
+//	使用 或 尋找分支 B 上一次正常的提交的哈希值，假設為 。git refloggit log<commit-hash>
+//
+//	使用 將本地分支 B 重置到正確的提交。 這將使您的本地分支 B 恢復到正確的狀態，但尚未推送到遠端倉庫。git reset --hard <commit-hash>
+//
+//	使用 將本地分支 B 強制推送到遠端倉庫的分支 B。 這將覆蓋遠端分支 B 上的舊提交，確保它與您的本地分支一致。git push --force origin branch-B
+//
+//	請務必小心使用強制推送，確保您了解其潛在影響，以免不小心刪除或覆蓋重要的提交。
+
+
+
+
+
+
+
+
+
+
+
 
 
 
