@@ -1,6 +1,10 @@
 package com.oni.training.springboot.MyProduct;
 
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 // MySQL+PostgresSQL 可以用@Entity (搭著JPA用)
@@ -17,8 +21,17 @@ public class Product {
      * */
 
     private String id;
+    /**想知道有那些 滑鼠對 @NotEmpty懸浮 */
+    /**點選 套件名稱 */
+    // 不可以是null或者空字串
+    // 自訂訊息! 發生錯誤才會回傳內容 (application.properties要設定才有效)
+    @NotEmpty  (message = "Product name is undefined.")
     private String name;
-    private Integer price;
+    @NotNull
+    @Min(value = 0,message = "Price should be greater or equal to 0.")
+    // 寫完後要去controller寫@Valid  安裝在put 跟post
+    // 改成小寫比較好
+    private int price;
     public Product(String name, Integer price) {
         this.name = name;
         this.price = price;
@@ -39,11 +52,11 @@ public class Product {
         this.name = name;
     }
 
-    public Integer getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -4,6 +4,7 @@ package com.oni.training.springboot.MyProduct;
 import com.oni.training.springboot.WebExceptions.UnprocessableEntityException;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,8 +60,8 @@ public class ProductController {
                 "price": 200           }*/
     }
 
-    @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product request){
+    @PostMapping                     //在需要驗證Product傳入對象加上@Valid
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequest request){
         // RequestBody傳入Product Raw JSON
         //{
         //    "name": "Data Structure (Java)",
@@ -85,7 +86,7 @@ public class ProductController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<Product> replaceProduct(
-            @PathVariable("id") String id,@RequestBody Product request){
+            @PathVariable("id") String id,@Valid @RequestBody ProductRequest request){
         if(Objects.isNull(id)||Objects.isNull(request.getId())){
             throw new UnprocessableEntityException("不可不寫上id");
         }else{
@@ -105,6 +106,7 @@ public class ProductController {
        productService.deleteProduct(id);
        return ResponseEntity.noContent().build();
     }
+
 
 
 

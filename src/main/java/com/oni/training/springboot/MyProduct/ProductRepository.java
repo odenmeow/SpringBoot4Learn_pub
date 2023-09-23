@@ -17,7 +17,7 @@ public interface ProductRepository extends MongoRepository<Product,String> {
 
     List<Product> findByNameLike(String productName);
     List<Product> findByNameLikeIgnoreCase(String name, Sort sort);
-    List<Product> findByPriceBetweenAndNameLikeIgnoreCase(Integer priceFrom,Integer priceTo,String keyword,Sort sort);
+    List<Product> findByPriceBetweenAndNameLikeIgnoreCase(int priceFrom,int priceTo,String keyword,Sort sort);
 
 //    因為以下是類似宣告field的事情 ，只是常量並無不可。
 //    Sort sort = Sort.by(

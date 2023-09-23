@@ -39,27 +39,22 @@ public class ProductService {
         // 啟動當下就看得到囉!
         System.out.println("順便讓你看一下properties 的 initializeData="+initializeData);
     }
-    public Product createProduct(Product reqeust){
+    public Product createProduct(ProductRequest reqeust){
         // 原本是因為id手動設定才需要 exception拋出 自訂義 (現在用不太到)
-        Product product=new Product();
-        product.setName(reqeust.getName());
-        product.setPrice(reqeust.getPrice());
 
+        Product product=ProductConverter.toProduct(reqeust);
         return repository.insert(product);
     }
     public Product getProduct(String id){
         return  repository.findById(id)
                 .orElseThrow(()->new NotFoundException("Can't find product."));
     }
-    public Product replaceProduct(String id,Product request){
+    public Product replaceProduct(String id,ProductRequest request){
         Product oldproduct=getProduct(id);
-//      正常不能改的 不過這邊改給你看 (也就只是替換而已啦)
-        Product product=new Product();
-        product.setId(oldproduct.getId());
-        product.setName(request.getName());
-        product.setPrice(request.getPrice());
+        Product newProduct=ProductConverter.toProduct(request);
+        newProduct.setId(oldproduct.getId());
 
-        return repository.save(product);
+        return repository.save(newProduct);
 
     }
 

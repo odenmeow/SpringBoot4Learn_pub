@@ -4,12 +4,12 @@ public class ProductQueryParameter {
     private String keyword;
     private String orderBy;
     private String sortRule;
-    private Integer pricefrom;
-    private Integer priceto;
+    private int pricefrom;
+    private int priceto;
     // 把當她作 參數的話 只要?orderBy=xxx 左邊的字跟這邊屬性一樣就可以無視排序
 
 
-    public ProductQueryParameter(String keyword, String orderBy, String sortRule, Integer pricefrom, Integer priceto) {
+    public ProductQueryParameter(String keyword, String orderBy, String sortRule, int pricefrom, int priceto) {
         this.keyword = keyword;
         this.orderBy = orderBy;
         this.sortRule = sortRule;
@@ -45,7 +45,7 @@ public class ProductQueryParameter {
         return pricefrom;
     }
 
-    public void setPricefrom(Integer pricefrom) {
+    public void setPricefrom(int pricefrom) {
         this.pricefrom = pricefrom;
     }
 
@@ -53,7 +53,7 @@ public class ProductQueryParameter {
         return priceto;
     }
 
-    public void setPriceto(Integer priceto) {
+    public void setPriceto(int priceto) {
         this.priceto = priceto;
     }
 }

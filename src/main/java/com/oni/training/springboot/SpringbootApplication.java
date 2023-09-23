@@ -26,7 +26,7 @@ public class SpringbootApplication {
 // 對著資料夾使用Mark as Directory 可以把包com example.demo  合併成com.example.demo 之類  ( 出問題可使用 )
 // ctrl+shift +  (+/-)  展開或收攏到只剩方法標題名稱
 // alt+shift +  (+/-)   最小只能100%  不能往下QQ
-
+// end / fn+左或右邊 行尾 行首
 
 // run之後會出現target 裡面是你的byte code 。
 // 對應影片https://www.youtube.com/watch?v=XCqVCq249Iw
@@ -234,8 +234,14 @@ public class SpringbootApplication {
 
 
 
+/**想要退一個版本 或者 把剛剛做的 還沒commit的事物都刪除*/
 
+// 【建議先stage 需要的資料 push之後 再把不要的刪除】
 
+//  git reset --hard HEAD~1   #退一版commit 到 還沒修改前
+//                                        #HEAD~1 每執行一次一次退一版commit
+//  git clean -f -d   #移除未加入版控的檔案(-f) & 目錄(-d)  *重要*
+//  git pull             #重拉remote目前版本
 
 
 

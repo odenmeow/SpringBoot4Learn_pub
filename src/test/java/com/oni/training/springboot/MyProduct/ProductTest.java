@@ -243,6 +243,44 @@ public class ProductTest {
 
     }
 
+    @Test
+    public void get400WhenCreateProductWithEmptyName() throws Exception{
+        JSONObject request=new JSONObject()
+                .put("name","")
+                .put("price",350);
+
+        mockMvc.perform(post("/products")
+                        .headers(httpHeaders)
+                        .content(request.toString())//#請求內容 body 字串
+                )
+                .andExpect(status().isBadRequest());
+
+    }
+    @Test
+    public void get400WhenReplaceProductWithNegativePrice() throws Exception{
+        Product product=createProduct("C2C Tutorial",350);
+        productRepository.insert(product);
+
+        JSONObject request =new JSONObject()
+                .put("id",product.getId())
+                .put("name","C2C Tutorial");
+//                .put("price",-100)
+        //  如果JSON拿掉price  而且Product那邊沒有 @NotNull price
+        //  會造成請求被上交 然後status:200，(price:null)
+
+
+
+
+        // 提示: 如果這邊/products/少最後的斜槓 則會404 找不到資源 !
+        mockMvc.perform(put("/products/"+product.getId())
+                        .headers(httpHeaders)
+                        .content(request.toString())
+                ).andDo(print())
+                .andExpect(status().isBadRequest());
+
+    }
+
+
 
 
 }
