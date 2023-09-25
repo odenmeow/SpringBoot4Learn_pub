@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct;
+package com.oni.training.springboot.MyProduct.entity;
 
 
 import jakarta.validation.constraints.Max;

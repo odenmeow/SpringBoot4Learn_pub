@@ -1,6 +1,8 @@
 package com.oni.training.springboot.MyProduct;
 
 
+import com.oni.training.springboot.MyProduct.entity.Product;
+import com.oni.training.springboot.MyProduct.repository.ProductRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.After;
@@ -14,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,9 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -279,7 +278,6 @@ public class ProductTest {
                 .andExpect(status().isBadRequest());
 
     }
-
 
 
 

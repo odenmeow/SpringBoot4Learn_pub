@@ -1,14 +1,12 @@
-package com.oni.training.springboot.MyProduct;
+package com.oni.training.springboot.MyProduct.repository;
 
+import com.oni.training.springboot.MyProduct.entity.Product;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 // 必須是介面或抽象才能丟進去MongoRepository估計裡面用到代理反射

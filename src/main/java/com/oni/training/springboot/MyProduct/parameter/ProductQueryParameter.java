@@ -1,15 +1,20 @@
-package com.oni.training.springboot.MyProduct;
+package com.oni.training.springboot.MyProduct.parameter;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class ProductQueryParameter {
+    @NotEmpty(message = "關鍵字不得為空")
     private String keyword;
     private String orderBy;
     private String sortRule;
-    private int pricefrom;
-    private int priceto;
+    @NotNull(message = "沒有填入被設為null不可以")
+    private Integer pricefrom;
+    private Integer priceto;
     // 把當她作 參數的話 只要?orderBy=xxx 左邊的字跟這邊屬性一樣就可以無視排序
+    // 一下改小寫一下又大  歸剛ㄟ
 
-
-    public ProductQueryParameter(String keyword, String orderBy, String sortRule, int pricefrom, int priceto) {
+    public ProductQueryParameter(String keyword, String orderBy, String sortRule, Integer pricefrom, Integer priceto) {
         this.keyword = keyword;
         this.orderBy = orderBy;
         this.sortRule = sortRule;
@@ -45,7 +50,7 @@ public class ProductQueryParameter {
         return pricefrom;
     }
 
-    public void setPricefrom(int pricefrom) {
+    public void setPricefrom(Integer pricefrom) {
         this.pricefrom = pricefrom;
     }
 
@@ -53,7 +58,7 @@ public class ProductQueryParameter {
         return priceto;
     }
 
-    public void setPriceto(int priceto) {
+    public void setPriceto(Integer priceto) {
         this.priceto = priceto;
     }
 }

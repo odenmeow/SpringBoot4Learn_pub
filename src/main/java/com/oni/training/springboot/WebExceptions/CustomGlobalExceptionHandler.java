@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 //@ControllerAdvice   這解開約束確實有點不一樣但是跟想像中不同@@
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ConstraintViolationException.class)
+//    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleValidationExceptions(
             ConstraintViolationException ex) {
         // 自定义错误响应的结构

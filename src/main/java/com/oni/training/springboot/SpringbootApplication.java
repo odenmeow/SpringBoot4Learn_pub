@@ -243,8 +243,11 @@ public class SpringbootApplication {
 //  git clean -f -d   #移除未加入版控的檔案(-f) & 目錄(-d)  *重要*
 //  git pull             #重拉remote目前版本
 
+/** 已經push上去了 但是想要撤銷剛剛 push並且 更改commit內容 但是不想回歸上一個版本**/
 
-
+// git add .
+// git commit --amend -m "內容"      (這邊會撤銷上一個commit 以這一個為主 並且不會讓目前檔案消失)
+// git push --force origin master
 
 
 
