@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "blissful-canyon-255517",
+  "private_key_id": "4e8c2da5525be20a3fe722055d8d8c84edba3036",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzJvuooR+38Gbz\njwkg9/k19GTyUh617gLHNwl8bjHhT6dIwO/Vglhqv6GMQOM69yfzeiwNEReXtc8+\nK6cqmflJJ1zSZRvOWA9ltIp/b8iYRMk55jVuIv3F9M2mnRRcYqv5TGUHWt/bSWtm\nrywadjFrSSmrZ+TlLC1lo2Q8+wz8dFd6taatrkSzQiLHoKz4MxMhS/cTF0r+/qO9\nJvOzbFeYyW3mJxqX0t+kcpXh/j2M7IMyzRe3HDEc/+GYU2S+sr6bOZ9Prhvu850n\nzwy6XBvYM92FeoVvLRbCGVUMyxjlYbOSu2uMAEOOgy2b5koepRnfGVTvd1gunA78\n62W7l8kPAgMBAAECggEAAwP/ziBcMifxS7NCLOm6VQQBTlTp4G0aYzO+zKHm5Asy\nXoFPktv9VLACGPl0pGb0Ugm3Q8cLCx+L1q48bkqmOBWEtKPwD7f1a7mvb81iu9wY\njl7HfSGd/PQ4dqVZP47c+eF6fTZfOJ09RL65HX7qKQtTu2dlzSJtEd4UugljIr1k\nDzjW17ZbUOKl5rdPgEWeEoIchJi2MjiA/8TcTICs8JlSWNOSuLMDI0raVt4jZAAm\nTfBZ9s1rdRuYANOcEPbD3ehIMoNjaPJUtpUegmoG2EZiVg7mZG11G89o1X7+Ue48\nqwb23TP6zokm5xYGfq7XzLQkPjHO59WCskVbpbNsdQKBgQDb7KYEhijHi4KJtxNI\n8/EJ55nnM+htwo+STC1c89m7VXu1DLHAdf2DEqxcusQshdzO5BE+k3RezkkYS9LJ\nqEwY5l3ogOHyMQYWcb4fSQ5kjYdY4/NEtR4SHyJMZpnxO10fFBd3UuaDC+Xj38+h\nNOFzvj4XOLuVrw91wZaMHEAudQKBgQDQii2ho74un9jxH73hHbfhg5o7LhGOi4UG\nKWrRaej9C5ZegV8t5nzyNzItddyGfqPNqKjDtyf5U2HJyAw23Anc5YR5ZfbXUmPM\n98ccgRNBGoHVA6J0NOQ7xBFgsur/7BpVAP0DOrj7I+e3Se6cX00cAOxZNlDB2K3u\nQTyAuubw8wKBgQDQufF3Kb1aZdYmzlLHUn7aX615+ZIHWjjZKOOE7Qsg+SjH1Jx/\nhXxuAjMEb13ww7ulwF99fIVd1XsaTBxquAhBOaK3IFtReaXFd35yQuweExT6EJ65\n/wvjNxleWaKRiT4AWRlMbqnIhmpRtAFjhsTTDSPw9i9TCSsrH+i6YbWoYQKBgQCp\nTjWj0IN76OzBPmrzFCSQoz6ZI1q/psgV65Q8dkbhAgJPsarrYgA4ydUkEVc7nh8w\nveheFRoQEsEGiDJaa6RaQcCeqsiPoeVCqDtwCd7u8S1NGolO3Q4a86DEKB4gLrhm\nIMpJT+iUhF8AcLaXH8xDmwBHoZBJALidATu0q4kJPwKBgHjLh9LT6ifQpcHYr1Q6\n25FyTSYOknM3XkG68gtIKrOqku8yLnk+qo0ZkRDfHEsrFhV5OoThBBi3tMtpfpAT\nQdkiBynvnqQdL1Kt4+GKhxUV5o7ADHD0pQj9PnT1Ho1+9IbkAvbdNOf/+c1Mi5KD\nJbjJLys+SOevOxLikO6rp1jj\n-----END PRIVATE KEY-----\n",
+  "client_email": "gmail4springboot@blissful-canyon-255517.iam.gserviceaccount.com",
+  "client_id": "117862333336475675527",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gmail4springboot%40blissful-canyon-255517.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
