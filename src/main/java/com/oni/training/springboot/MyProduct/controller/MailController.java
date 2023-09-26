@@ -4,6 +4,8 @@ import com.oni.training.springboot.MyProduct.entity.SendMailRequest;
 import com.oni.training.springboot.MyProduct.service.MailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ public class MailController {
 
     private MailService mailService;
     @Autowired
+
     public MailController(MailService mailService){
         this.mailService=mailService;
     }

@@ -18,6 +18,7 @@ import com.oni.training.springboot.MyProduct.entity.SendMailRequest;
 import jakarta.annotation.PostConstruct;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ import java.util.*;
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
 import static javax.mail.Message.RecipientType.TO;
 
-@Service
+
 public class MailService {
     // Alt+shift+s +c 可以快速鍵造建構子 !
     // 除此之外 還有 alt+shift+i可以把變數累贅多打的 直接縮短到一行
@@ -51,6 +52,7 @@ public class MailService {
     private final String authentication_json ;
     // 透過無參建構 生成
     @Autowired
+
     public MailService(MailConfig mailConfig) throws AddressException {
         this.mailConfig=mailConfig;
         this.TEST_EMAIL=mailConfig.getTest_email();
@@ -60,7 +62,6 @@ public class MailService {
         }
 
         this.RECEIVE_EMAIL= list.toArray(new Address[list.size()]);
-
         this.authentication_json=mailConfig.getAuthentication_json();
     }
     @PostConstruct

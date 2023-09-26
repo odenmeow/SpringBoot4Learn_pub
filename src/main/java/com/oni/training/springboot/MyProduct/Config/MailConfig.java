@@ -1,8 +1,13 @@
 package com.oni.training.springboot.MyProduct.Config;
 
+import com.oni.training.springboot.MyProduct.service.MailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+
+import javax.mail.internet.AddressException;
 
 @Configuration
 @PropertySource("classpath:mail.properties")
@@ -77,5 +82,19 @@ public class MailConfig {
     public String getPassword() {
         return password;
     }
+
+
+    @Bean
+    public MailService gmail_user() throws AddressException {
+        // 我的跟原作者有點不同 因為我用Gmail提供的而不是通用的低安全性的JAVAMail 。
+        // 我的最多就是多個不同帳密的user 然後只是我這邊傳入配置類this 如果真的要多個那就自己小改囉!
+        MailService mailService=new MailService(this);
+        return mailService;
+    }
+
+
+
+
+
 
 }

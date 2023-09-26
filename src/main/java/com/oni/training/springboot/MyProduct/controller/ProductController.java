@@ -39,7 +39,7 @@ public class ProductController {
     private ProductService productService;
 
 
-
+    // 被調用的原因是 實作類或者@Bean回傳的ProductService 只有ServiceConfig的那一個方法
     @Autowired
     public ProductController(ProductService productService) {
         this.productService=productService;

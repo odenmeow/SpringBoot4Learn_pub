@@ -19,16 +19,18 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
-@DependsOn("InitialClearDB")
+// CH12移除了這邊的@Service跟建構子的@Autowired
+// @DependsOn("InitialClearDB")  這不會有用 因為必須跟 @Bean @Component 其中一個搭配才行
 // 測試看看到底有沒有push成功而已
 public class ProductService {
     private ProductRepository repository;
-
+    private MailService mailService;
+    // Configuration需要加入
     @Value("${app.data.initialize}")
     private boolean initializeData;
-    @Autowired
-    public ProductService(ProductRepository repository) {
+    // 這邊的Autowired也被移除了
+    public ProductService(ProductRepository repository,MailService mailService) {
+        this.mailService=mailService;
         this.repository=repository;
     }
 
@@ -42,6 +44,7 @@ public class ProductService {
         System.out.println("資料已經建立");
         // 啟動當下就看得到囉!
         System.out.println("順便讓你看一下properties 的 initializeData="+initializeData);
+        System.out.println("@Value < initializeData >="+initializeData);
     }
     // 按照REST 觀念 GET POST PUT DEL 去放方法
     public Product getProduct(String id){
