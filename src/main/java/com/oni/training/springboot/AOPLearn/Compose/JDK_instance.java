@@ -9,16 +9,14 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 @Service
-@Scope( value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope( value = ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.INTERFACES)
 // 如果沒
 public final class JDK_instance implements JDK_father {
     @Override
     public void sayhi() {
         System.out.println("hi: "+this.hashCode());
     }
-    public void sayhi0(){
-        System.out.println("IamHi_0");
-    };
+//    public void sayhi0(){};
 //    public void sayhi1(){};
 //    public void sayhi2(){};
 //    public void sayhi3(){};

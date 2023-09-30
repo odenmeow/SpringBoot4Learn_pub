@@ -9,7 +9,45 @@ The latter automatically forces/enables always class based proxies. – M. Deinu
 =   SpringBoot  application.properties 如果修改參數才能夠啟動 預設JDK代理 但容易導致失敗(如果沒用介面而用原本類)
 =                   >  spring.aop.proxy-target-class=false
 ================================================================================
+>>> /singleton/ 方法調用為同物件
+    --Before Advice
+    hi: 165550981
+    --After Advice
+    --Before Advice
+    hi: 165550981
+    --After Advice
+    CGlib=19542.416967   ,   jdk=43975.950380
+    前面為1v1 後面為 500v500
+    CGlib=16684.313725   ,   jdk=17298.079232
 
+!【可得知 如果"singleton" 被重複大量調用方法 無論如何使用CGLIB 效率最好】
+
+>>> 對於 prototype (每次調用生成) 要另外測試  記得改變四個類 的ScopedProxyMode 讓他重複生成代理物件
+    >@Scope( value = ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.INTERFACES)
+    【這邊重複生成   的<生成時間> 也被記入調用時間】
+    --Before Advice
+    hi: 246761244
+    --After Advice
+    --Before Advice
+    hi: 1626789513
+    --After Advice
+    CGlib=176520.248099   ,   jdk=297574.309724
+    前面為1v1 後面為 500v500
+    CGlib=117885.354142   ,   jdk=150567.426971
+
+!【可得知 如果prototype就算每次重新生成 CGLIB也比JDK反應更快了】
+
+>>>為什麼500生成+調度更快    這可能是JVM優化  因此我把兩次測試分開來做
+
+CGlib=136671.068427   ,   jdk=253229.531813
+前面為1v1
+
+後面為 500v500
+CGlib=188826.450580   ,   jdk=299613.405362
+
+
+
+==================================================================
 GPT:
     儘管兩者都涉及 CGLIB，但它們解決不同的問題和上下文，所以是不同的概念。
     【AOP】       技術的 CGLIB 用於切面邏輯

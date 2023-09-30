@@ -1,7 +1,6 @@
-package com.oni.training.springboot.AOPLearn.Compose;
+package com.oni.training.springboot.AOPLearn.Compose_500;
 
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
@@ -11,21 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.instrument.Instrumentation;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 
 @RestController
-@RequestMapping(path = "/AOP",produces = MediaType.APPLICATION_JSON_VALUE)
-public class AOPController {
+@RequestMapping(path = "/AOP/500",produces = MediaType.APPLICATION_JSON_VALUE)
+public class AOPController_500 {
 
     @Autowired
-    CGlib_instance cGlib_instance;  // 在Ch15-2的測試中 為CGLIB沒錯
+    CGlib_instance_500 cGlib_instance;
     @Autowired
-    JDK_father jdkInstance;         // 不使用介面會報錯 因為有介面就會先被以JDK 所以注入要介面
+    JDK_father_500 jdkInstance;
 
     List<Long> cglib=new ArrayList<>();
     List<Long> jdk=new ArrayList<>();
@@ -40,7 +37,6 @@ public class AOPController {
             long end=System.nanoTime();
             jdk.add(end-start);
             jdKeeper.add(jdkInstance);
-//            System.out.println(jdkInstance.getClass());
         }
         if("cglib".equalsIgnoreCase(name)){
             long start=System.nanoTime();
@@ -60,8 +56,6 @@ public class AOPController {
                             .average();
             System.out.printf("CGlib=%f   ,   jdk=%f",cglib_sum.orElseThrow(),jdk_sum.orElseThrow());
             System.out.printf("\ncgkeeper %d, jdkeeper %d",cgKeeper.size(),jdKeeper.size());
-
-
         }
     }
 

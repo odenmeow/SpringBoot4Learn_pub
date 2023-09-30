@@ -7,10 +7,10 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 @Service
-@Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.DEFAULT)
+@Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CGlib_instance {
     public void sayhi(){
-        System.out.println("hi <"+this+"> : "+this.hashCode());
+        System.out.println("hi: "+this.hashCode());
     }
 //    public void sayhi0(){};
 //    public void sayhi1(){};
