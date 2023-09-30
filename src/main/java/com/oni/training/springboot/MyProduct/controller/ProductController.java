@@ -5,11 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.oni.training.springboot.MyProduct.entity.CustomBadResponse;
-import com.oni.training.springboot.MyProduct.entity.Product;
-import com.oni.training.springboot.MyProduct.entity.ProductResponse;
+import com.oni.training.springboot.MyProduct.entity.*;
 import com.oni.training.springboot.MyProduct.parameter.ProductQueryParameter;
-import com.oni.training.springboot.MyProduct.entity.ProductRequest;
 import com.oni.training.springboot.MyProduct.service.ProductService;
 import com.oni.training.springboot.WebExceptions.UnprocessableEntityException;
 import jakarta.validation.Valid;
@@ -98,6 +95,9 @@ public class ProductController {
         }else {
             System.out.println("進來了(ProductQueryParameter)");
             List<ProductResponse> products = productService.getProductsRtJSON(param);
+            products=productService.getProductsRtJSON(param);
+//                    >> proxyMode=Target.Class  如果調用兩次會多產生一個ProductService出來
+//                   .  >>  this.hashcode 表示 這兩個方法所使用的productService 不同! 雖然引用的Repo是同一個
             System.out.println("準備出去");
             return ResponseEntity.ok(products);
         }
@@ -201,6 +201,16 @@ public class ProductController {
        return ResponseEntity.noContent().build();
     }
 
+    /** @Note 請注意雖然這邊測試沒跳出錯誤 但是 其實MailService 有setPortListener 會佔據port 如果有人還沒離開就觸發程式 那會出bug*/
+    // 做一個寄信的功能 使用到product service內部的 mailService對象
+    @DeleteMapping("/{id}/mail")
+//                                      這是參數強制要求之類的 回憶一下   @RequestParam(name = "paramName", required = true)
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") String id ,@Valid @RequestBody SendMailRequest mailRequest) throws Exception {
+
+        productService.deleteProduct(id);
+        productService.mailNotify(mailRequest);
+        return ResponseEntity.noContent().build();
+    }
 
 
 

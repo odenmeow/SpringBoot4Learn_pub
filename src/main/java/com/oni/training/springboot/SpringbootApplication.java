@@ -2,16 +2,18 @@ package com.oni.training.springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
 public class SpringbootApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootApplication.class, args);
+
 	}
 
 }
-
+// ***請不要 選取反白文字後，CTRL+S 可能有BUG 東西消失 很麻煩喔
 // Intellj 下載的jdk 他們放在qw284 的 .jdk
 // sout = syso
 // fn+insert+alt= ctl+n 創新 class 或者建構式也可以用
@@ -250,6 +252,75 @@ public class SpringbootApplication {
 // git push --force origin master
 
 
+/** 特殊  A (想回到不只前一個版本 怎麼辦 commit連續兩次忘記打關鍵字)*/
+// 目前最新是 a  b  c   前兩個commit 訊息都不要 但內容要保存
+// 將分支的 HEAD 移動到 commit c，保留工作目錄和暫存區中的更改
+// 		git reset --soft commit_c	或者
+// 		git reset --soft HEAD~2
+// 提交從 commit a 到 commit c 的所有更改
+// 		git commit -m "Reapply changes from commit a to commit c"
+
+//  {額外提醒，如果回到過去不小心做錯建議先回去做錯之前的版本 再度pull}
+//  {因為如果回歸後又做錯了 使用HEAD~2  也不會回到c 當下會很亂。}
+//  git reset --hard  coomit_hash
+//  git pull    (回到最後提交push至遠端狀態)
+
+
+
+// git reset 命令中的 --soft和--mixed 選項之間的主要區別在於它們對工作目錄和暫存區的影響：--soft--mixed
+// git reset --soft：此選項將分支的 HEAD 放在指定的提交，但保留工作目錄和暫存區中的更改。 這意味著您可以重新提交這些更改，而不需要重新編輯它們。 這個選項通常用於撤銷一些提交並重新整理提交歷史，同時保留更改以進行進一步的工作。
+// git reset --mixed（或簡寫為 git reset，不帶 --soft 或 --hard 選項）：這是預設行為。 它將分支的 HEAD 放在指定的提交，但會重置暫存區，因此工作目錄中的更改仍然存在，但不在暫存區中。 這意味著您需要重新將更改添加到暫存區，然後提交它們。
+// 所以， --soft 和 --mixed的不同之處在於是否重置暫存區。 如果您想保留更改並將它們包含在下一次提交中，您可以使用 --soft 選項。 如果您只想將更改保留在工作目錄中但不包含在下一次提交中，您可以使用預設的--mixed選項。
+
+/** 特殊  B (想回到不只前一個版本 怎麼辦 commit連續兩次忘記打關鍵字)*/
+
+//  { 不使用soft 變動資料不會存在'暫存區' commit 也不會紀錄 需要自己add .  }
+//  使用stash 操作 更靈活控制!
+
+
+
+// git cherry-pick  蠻特殊可以把別人的commit 合併給自己~ 自己去查怎麼用
+
+
+
+/** 特殊 (想回到不只前一個版本 怎麼辦 commit連續兩次忘記打關鍵字)*/
+// 目前最新是 a  b  c   前兩個commit 訊息都不要 但內容要保存
+// 將分支的 HEAD 移動到 commit c，保留工作目錄和暫存區中的更改
+// 		git reset --soft commit_c	或者
+// 		git reset --soft HEAD~2
+// 提交從 commit a 到 commit c 的所有更改
+// 		git commit -m "Reapply changes from commit a to commit c"
+
+//  {額外提醒，如果回到過去不小心做錯建議先回去做錯之前的版本 再度pull}
+//  {因為如果回歸後又做錯了 使用HEAD~2  也不會回到c 當下會很亂。}
+//  git reset --hard  coomit_hash
+//  git pull    (回到最後提交push至遠端狀態)
+
+/**  {       開大招      }*/
+// git reset --soft HEAD~2
+// git stash save -m "保存c~a的更改"    -> 存到特殊空間 而不是staged空間
+//  <剛好發現我的 這個commit 訊息也想改 但 不要跟後續內容放一起 而是純改訊息>
+//  {c~a都放到暫存空間了 不怕commit了}
+// git commit --amend -m "CH14 > 越來越不同了，我沒有像他那樣設定多個MailService 然後或者用@Qualifier或者用配置properties去改，我唯一跟他做的只有Service弄成Config的bean"
+// PS C:\Users\qw284\IdeaProjects\springboot> git stash list
+// stash@{0}: On master: 保存c~a的更改
+// git stash pop --index 0    填入 0 就可以
+
+
+
+// git reset 命令中的 --soft和--mixed 選項之間的主要區別在於它們對工作目錄和暫存區的影響：--soft--mixed
+// git reset --soft：此選項將分支的 HEAD 放在指定的提交，但保留工作目錄和暫存區中的更改。 這意味著您可以重新提交這些更改，而不需要重新編輯它們。 這個選項通常用於撤銷一些提交並重新整理提交歷史，同時保留更改以進行進一步的工作。
+// git reset --mixed（或簡寫為 git reset，不帶 --soft 或 --hard 選項）：這是預設行為。 它將分支的 HEAD 放在指定的提交，但會重置暫存區，因此工作目錄中的更改仍然存在，但不在暫存區中。 這意味著您需要重新將更改添加到暫存區，然後提交它們。
+// 所以， --soft 和 --mixed的不同之處在於是否重置暫存區。 如果您想保留更改並將它們包含在下一次提交中，您可以使用 --soft 選項。 如果您只想將更改保留在工作目錄中但不包含在下一次提交中，您可以使用預設的--mixed選項。
+
+
+
+
+
+
+
+
+// git cherry-pick  蠻特殊可以把別人的commit 合併給自己~ 自己去查怎麼用
 
 
 

@@ -51,8 +51,7 @@ public class MailService {
     private Gmail service;
     private final String authentication_json ;
     // 透過無參建構 生成
-    @Autowired
-
+    // @Autowired
     public MailService(MailConfig mailConfig) throws AddressException {
         this.mailConfig=mailConfig;
         this.TEST_EMAIL=mailConfig.getTest_email();
@@ -72,7 +71,6 @@ public class MailService {
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
         service = new Gmail.Builder(HTTP_TRANSPORT, jsonFactory, getCredentials(HTTP_TRANSPORT, jsonFactory))
                 .setApplicationName("Test Mailer").build();
-        //找不到錯誤?? 因為你沒有tokens2資料夾用來存放credential的地方!!
 
     }
 
@@ -83,25 +81,26 @@ public class MailService {
     Credential getCredentials(final NetHttpTransport httpTransport, GsonFactory jsonFactory)
             throws IOException {
         // Load client secrets.
-        System.out.println(authentication_json);
-//        getresourcesTest();
-
         GoogleClientSecrets clientSecrets =
-        // 切記不可以改變檔案名稱 破壞完整性 他驗證失敗會讓你以為改版害的，哪怕裡面資料正確， 結果都會永遠找不到問題!
                 GoogleClientSecrets.load(jsonFactory, new InputStreamReader(MailService.class.getClassLoader()
                         .getResourceAsStream(authentication_json)));
-//                GoogleClientSecrets.load(jsonFactory, new InputStreamReader(MailService.class
-//                        .getResourceAsStream(authentication_json)));
-        System.out.println("測試，讀資料有通過");
+
         // Build flow and trigger user authorization request.
-        System.out.println("這邊壞掉嗎"+clientSecrets.getDetails().getClientSecret());
-        System.out.println("好像壞掉了");
+
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, jsonFactory,
                 clientSecrets, Set.of(GMAIL_SEND))
                 .setDataStoreFactory(new FileDataStoreFactory(Paths.get("./tokens").toFile())).setAccessType("offline")
                 .build();
-
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8889).build();
+        /**
+         * https://console.cloud.google.com/iam-admin/serviceaccounts/details/ 權杖不是下載這邊的
+         * https://console.cloud.google.com/apis/credentials 這邊的才是需要的
+         * 除了申請Oauth 2.0權證 你還需要...限制Oauth consent screen (同意畫面)  影片應該有講啦 我自己用的是linc的舊帳號申請的權證 哈哈哈
+         * /tokens 改隨便一個資料夾 /tokens1 會要求重新認證!  否則會用舊的憑證
+         * 如果你使用prototype 生成兩個MailService 會發現 port 可能沒因為兩個都setPort 8089 產生問題 因為
+         * (1.)他會阻塞      第二個生成的 MailService
+         * (2.) 會自己使用   第一個MailSerice創建的權證資料夾tokens1
+         * */
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8089).build();
         // returns an authorized Credential object.
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
@@ -111,7 +110,7 @@ public class MailService {
         String subject=sendMailRequest.getSubject();
         String message=sendMailRequest.getContent();
         String[] receivers=sendMailRequest.getReceivers();
-        List.of(receivers).forEach(s-> System.out.println(s));
+//        List.of(receivers).forEach(s-> System.out.println(s)); 印出收信者陣列中所有對象
         setReciever(receivers);
 
 
@@ -142,8 +141,7 @@ public class MailService {
         try {
             // Create the draft message
             msg = service.users().messages().send("me", msg).execute();
-            System.out.println("Message id: " + msg.getId());
-            System.out.println(msg.toPrettyString());
+//            System.out.println(msg.toPrettyString());
 
         } catch (GoogleJsonResponseException e) {
             GoogleJsonError error = e.getDetails();

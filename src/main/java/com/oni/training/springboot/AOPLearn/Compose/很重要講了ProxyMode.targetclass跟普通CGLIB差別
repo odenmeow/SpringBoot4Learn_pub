@@ -1,0 +1,52 @@
+
+The documentation is for plain Spring not for Spring Boot.
+The latter automatically forces/enables always class based proxies. – M. Deinum
+
+                                                        Aug 4, 2022 at 6:46
+===============================================================================
+=   Spring      預設 JDK (if 實作介面)
+=   SpringBoot  預設 CGLIB 不管有沒有做介面
+=   SpringBoot  application.properties 如果修改參數才能夠啟動 預設JDK代理 但容易導致失敗(如果沒用介面而用原本類)
+=                   >  spring.aop.proxy-target-class=false
+================================================================================
+
+GPT:
+    儘管兩者都涉及 CGLIB，但它們解決不同的問題和上下文，所以是不同的概念。
+    【AOP】       技術的 CGLIB 用於切面邏輯
+    【proxyMode】 提到的 CGLIB 用於解决依赖注入时的代理问题
+
+ME: 為什麼  @Bean 沒實作介面的JAVA物件
+    使用 @scope("prototype")  跟  @scope("prototype" targetclass(CGLIB))   後者調用方法多次有多個instance出現
+        public CGlib{ ..........}
+
+GPT:
+    在您提供的情况下，前者和后者都使用了 CGLIB 动态代理，并且没有实现接口。然而，它们的行为不同的原因是因为它们在 Spring 容器中的创建方式和上下文不同。
+
+    前者（没有显式设置代理模式）：
+
+    对于前者，您没有显式设置代理模式（proxyMode），因此 Spring AOP 根据目标 bean 是否实现接口来选择代理方式。
+    如果目标 bean 没有实现接口，Spring AOP 将使用 CGLIB 动态代理来创建代理对象。
+    由于没有设置 proxyMode，Spring AOP 将默认为 proxyMode = ScopedProxyMode.NO，这意味着代理对象将是原始 bean 的子类，并且方法调用将委托给目标 bean。
+    因此，前者的代理对象是原始 bean 的子类，每次方法调用都会委托给同一个代理对象，因此会看到相同的实例和相同的 hashCode。
+    后者（设置了代理模式为 proxyMode = ScopedProxyMode.TARGET_CLASS）：
+
+    对于后者，您显式设置了代理模式为 proxyMode = ScopedProxyMode.TARGET_CLASS。
+    这将强制 Spring 使用 CGLIB 动态代理，而不会考虑目标 bean 是否实现接口。
+    因此，后者的代理对象是原始 bean 的子类，并且每次方法调用都会创建一个新的代理对象实例，因此会看到不同的实例和不同的 hashCode。
+
+    >>> 总结一下，前者因为没有显式设置代理模式，所以使用了默认的代理方式，并且委托给同一个代理对象，因此表现为相同的实例和相同的 hashCode。
+    >>> 而后者因为显式设置了 proxyMode = ScopedProxyMode.TARGET_CLASS，强制使用 CGLIB 动态代理，因此每次方法调用都会创建一个新的代理对象实例，因此表现为不同的实例和不同的 hashCode。
+
+GPT:
+
+    对不起，我的回答可能引起了混淆。您是正确的，让我澄清一下。
+
+    对于 @Aspect 注解的代理（AOP 切面），它是在 bean 的方法调用时应用的。这和代理模式（proxyMode）的设置无关。
+    @Aspect 的代理通常会使用 CGLIB 动态代理，以确保切面可以生效，不管 bean 的作用域是什么。
+
+    代理模式（proxyMode）是用于解决依赖注入时的代理问题。如果您的 bean 作用域是 prototype，
+    并且您在其他 bean 中注入了这个 prototype bean，那么代理模式可以用于确保每次注入都获得新的实例。
+    proxyMode 的设置将影响是否创建代理对象以及代理对象的类型（CGLIB 还是 JDK 动态代理）。
+
+    因此，如果您的目标是在依赖注入时使用代理模式来确保每次都获得新的实例，您可以显式指定 proxyMode。
+    但对于 @Aspect 注解的代理，通常会使用 CGLIB 动态代理，不需要额外设置代理模式。这两个概念是不同的，不应混淆。感谢您的指正。

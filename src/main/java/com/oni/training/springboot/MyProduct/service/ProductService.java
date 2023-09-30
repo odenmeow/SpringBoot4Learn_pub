@@ -1,5 +1,6 @@
 package com.oni.training.springboot.MyProduct.service;
 
+import com.oni.training.springboot.MyProduct.entity.SendMailRequest;
 import com.oni.training.springboot.MyProduct.parameter.ProductQueryParameter;
 import com.oni.training.springboot.MyProduct.repository.ProductRepository;
 import com.oni.training.springboot.MyProduct.entity.ProductRequest;
@@ -22,8 +23,9 @@ import java.util.stream.Collectors;
 // CH12移除了這邊的@Service跟建構子的@Autowired
 // @DependsOn("InitialClearDB")  這不會有用 因為必須跟 @Bean @Component 其中一個搭配才行
 // 測試看看到底有沒有push成功而已
-public class ProductService {
+public class ProductService  {
     private ProductRepository repository;
+    // 方法被調用就寄信。
     private MailService mailService;
     // Configuration需要加入
     @Value("${app.data.initialize}")
@@ -146,6 +148,7 @@ public class ProductService {
         List<ProductResponse> jsonList=list.stream()
                                             .map(ProductConverter::toProductResponse)
                                             .collect(Collectors.toList());
+        System.out.println("目前ProductService instance:"+this.hashCode());
         return jsonList;
     }
     private Sort genSortingStrategy(String orderby,String sortrule){
@@ -156,6 +159,10 @@ public class ProductService {
             sort=Sort.by(direction,orderby);
         }
         return sort;
+    }
+    public void mailNotify(SendMailRequest sendMailRequest) throws Exception {
+        mailService.sendMail(sendMailRequest);
+
     }
 
 }

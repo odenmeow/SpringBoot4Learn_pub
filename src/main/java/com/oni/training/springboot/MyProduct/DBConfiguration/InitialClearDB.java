@@ -27,7 +27,7 @@ public class InitialClearDB {
     public void DBClean(){
         a.act();
         Set<String> databaseNames=mongoTemplate.getCollectionNames();
-        System.out.println("我有在跑拉");
+        System.out.println("準備刪除舊資料");
         if(databaseNames.contains(targetDatabase)){
 
             mongoTemplate.getDb().getCollection(targetDatabase).drop();

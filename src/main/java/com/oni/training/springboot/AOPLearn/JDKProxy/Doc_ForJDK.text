@@ -1,0 +1,65 @@
+
+
+
+
+=========================JDK的重點=============================
+
+(其實CGLIB、JDK 兩者都保留原JAVAbean物件 !)
+
+GPT+ME:
+
+
+    在JDK動態代理中，確實會生成一個新的代理類，這個  【代理類實現了目標介面】 但是他不知道這JavaBean對象怎麼實作，
+    會在方法調用時  將方法調用委託給InvocationHandler的invoke方法。
+    (關於這一點；https://tw511.com/a/01/21144.html  和
+            https://blog.csdn.net/qq_39056197/article/details/102598674
+     有稍微描述)
+                ClassLoader classLoader =JDKDynamicProxy.class.getClassLoader();
+
+                		Class<?>[] interfaces=Bird.class.getInterfaces(); 取得介面
+                		Bird bird=new Bird();
+                		Flyable flyable=(Flyable)Proxy         傳入介面       傳入傀儡(被操作的原始JavaBean)
+                				.newProxyInstance(classLoader, interfaces, new FlyableInvocation(bird));
+
+                		flyable.fly("Go to pee.") ;
+
+                使用 fly方法時 其實這方法被替換過  替換成
+                public final fly(){
+                    try
+                    {
+                    	super.h.invoke(this, m3, null);   //調用invoke方法然後invoke透過反射去控制傳入的JavaBean的方法
+                    	return;
+                    }
+                    catch (Error ) { }
+                    catch (Throwable throwable)
+                    {
+                    	throw new UndeclaredThrowableException(throwable);
+                    }
+
+                }
+
+    這個代理類可以被視為一個新的子類，但它並  【不是直接繼承自原始的JavaBean類】。
+    代理類在運行時動態生成，並且實現了目標介面。
+    【***在方法調用時***】:
+        代理類的實例會將方法調用傳遞給InvocationHandler的invoke方法，然後由invoke方法處理方法調用，包括在方法調用前後添加額外的邏輯。
+
+    所以，你可以將JDK動態代理生成的代理類看作是一個新的子類，它實現了目標介面，並在方法調用時與原始JavaBean對象進行交互，從而實現了代理的功能。
+    這個代理類的創建和管理都由Java的Proxy類和相關的機制來處理。
+
+
+
+
+==================================================================================================
+
+
+
+
+@Before("execution(* com.example.*.myInterFace.*(..))")
+public void beforeMyInterfaceMethod() {
+    // 在调用实现了myInterFace接口的方法之前执行的逻辑
+}
+【這個切面通知將匹配所有包下（例如com.example）實現了myInterFace的類的方法】
+    ，並在這些方法被調用之前執行beforeMyInterfaceMethod方法。
+
+
+

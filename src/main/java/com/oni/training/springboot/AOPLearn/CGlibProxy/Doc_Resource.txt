@@ -1,0 +1,121 @@
+https://www.springcloud.io/post/2023-01/jdk-porxy-and-cglib/#gsc.tab=0
+https://juejin.cn/post/7011357346018361375  (大陸 但也寫不錯!)
+https://tw511.com/a/01/21144.html (栗子舉得很爛  但是很詳盡告訴你為什invoke會被替換成方法!)
+
+(官方網站也推薦使用JDKProxy )
+https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/ch08s06.html
+(官方網站也推薦使用JDKProxy )
+-------------------------因為有設定setProperty在你的檔案路徑下 (自己替換到喜歡的位置喔)----------------------------------
+
+    Animal$$EnhancerByCGLIB$$124dcba4$$FastClassByCGLIB$$66a2918c.class
+        這個檔包含了由CGLIB生成的代理類的位元元組碼。這個代理類是Animal類的子類，
+        它重寫了Animal類的方法，並且在方法中添加了您在方法中定義的邏輯。
+
+    Animal$$EnhancerByCGLIB$$124dcba4
+        這個檔包含了代理類的元數據資訊，它存儲了與代理類相關的一些元數據，用於在運行時創建代理物件。
+
+    Animal$$FastClassByCGLIB$$5279cabd
+        這個檔包含了代理類的FastClass資訊，FastClass是CGLIB用於快速方法調用的一種優化技術。
+        它允許CGLIB在運行時更快地調用代理類中的方法，而不必通過反射。
+
+
+    ====【重要(簡略)】===
+
+        CGLIB   除了使用到的proxy類 它還多了一個原始類跟一個繼承原始的子類 然後
+        JDK     除了使用到的proxy類 它還使用了原始類
+
+        簡單說兩者都是對原始類操作
+        CGLIB繼承子類的用途是為了方便調用方法;
+        而不用像JDK 透過反射操作方法(性能不好)
+        <如果prototype 建議JDK比較不用創建一堆(繼承原始類的)子類>
+        <如果singleton 使用CGLIB 則可以提升method呼叫速度>
+
+    ....其他更複雜情況 自己思考
+
+    =================根據我測試 =============
+
+    如果有500個介面 / 500個方法 (單例)   平均使用時間 cglib/jdk = 0.6/1          40%faster
+    如果只有一個介面跟一個方法 (單例)  平均使用時間 cglib/jdk =  1.247/1       25%slower
+    這是調用方法的時間差 不考慮方法本身跑多久 (怎麼樣調用也不會比方法本身多太久)   如果只有這樣微小差別 那我覺得好像可以忽略不計。
+    基本上有時候懶得創建介面就用cglib也無所謂 。 喜歡介面就用介面JDK代理。
+
+    所以其實兩者的差距根本沒差太多，【反倒是CGLIB 要創建子類要花費空間 所以建議使用介面JDK代理】。
+    如果prototype你用CGLIB 你反而會造成一堆內存消耗(一個CGLIB就有一個子類跟一個原始javabean 和一個代理類 )  (一個JDK 只有一個原始Javabean跟一個代理類)  。
+
+========================CGLIB 重點(詳)=============================================
+
+
+JDK 代理和 CGLIB 代理  "都會" 創建子類，但在創建子類的方式和數量上有所不同。
+
+在 JDK 代理中，代理類實現了目標介面，但並不繼承原始類。
+    代理類通過實現目標介面(該子類 = 代理類)來與原始類進行交互
+
+    lassLoader classLoader =JDKDynamicProxy.class.getClassLoader();
+                    		Class<?>[] interfaces=Bird.class.getInterfaces(); 取得介面
+                    		Bird bird=new Bird();
+                    		Flyable flyable=(Flyable)Proxy         傳入介面       傳入傀儡(被操作的原始JavaBean)
+                    				.newProxyInstance(classLoader, interfaces, new FlyableInvocation(bird));
+                    		flyable.fly("Go to pee.") ;
+    使用 fly方法時 其實這方法被替換過  替換成
+    public final fly(){
+        try
+        {  super.h.invoke(this, m3, null); return; } //調用invoke方法然後invoke透過反射去控制傳入的JavaBean的方法
+        catch (Error ) { }
+        catch (Throwable throwable){throw new UndeclaredThrowableException(throwable); }
+    }
+
+    這裡只需要創建一個代理類來實現目標介面，所以代理類的數量較少。
+
+在 CGLIB 代理中，會創建一個新的子類，並且這個子類繼承自原始類。
+    CGLIB 會重寫或增強原始類的方法，但不修改原始類本身。 在方法調用時，CGLIB 通常會在增強的邏輯中調用原始方法，就像您提到的 super.method() 。
+    此外，CGLIB 還需要創建一個新的類來包含額外的邏輯，以實現代理的功能。
+    因此，CGLIB 需要創建更多的類，但實際的增強邏輯仍然作用在原始 JavaBean 上。
+
+    如同我在CGLibDynamicProxy.java的註解說的
+    //      CGLIB 對象可以直接修改物件屬性 因為是創建子類( 但是實際上調用的所有方法作用於父類 也就是原始傳入的a )
+    //      雖然 CGLIB (代理)對象 我們稱呼為P_animal吧  Animal animal = cgLibProxy.getInstance(a);         => 建立子類和代理類
+    //      P_animal雖然 能繼承可以繼承的部分 ，但是還是會有<private>的方法跟屬性不能接觸 所以實際調用方法是透過
+    //        class P_animal extends Animal {
+    //              .....
+    //              ....
+    //              @override
+    //              public void method (){
+    //                  AOP修改內容 (如果是@Before)
+    //                  super.method();   交給原始JavaBean調用 我們只是包裹起來。
+    //                  AOP修改內容 (如果是@After)
+    //              }
+    //
+    //      } 透過這種方式 所以不需要透過反射查詢方法。 另外就是注意不要直接設定值給代理類，最好透過getter、setter進行!
+
+
+
+
+總之，JDK 代理和 CGLIB 代理都創建了子類，但它們的創建方式和數量有所不同，但最終都實現了在不修改原始類的情況下添加額外功能或邏輯的目標。
+感謝您的詳細解釋，這對於理解代理機制非常有説明。
+
+
+
+
+
+========================設定值的方面的小小細節==============================
+
+在 JDK 動態代理中，代理物件並不是原始 JavaBean 類的子類，而是一個實現了目標介面的新類。
+ 當你調用代理物件的方法時，實際上是調用了代理物件中的 方法，該方法會根據你的調用委託給 中的方法。
+  代理物件並不繼承原始 JavaBean 類的屬性。
+
+  ME:
+    所以要修改最好透過JAVABean本身提供的setter getter 因為會傳遞給原始物件？
+  GPT:
+    是的，如果要修改 JavaBean 的屬性，最好通過 JavaBean 本身提供的 setter 方法進行修改。
+    這樣做會將屬性修改請求傳遞給原始的 JavaBean 對象，確保屬性值的正確修改。
+    通過 setter 和 getter 方法來操作屬性是一種良好的程式設計實踐，
+    它封裝了屬性的訪問和修改，提供了更好的封裝性和安全性。 直接操作屬性可以繞過封裝和可能的邏輯控制，因此不推薦這樣做，特別是在涉及代理物件等複雜情況下。
+
+  ME:
+    否則可能不小心傳給代理類（JDK代理的情況下） ！
+  GPT:
+    是的，您說得對。 在 JDK 動態代理的情況下，如果直接操作屬性，可能會將屬性修改請求傳遞給代理物件而不是原始物件，這可能會導致意外的行為和不一致性。
+    為了確保屬性修改作用於原始物件，應該使用原始物件的 setter 方法。
+    這是一種更安全和可靠的做法，有助於維護代碼的可維護性和可預測性。
+
+   總小節:         其實JDK代理好像看不到屬性  然後CGLIB雖然可以但是你會發現生殖隔離 (obj.field  != obj.getfield()) 一個是屬於原始對象的一個是代理子類的
