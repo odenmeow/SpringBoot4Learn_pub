@@ -7,6 +7,7 @@ import com.oni.training.springboot.MyProduct.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import javax.mail.internet.AddressException;
 
@@ -44,7 +45,8 @@ public class ServiceConfig {
 
     @Bean
     @DependsOn("mailconfig")  //採用依賴注入 最大程度迴避  錯誤
-    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE )  //使用這種常量方式可以減少出錯!
+//    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE )  //使用這種常量方式可以減少出錯!
+    @RequestScope
     public MailService gmail_user() throws AddressException {
         // 我的跟原作者有點不同 因為我用Gmail提供的而不是通用的低安全性的JAVAMail 。
         // 我的最多就是多個不同帳密的user 然後只是我這邊傳入配置類this 如果真的要多個那就自己小改囉!

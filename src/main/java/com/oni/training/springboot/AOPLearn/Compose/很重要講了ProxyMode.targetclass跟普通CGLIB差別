@@ -1,4 +1,23 @@
 
+
+(下面文章不錯 中文)
+https://fhfirehuo.github.io/Attacking-Java-Rookie/Chapter11/CGLIB.html
+    優缺點
+    劣勢：
+
+    JDK：
+        JDK的動態代理機制只能代理實現了介面的類，而不能實現介面的類就不能實現JDK的動態代理
+    CGLIB：
+        CGLIB 的原理是對指定的目標類生成一個子類，並覆蓋其中方法實現增強，但因為採用的是繼承，所以不能對 final 修飾的類進行代理
+
+
+    JDK優勢：
+        最小化依賴關係，減少依賴意味著簡化開發和維護，JDK本身的支援，可能比 cglib 更加可靠
+        平滑進行JDK版本升級，而位元組碼類庫通常需要進行更新以保證在新版Java 上能夠使用。
+        代碼實現簡單。
+    CGLIB：從某種角度看，限定調用者實現介面是有些侵入性的實踐，類似cglib動態代理就沒有這種限制。
+        只操作我們關心的類，而不必為其他相關類增加工作量。 另外高性能
+
 The documentation is for plain Spring not for Spring Boot.
 The latter automatically forces/enables always class based proxies. – M. Deinum
 
@@ -20,7 +39,7 @@ The latter automatically forces/enables always class based proxies. – M. Deinu
     前面為1v1 後面為 500v500
     CGlib=16684.313725   ,   jdk=17298.079232
 
-!【可得知 如果"singleton" 被重複大量調用方法 無論如何使用CGLIB 效率最好】
+    !【可得知 如果"singleton" 被重複大量調用方法 無論如何使用CGLIB 效率最好】
 
 >>> 對於 prototype (每次調用生成) 要另外測試  記得改變四個類 的ScopedProxyMode 讓他重複生成代理物件
     >@Scope( value = ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.INTERFACES)
@@ -35,15 +54,15 @@ The latter automatically forces/enables always class based proxies. – M. Deinu
     前面為1v1 後面為 500v500
     CGlib=117885.354142   ,   jdk=150567.426971
 
-!【可得知 如果prototype就算每次重新生成 CGLIB也比JDK反應更快了】
+    !【可得知 如果prototype就算每次重新生成 CGLIB也比JDK反應更快了】
 
 >>>為什麼500生成+調度更快    這可能是JVM優化  因此我把兩次測試分開來做
 
-CGlib=136671.068427   ,   jdk=253229.531813
-前面為1v1
+    CGlib=136671.068427   ,   jdk=253229.531813
+    前面為1v1
 
-後面為 500v500
-CGlib=188826.450580   ,   jdk=299613.405362
+    後面為 500v500
+    CGlib=188826.450580   ,   jdk=299613.405362
 
 
 

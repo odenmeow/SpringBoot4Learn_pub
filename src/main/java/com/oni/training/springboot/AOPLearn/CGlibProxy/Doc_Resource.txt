@@ -1,10 +1,11 @@
 https://www.springcloud.io/post/2023-01/jdk-porxy-and-cglib/#gsc.tab=0
 https://juejin.cn/post/7011357346018361375  (大陸 但也寫不錯!)
 https://tw511.com/a/01/21144.html (栗子舉得很爛  但是很詳盡告訴你為什invoke會被替換成方法!)
-
+https://fhfirehuo.github.io/Attacking-Java-Rookie/Chapter11/CGLIB.html(不錯的文章)
 (官方網站也推薦使用JDKProxy )
 https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/ch08s06.html
 (官方網站也推薦使用JDKProxy )
+--更新 2023/9/30  其實springBoot 預設Cglib 而且也比較快呢。
 -------------------------因為有設定setProperty在你的檔案路徑下 (自己替換到喜歡的位置喔)----------------------------------
 
     Animal$$EnhancerByCGLIB$$124dcba4$$FastClassByCGLIB$$66a2918c.class

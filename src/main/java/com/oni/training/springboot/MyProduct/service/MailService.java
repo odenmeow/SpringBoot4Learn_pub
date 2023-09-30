@@ -16,6 +16,7 @@ import com.google.api.services.gmail.model.Message;
 import com.oni.training.springboot.MyProduct.Config.MailConfig;
 import com.oni.training.springboot.MyProduct.entity.SendMailRequest;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,6 +51,11 @@ public class MailService {
     private Address[] REPLY_EMAIL;
     private Gmail service;
     private final String authentication_json ;
+
+    @PreDestroy
+    public void preDestroy(){
+        System.out.println("RequestScope物件即將被移出");
+    }
     // 透過無參建構 生成
     // @Autowired
     public MailService(MailConfig mailConfig) throws AddressException {
