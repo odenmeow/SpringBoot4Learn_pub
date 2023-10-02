@@ -137,6 +137,7 @@ public class ProductController {
 
     @PostMapping                     //在需要驗證Product傳入對象加上@Valid
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductRequest request,Errors errors){
+
         if(errors.hasErrors()) {
             HashMap<String,String> map=new HashMap<>();
             List<FieldError> fieldErrors=errors.getFieldErrors();
@@ -149,7 +150,7 @@ public class ProductController {
 
         }else {
             // RequestBody傳入Product Raw JSON
-            System.out.println("request未建立id項目所以為:" + request.getId()); //null 而已
+            System.out.println("未建立id項目所以為:" + request.getId()); //null 而已
             ProductResponse product = productService.createProductRtJSON(request);
             //做出來了把路徑丟上去的感覺捏?
             URI location = ServletUriComponentsBuilder

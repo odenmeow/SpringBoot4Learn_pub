@@ -36,8 +36,9 @@ public class ServiceConfig {
 
         【proxyMode  用于解决依赖注入时的代理问题】
      */                                             // >> 這邊跟一般CGLIB沒關聯 而是baseOn原本的又多出來的
-    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.TARGET_CLASS)
-//                                       >>這下面repository 是 singleton 所以不會受影響
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.DEFAULT)
+//                                       >> 這下面repository 是 singleton 所以不會受影響
+//                                       >> MailService 在這邊但也是隨著請求生成以及刪除
     public ProductService productService(ProductRepository repository,MailService mailService){
         System.out.println("Product Service is created.");
         return new ProductService(repository, mailService);

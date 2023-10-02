@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
-public class SpringbootApplication {
+public class
+SpringbootApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootApplication.class, args);
@@ -321,6 +322,7 @@ public class SpringbootApplication {
 
 
 // git cherry-pick  蠻特殊可以把別人的commit 合併給自己~ 自己去查怎麼用
+
 
 
 

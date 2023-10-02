@@ -1,0 +1,38 @@
+
+
+GPT:
+
+    當你在控制器中呼叫getInputStream方法時，實際上是在從ContentCachingRequestWrapper的快取中讀取請求內容。
+    這個快取是在doFilter方法中填充的，因此只有在請求流經doFilter方法並被包裝時，快取才會被填滿。
+
+    如果在doFilter之前嘗試呼叫getInputStream，那麼請求內容尚未包裝和緩存，因此ContentCachingRequestWrapper內部的快取為空。
+      這就是為什麼你只能在控制器中或在doFilter方法內部存取非空的請求內容的原因。
+
+    所以，為了確保你能夠獲得非空的請求內容，你需要在請求流經doFilter方法並被包裝後才能呼叫getInputStream方法。
+      這是ContentCachingRequestWrapper的工作原理，它在包裝後才開始快取請求內容。
+
+
+
+GPT:
+
+我明白你的疑惑，讓我更清楚地解釋一下。
+
+在Spring框架中，有一個名為ContentCachingRequestWrapper的類別，它是一個HttpServletRequest的包裝器（Wrapper）。
+它的作用是在HTTP請求中快取請求體內容，但它不會自動觸發內容的讀取和快取。 內容只有在應用程式明確從請求中讀取內容時才會被快取。
+
+這個包裝器通常與過濾器（Filter）一起使用，例如AbstractRequestLoggingFilter，以記錄HTTP請求的內容。
+
+以下是大致的流程：
+
+    當一個HTTP請求進入Spring應用程式時，它首先通過過濾器鏈（Filter Chain）中的過濾器。
+
+    如果ContentCachingRequestWrapper被加入到過濾器鏈中，並且在過濾器鏈中的某個位置使用了它，那麼它將包裝原始的HttpServletRequest，
+    以便在後續處理中可以快取請求體內容。
+    過濾器鏈中的過濾器繼續執行，直到達到控制器（Controller）方法。
+    在控制器方法中，如果你從ContentCachingRequestWrapper中的getInputStream()或getReader()方法讀取請求體內容，那麼內容將會被快取。
+    @RequestBody 可能有做這件事吧
+    這是因為實際的內容讀取發生在控制器方法中。
+    控制器方法執行完畢後，回應繼續通過過濾器鏈，包括ContentCachingResponseWrapper（用於回應的類似包裝器）。
+    過濾器鏈中的過濾器可以使用ContentCachingResponseWrapper來快取響應體內容。
+    所以，關鍵點在於，在控制器方法中讀取請求體內容才會觸發ContentCachingRequestWrapper快取內容。
+    如果你沒有在控制器方法中讀取內容，快取可能會為空，因為Spring不會強制快取未被使用的內容，以節省記憶體。
