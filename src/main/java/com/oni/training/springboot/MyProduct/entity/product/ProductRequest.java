@@ -1,10 +1,18 @@
-package com.oni.training.springboot.MyProduct.entity;
+package com.oni.training.springboot.MyProduct.entity.product;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**創造的意義在於不去更動原始 資料庫交互設定*/
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductRequest {
     private String id;
     //試圖建立對象並且不給值就會出錯
@@ -15,27 +23,5 @@ public class ProductRequest {
     @Min(value = 0, message = "Price should be greater or equal to 0.")
     private Integer price;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
 }

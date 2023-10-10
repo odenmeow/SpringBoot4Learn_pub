@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct.entity;
+package com.oni.training.springboot.MyProduct.entity.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

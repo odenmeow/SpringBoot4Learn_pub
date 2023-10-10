@@ -2,8 +2,8 @@ package com.oni.training.springboot.MyProduct.repository;
 
 //「mock」 這個詞通常用於類比或替代某些元件或物件，以用於測試或佔位元的目的。在軟體開發中，“mock” 通常表示虛擬的、類比的或替代的東西。
 
-import com.oni.training.springboot.MyProduct.parameter.ProductQueryParameter;
-import com.oni.training.springboot.MyProduct.entity.Product;
+import com.oni.training.springboot.MyProduct.entity.product.ProductQueryParameter;
+import com.oni.training.springboot.MyProduct.entity.product.Product;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
 

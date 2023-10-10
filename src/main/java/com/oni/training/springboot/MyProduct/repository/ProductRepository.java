@@ -1,6 +1,6 @@
 package com.oni.training.springboot.MyProduct.repository;
 
-import com.oni.training.springboot.MyProduct.entity.Product;
+import com.oni.training.springboot.MyProduct.entity.product.Product;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

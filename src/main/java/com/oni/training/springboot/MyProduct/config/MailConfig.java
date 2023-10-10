@@ -1,14 +1,7 @@
-package com.oni.training.springboot.MyProduct.Config;
+package com.oni.training.springboot.MyProduct.config;
 
-import com.oni.training.springboot.MyProduct.service.MailService;
-import org.springframework.aop.framework.ProxyConfig;
-import org.springframework.aop.framework.ProxyFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.*;
-
-import javax.mail.internet.AddressException;
 
 @Configuration("mailconfig")
 @PropertySource("classpath:mail.properties")

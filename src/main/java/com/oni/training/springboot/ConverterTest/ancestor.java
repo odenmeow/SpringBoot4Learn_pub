@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct.ConverterTest;
+package com.oni.training.springboot.ConverterTest;
 
 
 import org.springframework.stereotype.Component;

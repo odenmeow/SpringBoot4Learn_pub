@@ -1,13 +1,10 @@
 package com.oni.training.springboot.MyProduct.controller;
 
-import com.oni.training.springboot.MyProduct.entity.SendMailRequest;
+import com.oni.training.springboot.MyProduct.entity.mail.SendMailRequest;
 import com.oni.training.springboot.MyProduct.service.MailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

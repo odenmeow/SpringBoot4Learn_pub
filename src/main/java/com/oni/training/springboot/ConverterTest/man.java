@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct.ConverterTest;
+package com.oni.training.springboot.ConverterTest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,7 +9,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class man {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         ApplicationContext ac=new AnnotationConfigApplicationContext(MyConverter.class);
 
         ((ConfigurableApplicationContext)ac).close();

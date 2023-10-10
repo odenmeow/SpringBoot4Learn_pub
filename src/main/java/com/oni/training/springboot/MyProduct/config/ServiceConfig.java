@@ -1,7 +1,9 @@
-package com.oni.training.springboot.MyProduct.Config;
+package com.oni.training.springboot.MyProduct.config;
 
 
+import com.oni.training.springboot.MyProduct.repository.AppUserRepository;
 import com.oni.training.springboot.MyProduct.repository.ProductRepository;
+import com.oni.training.springboot.MyProduct.entity.app_user.AppUserService;
 import com.oni.training.springboot.MyProduct.service.MailService;
 import com.oni.training.springboot.MyProduct.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +57,5 @@ public class ServiceConfig {
         System.out.println("已建立mailService物件");
         return mailService;
     }
+
 }

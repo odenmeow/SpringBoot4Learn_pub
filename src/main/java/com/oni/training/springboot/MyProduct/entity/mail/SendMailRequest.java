@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct.entity;
+package com.oni.training.springboot.MyProduct.entity.mail;
 
 import jakarta.validation.constraints.NotEmpty;
 

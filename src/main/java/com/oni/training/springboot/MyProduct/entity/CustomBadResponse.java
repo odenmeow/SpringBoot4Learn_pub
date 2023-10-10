@@ -1,13 +1,20 @@
 package com.oni.training.springboot.MyProduct.entity;
 
+import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Data
+@Builder
+@AllArgsConstructor
 public class CustomBadResponse {
-    private String timestamp=String.valueOf(System.currentTimeMillis());
+//    private String timestamp=String.valueOf(System.currentTimeMillis());
+    private String timestamp=String.valueOf(LocalDateTime.now());
     private String status=String.valueOf(HttpStatus.BAD_REQUEST.value());
     private String error=HttpStatus.BAD_REQUEST.getReasonPhrase();
     private Object message;

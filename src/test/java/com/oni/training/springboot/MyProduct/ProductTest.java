@@ -1,7 +1,7 @@
 package com.oni.training.springboot.MyProduct;
 
 
-import com.oni.training.springboot.MyProduct.entity.Product;
+import com.oni.training.springboot.MyProduct.entity.product.Product;
 import com.oni.training.springboot.MyProduct.repository.ProductRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;

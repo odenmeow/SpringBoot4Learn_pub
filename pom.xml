@@ -92,6 +92,72 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
+
+		<!--		tools		-->
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+
+		<!--     	JWT  	 -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+
+
+
+
+
+		<!--		for test 	-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!--		for test 	-->
+
+		<!--	為了@Enumerated 使用		-->
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version> <!-- 或者使用你需要的版本 -->
+		</dependency>
+
+
+
+
+
+
+
+
 	</dependencies>
 
 
@@ -100,7 +166,8 @@
 <!--	找到LifeCycle 點選 clean 再點 install重新安裝就可能解決了-->
 <!--	建議:完成之後要記得到左邊Project 點取右鍵 Maven> reloadProject -->
 
-
+<!--	或者 File InvalidateCache -->
+<!--	或者右上方漂浮的重新整理按鈕-->
 
 
 <!--	如果seleniumhq 無法使用 出現紅字 可能需要以下-->

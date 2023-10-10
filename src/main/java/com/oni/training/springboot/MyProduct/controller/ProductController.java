@@ -3,16 +3,15 @@ package com.oni.training.springboot.MyProduct.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.oni.training.springboot.MyProduct.entity.*;
-import com.oni.training.springboot.MyProduct.parameter.ProductQueryParameter;
+import com.oni.training.springboot.MyProduct.entity.mail.SendMailRequest;
+import com.oni.training.springboot.MyProduct.entity.product.ProductRequest;
+import com.oni.training.springboot.MyProduct.entity.product.ProductResponse;
+import com.oni.training.springboot.MyProduct.entity.product.ProductQueryParameter;
 import com.oni.training.springboot.MyProduct.service.ProductService;
 import com.oni.training.springboot.WebExceptions.UnprocessableEntityException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -136,7 +135,7 @@ public class ProductController {
 //    }
 
     @PostMapping                     //在需要驗證Product傳入對象加上@Valid
-    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductRequest request,Errors errors){
+    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductRequest request, Errors errors){
 
         if(errors.hasErrors()) {
             HashMap<String,String> map=new HashMap<>();

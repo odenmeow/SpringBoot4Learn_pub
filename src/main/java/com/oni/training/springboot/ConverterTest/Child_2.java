@@ -1,7 +1,6 @@
-package com.oni.training.springboot.MyProduct.ConverterTest;
+package com.oni.training.springboot.ConverterTest;
 
 import jakarta.validation.constraints.NotNull;
-import org.springframework.stereotype.Component;
 
 
 public class Child_2 extends ancestor{

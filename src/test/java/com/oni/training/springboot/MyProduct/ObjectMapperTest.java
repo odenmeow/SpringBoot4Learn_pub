@@ -149,7 +149,7 @@ public class ObjectMapperTest {
         book.setIsbn("978-986-123-456-7");
         book.setCreatedTime(new Date());
 
-
+        // getter setter 有就可以傳進去 也就是JAVABean 對象可以進去
         String bookJSONStr=mapper.writeValueAsString(book);
         JSONObject bookJSON=new JSONObject(bookJSONStr);
 

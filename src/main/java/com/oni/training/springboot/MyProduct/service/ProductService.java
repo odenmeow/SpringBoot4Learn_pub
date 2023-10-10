@@ -1,19 +1,16 @@
 package com.oni.training.springboot.MyProduct.service;
 
-import com.oni.training.springboot.MyProduct.entity.SendMailRequest;
-import com.oni.training.springboot.MyProduct.parameter.ProductQueryParameter;
+import com.oni.training.springboot.MyProduct.entity.mail.SendMailRequest;
+import com.oni.training.springboot.MyProduct.entity.product.ProductQueryParameter;
 import com.oni.training.springboot.MyProduct.repository.ProductRepository;
-import com.oni.training.springboot.MyProduct.entity.ProductRequest;
-import com.oni.training.springboot.MyProduct.entity.ProductResponse;
+import com.oni.training.springboot.MyProduct.entity.product.ProductRequest;
+import com.oni.training.springboot.MyProduct.entity.product.ProductResponse;
 import com.oni.training.springboot.MyProduct.converter.ProductConverter;
-import com.oni.training.springboot.MyProduct.entity.Product;
+import com.oni.training.springboot.MyProduct.entity.product.Product;
 import com.oni.training.springboot.WebExceptions.NotFoundException;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;

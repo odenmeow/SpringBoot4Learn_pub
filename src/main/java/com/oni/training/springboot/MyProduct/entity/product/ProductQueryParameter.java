@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct.parameter;
+package com.oni.training.springboot.MyProduct.entity.product;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

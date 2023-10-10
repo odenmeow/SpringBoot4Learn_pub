@@ -13,15 +13,11 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
-import com.oni.training.springboot.MyProduct.Config.MailConfig;
-import com.oni.training.springboot.MyProduct.entity.SendMailRequest;
+import com.oni.training.springboot.MyProduct.config.MailConfig;
+import com.oni.training.springboot.MyProduct.entity.mail.SendMailRequest;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Service;
 
 import javax.mail.Address;
 import javax.mail.Session;
@@ -36,7 +32,6 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
-import static javax.mail.Message.RecipientType.TO;
 
 
 public class MailService {

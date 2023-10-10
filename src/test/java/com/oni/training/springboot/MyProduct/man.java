@@ -1,13 +1,11 @@
 package com.oni.training.springboot.MyProduct;
 
-import com.oni.training.springboot.MyProduct.ConverterTest.ChildOrigin;
-import com.oni.training.springboot.MyProduct.ConverterTest.Child_2;
-import com.oni.training.springboot.MyProduct.ConverterTest.MyConverter;
-import com.oni.training.springboot.MyProduct.ConverterTest.ancestor;
+import com.oni.training.springboot.ConverterTest.ChildOrigin;
+import com.oni.training.springboot.ConverterTest.Child_2;
+import com.oni.training.springboot.ConverterTest.MyConverter;
+import com.oni.training.springboot.ConverterTest.ancestor;
 import jakarta.validation.*;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -18,7 +16,7 @@ import java.util.Set;
 public class man {
         @Test
         public  void mai() {
-            // TODO Auto-generated method stub
+
             ApplicationContext ac=new AnnotationConfigApplicationContext(MyConverter.class);
 
             ((ConfigurableApplicationContext)ac).close();

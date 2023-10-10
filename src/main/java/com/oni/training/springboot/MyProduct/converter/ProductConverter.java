@@ -30,9 +30,9 @@ package com.oni.training.springboot.MyProduct.converter;
 //      回傳也一樣，回傳子類，取得也會只拿到以父類建構的JSON而已，但我們需要子類的格式。
 
 
-import com.oni.training.springboot.MyProduct.entity.ProductRequest;
-import com.oni.training.springboot.MyProduct.entity.ProductResponse;
-import com.oni.training.springboot.MyProduct.entity.Product;
+import com.oni.training.springboot.MyProduct.entity.product.ProductRequest;
+import com.oni.training.springboot.MyProduct.entity.product.ProductResponse;
+import com.oni.training.springboot.MyProduct.entity.product.Product;
 
 //================================================================
 public class ProductConverter {

@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
+
 @SpringBootApplication
 public class
 SpringbootApplication {
@@ -315,19 +316,38 @@ SpringbootApplication {
 // 所以， --soft 和 --mixed的不同之處在於是否重置暫存區。 如果您想保留更改並將它們包含在下一次提交中，您可以使用 --soft 選項。 如果您只想將更改保留在工作目錄中但不包含在下一次提交中，您可以使用預設的--mixed選項。
 
 
-
-
-
-
-
-
 // git cherry-pick  蠻特殊可以把別人的commit 合併給自己~ 自己去查怎麼用
 
+/** 建立空白的專案 然後 做成遠端某repo的分支**/
 
 
+//		git init
+//		git remote add origin http....
+//		git fetch                       關聯但不pull
+//		git branch -a                   可以看到了
+//		接著先 commit	但不要 push 這樣會建立一個初始的主幹
+// 		git add .
+// 		git commit -m "Initialize."
+//		.....
+//		...
+//		.		接著可以開始建立分支了
+//		git branch SpringSecurityLearn
+//		git switch SpringSecurityLearn
+//      git branch 和  git branch -a 	自己看
+//		接著就等著做得差不多==>上傳到 origin 新增分支過去給它 (SpringBoot4Learn) 玩!
+
+/** 	Stash 使用	*/
+
+//  	git stash -u	檔案未 staged +unStaged +untracked 	都 	放到特殊空間
+//		git stash 		staged 的檔案 							放到特殊空間
+//		git stash pop   FILO
+
+//		staged   	= add .
+//		unStaged 	= 本來就被	git 追蹤的檔案，今天有被修改 還沒有 staged    (需要透過git add file) 讓它 staged
+//      untracked	= 全新的檔案 	git 還不知道 、沒追蹤過
 
 
-/**到這邊上方 都是   G i t*/
+/**		到這邊上方 都是   G i t		*/
 
 
 

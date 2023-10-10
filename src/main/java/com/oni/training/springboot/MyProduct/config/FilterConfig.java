@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct.Config;
+package com.oni.training.springboot.MyProduct.config;
 
 import com.oni.training.springboot.MyProduct.Filter.LogApiFilter;
 import com.oni.training.springboot.MyProduct.Filter.LogProcessTimeFilter;
