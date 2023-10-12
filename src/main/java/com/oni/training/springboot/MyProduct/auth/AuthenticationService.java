@@ -1,6 +1,9 @@
 package com.oni.training.springboot.MyProduct.auth;
 
 
+import com.oni.training.springboot.MyProduct.aop.ActionType;
+import com.oni.training.springboot.MyProduct.aop.EntityType;
+import com.oni.training.springboot.MyProduct.aop.SendEmail;
 import com.oni.training.springboot.MyProduct.auth.auth_user.AuthRequest;
 import com.oni.training.springboot.MyProduct.auth.auth_user.AuthResponse;
 import com.oni.training.springboot.MyProduct.auth.auth_user.SpringUser;
@@ -30,8 +33,9 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
-
+    // 這邊感覺題目沒有設計好，註冊帳號，寄信? 那必須要改變一下AOP才行 id不通用 還必須夾帶Token又是哪招，對吧?
+    // 自己多定義-2 for email使用
+    @SendEmail(entity = EntityType.APP_USER,action = ActionType.CREATE,idParamIndex = -2)
     public AuthResponse register(AppUserRequest appUserRequest){
 //        UserAuthority.ADMIN.fromString("admin");
         Optional<AppUser> existingUser=repository.findByEmailAddress(appUserRequest.getEmailAddress());
@@ -54,9 +58,9 @@ public class AuthenticationService {
         var jwtToken=jwtService.generateToken(new SpringUser(user));
         return AuthResponse.builder()
                 .token(jwtToken)
+                .name(user.getName())
                 .build();
     }
-
     public AuthResponse authenticate(AuthRequest request){
 
         //  SpringSecurity不鼓勵自己寫驗證方法 建議用這

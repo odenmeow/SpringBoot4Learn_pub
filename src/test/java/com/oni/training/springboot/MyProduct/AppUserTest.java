@@ -20,11 +20,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.JsonPathResultMatchers;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
@@ -130,7 +132,8 @@ public class AppUserTest extends AppBaseTest {
                 MockMvcRequestBuilders.post("/users")
                         .headers(httpHeaders)
                         .content(mapper.writeValueAsString(request))
-        ).andExpect(status().isConflict());
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isConflict());
 
     }
     @Test

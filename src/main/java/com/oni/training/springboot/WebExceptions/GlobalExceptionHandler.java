@@ -27,8 +27,9 @@ public class GlobalExceptionHandler {
         String errorMessage=e.getMessage();
         Map<String,String> errorMap=new HashMap<>();
         errorMap.put("errorMessage",errorMessage);
-        var unprocessableJson=new CustomBadResponse(errorMap,ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath())
-                .builder()
+        var unprocessableJson=CustomBadResponse.builder()
+                .message(errorMap)
+                .path(ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath())
                 .error(String.valueOf(HttpStatus.UNPROCESSABLE_ENTITY.value()))
                 .status(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase()).build();
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(unprocessableJson);
@@ -39,8 +40,9 @@ public class GlobalExceptionHandler {
         Map<String,String> errorMap=new HashMap<>();
         errorMap.put("errorMessage",errorMessage);
 
-        var notfoundJson=new CustomBadResponse(errorMap,ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath())
-                .builder()
+        var notfoundJson=CustomBadResponse.builder()
+                .message(errorMap)
+                .path(ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath())
                 .error(String.valueOf(HttpStatus.NOT_FOUND.value()))
                 .status(HttpStatus.NOT_FOUND.getReasonPhrase())
                 .build();
@@ -51,12 +53,21 @@ public class GlobalExceptionHandler {
         String errorMessage=e.getMessage();
         Map<String,String> errorMap=new HashMap<>();
         errorMap.put("errorMessage",errorMessage);
-
-        var bodyJson=new CustomBadResponse(errorMap,ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath())
-                .builder()
+/**             下面這一個用法會回傳 null  不應該這樣使用 而是第二個才正確     上面都要改              **/
+//        var bodyJson=new CustomBadResponse(errorMap,ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath())
+//                .builder()
+//                .error(String.valueOf(HttpStatus.CONFLICT.value()))
+//                .status(HttpStatus.CONFLICT.getReasonPhrase())
+//                .build();
+/**               正確使用方法                                          **/
+        var bodyJson=CustomBadResponse.builder()
+                .message(errorMap)
+                .path(ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath())
                 .error(String.valueOf(HttpStatus.CONFLICT.value()))
                 .status(HttpStatus.CONFLICT.getReasonPhrase())
+
                 .build();
+
         return ResponseEntity.status(HttpStatus.CONFLICT).body(bodyJson);
 
     }

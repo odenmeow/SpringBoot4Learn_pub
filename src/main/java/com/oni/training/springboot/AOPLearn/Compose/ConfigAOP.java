@@ -24,6 +24,7 @@ public class ConfigAOP {
 //      2.原型（Prototype）：    每次注入或者通过spring应用上下文获取的时候，都会创建一个新的bean实例。
 //      3.会话（Session）：      在web应用中，为每个会话创建一个bean实例。
 //      4.请求（Request）：      在Web应用中，为每个请求创建一个bean实例。
+//    切點表達式 相對於classpath 不需要src/java 從編譯後的包去找 所以用不上前面兩個
     @Pointcut("execution (* com.oni.training.springboot.AOPLearn.Compose.JDK_instance.*(..))")
     public void pointcutJDK() {
     }

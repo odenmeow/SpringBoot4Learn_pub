@@ -22,6 +22,8 @@ public class AppUserService {
     public AppUserService(AppUserRepository repository) {
         this.repository = repository;
     }
+
+
     public AppUserResponse createUser(AppUserRequest request){
 
         Optional<AppUser> existingUser= repository.findByEmailAddress(request.getEmailAddress());

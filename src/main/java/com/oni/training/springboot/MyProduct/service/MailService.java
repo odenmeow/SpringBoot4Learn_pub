@@ -90,7 +90,7 @@ public class MailService {
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, jsonFactory,
                 clientSecrets, Set.of(GMAIL_SEND))
-                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("./tokens").toFile())).setAccessType("offline")
+                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("./token").toFile())).setAccessType("offline")
                 .build();
         /**
          * https://console.cloud.google.com/iam-admin/serviceaccounts/details/ 權杖不是下載這邊的

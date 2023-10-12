@@ -1,5 +1,8 @@
 package com.oni.training.springboot.MyProduct.service;
 
+import com.oni.training.springboot.MyProduct.aop.ActionType;
+import com.oni.training.springboot.MyProduct.aop.EntityType;
+import com.oni.training.springboot.MyProduct.aop.SendEmail;
 import com.oni.training.springboot.MyProduct.entity.mail.SendMailRequest;
 import com.oni.training.springboot.MyProduct.entity.product.ProductQueryParameter;
 import com.oni.training.springboot.MyProduct.repository.ProductRepository;
@@ -57,6 +60,8 @@ public class ProductService  {
     }
     // 回去舊版把它加進來了!原本CH11被替換，而不是多載，現在用成多載
     //  <舊版 CH11之前使用>
+
+    @SendEmail(entity = EntityType.PRODUCT,action = ActionType.CREATE)
     public Product createProduct(Product reqeust){
         // 原本是因為id手動設定才需要 exception拋出 自訂義 (現在用不太到)
         Product product=new Product();
@@ -66,6 +71,7 @@ public class ProductService  {
         return repository.insert(product);
     }
     // CH11新增的方法
+    @SendEmail(entity = EntityType.PRODUCT,action = ActionType.CREATE)
     public Product createProduct(ProductRequest request){
         // 原本是因為id手動設定才需要 exception拋出 自訂義 (現在用不太到)
 
@@ -73,6 +79,7 @@ public class ProductService  {
         return repository.insert(product);
     }
     // (CH12) 我這邊有大幅度修剪 名稱也略改 為了向下兼容
+    @SendEmail(entity = EntityType.PRODUCT,action = ActionType.CREATE)
     public ProductResponse createProductRtJSON(ProductRequest request){
         Product product=ProductConverter.toProduct(request);
         repository.insert(product);
@@ -81,6 +88,7 @@ public class ProductService  {
 
 
     // <舊版 CH11之前使用>
+    @SendEmail(entity = EntityType.PRODUCT,action = ActionType.UPDATE,idParamIndex = 0)
     public Product replaceProduct(String id,Product request){
         Product oldproduct=getProduct(id);
 //      正常不能改的 不過這邊改給你看 (也就只是替換而已啦)
@@ -94,6 +102,8 @@ public class ProductService  {
     }
     // 使用方法多載，不然這樣之前的可能都不能使用了!
     // CH11新增的方法
+    @SendEmail(entity = EntityType.PRODUCT,action = ActionType.UPDATE,idParamIndex = 0)
+
     public Product replaceProduct(String id,ProductRequest request){
         Product oldproduct=getProduct(id);
         Product newProduct=ProductConverter.toProduct(request);
@@ -103,6 +113,8 @@ public class ProductService  {
 
     }
     // CH12新增的方法
+    @SendEmail(entity = EntityType.PRODUCT,action = ActionType.UPDATE,idParamIndex = 0)
+
     public ProductResponse replaceProductRtJSON(String id,ProductRequest request) {
         Product oldproduct=getProduct(id);
         Product newproduct=ProductConverter.toProduct(request);
@@ -113,7 +125,7 @@ public class ProductService  {
 
 
 
-
+    @SendEmail(entity = EntityType.PRODUCT,action = ActionType.DELETE,idParamIndex = 0)
     public void deleteProduct(String id){
         getProduct(id);//多了這個如果不存在    【會說找不到】!
         repository.deleteById(id);

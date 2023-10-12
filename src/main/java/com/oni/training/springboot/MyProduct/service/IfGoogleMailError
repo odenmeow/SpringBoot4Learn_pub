@@ -1,0 +1,10 @@
+com.google.api.client.auth.oauth2.TokenResponseException: 400 Bad Request
+POST https://oauth2.googleapis.com/token
+{
+  "error": "invalid_grant",
+  "error_description": "Token has been expired or revoked."
+}
+
+出現這個錯誤請把
+最外層tokens 或者 token資料夾刪除  因為裡面的credential過期了
+刪除掉 就會重新可以認證

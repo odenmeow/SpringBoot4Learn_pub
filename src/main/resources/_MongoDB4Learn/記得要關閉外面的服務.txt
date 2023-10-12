@@ -1,0 +1,2 @@
+win+R    services.msc
+找到MongoDB  停止它 這樣才不會連接到外層的 
