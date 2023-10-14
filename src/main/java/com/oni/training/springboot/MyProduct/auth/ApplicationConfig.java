@@ -25,7 +25,7 @@ public class ApplicationConfig {
     private final AppUserRepository repository;
 
 
-
+    // 下面有個夥伴 SpringUserService (基本一模一樣但是下面這位有在authenticationProvider() 中被調用，前者則無人調用)
     @Bean
     public UserDetailsService userDetailsService(){
         return username ->{

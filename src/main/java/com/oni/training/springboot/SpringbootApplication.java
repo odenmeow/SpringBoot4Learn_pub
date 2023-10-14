@@ -347,6 +347,40 @@ SpringbootApplication {
 //      untracked	= 全新的檔案 	git 還不知道 、沒追蹤過
 
 
+
+/**		git帳號切換			*/
+// window 管理電腦憑證  直接輸入憑證就會找到  然後
+// 如果找不到 可能不是存在那邊，試著用 git config credential.helper 看是不是在store=git內建
+//	C:\Umimi>git credential reject
+//			protocol=https
+//			host=github.com
+//	透過上述就可以 刪除憑證了
+//	If user.email=oni@gmail.com 雖然登入github用Umi帳號
+//	push 後，Github上Repository 顯示oni上傳
+
+//  Credential 跟 作者是分開的 (蠻神奇的)
+
+
+// 下面不要在意，這無法解決credential問題 還是需要從windows去刪除
+		//	git config --global --list > oni.txt     	保存在cmd 使用這個指令的路徑
+
+		//	Global user資料刪除
+		//	git config --global --unset user.name
+		//	git config --global --unset user.email
+
+		//  當前 cmd git repo 刪除 個人資料
+		//	git config --unset user.name
+		//  git config --unset user.email
+
+		//  手動一個一個恢復
+
+		//	git config --global user.email "qw28425382694@gmail.com"
+		//	git config --global user.name "Oni"
+
+		//	git config --global --file /path/to/your/backup/git_config_backup.txt
+
+
+
 /**		到這邊上方 都是   G i t		*/
 
 

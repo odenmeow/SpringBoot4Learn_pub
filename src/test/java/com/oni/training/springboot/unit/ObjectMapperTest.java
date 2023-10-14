@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct;
+package com.oni.training.springboot.unit;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;

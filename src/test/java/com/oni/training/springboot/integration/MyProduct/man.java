@@ -1,4 +1,4 @@
-package com.oni.training.springboot.MyProduct;
+package com.oni.training.springboot.integration.MyProduct;
 
 import com.oni.training.springboot.ConverterTest.ChildOrigin;
 import com.oni.training.springboot.ConverterTest.Child_2;

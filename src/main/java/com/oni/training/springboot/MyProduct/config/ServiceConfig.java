@@ -1,6 +1,7 @@
 package com.oni.training.springboot.MyProduct.config;
 
 
+import com.oni.training.springboot.MyProduct.auth.auth_user.UserIdentity;
 import com.oni.training.springboot.MyProduct.repository.AppUserRepository;
 import com.oni.training.springboot.MyProduct.repository.ProductRepository;
 import com.oni.training.springboot.MyProduct.entity.app_user.AppUserService;
@@ -41,9 +42,9 @@ public class ServiceConfig {
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.DEFAULT)
 //                                       >> 這下面repository 是 singleton 所以不會受影響
 //                                       >> MailService 在這邊但也是隨著請求生成以及刪除
-    public ProductService productService(ProductRepository repository,MailService mailService){
+    public ProductService productService(ProductRepository repository, MailService mailService, UserIdentity userIdentity){
         System.out.println("Product Service is created.");
-        return new ProductService(repository, mailService);
+        return new ProductService(repository, mailService,userIdentity);
     }
 
     @Bean

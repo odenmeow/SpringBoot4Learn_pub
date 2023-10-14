@@ -1,4 +1,4 @@
-package com.oni.training.springboot.AOP_CGLIB_JDK;
+package com.oni.training.springboot.integration.AOP_CGLIB_JDK;
 
 import org.json.JSONObject;
 import org.junit.Before;

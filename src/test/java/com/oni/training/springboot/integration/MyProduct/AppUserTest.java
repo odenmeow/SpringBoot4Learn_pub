@@ -1,33 +1,22 @@
-package com.oni.training.springboot.MyProduct;
+package com.oni.training.springboot.integration.MyProduct;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.oni.training.springboot.AppBaseTest;
 import com.oni.training.springboot.MyProduct.auth.auth_user.AuthRequest;
 import com.oni.training.springboot.MyProduct.auth.auth_user.AuthResponse;
 import com.oni.training.springboot.MyProduct.entity.app_user.AppUser;
 import com.oni.training.springboot.MyProduct.entity.app_user.AppUserRequest;
 import com.oni.training.springboot.MyProduct.entity.app_user.Role;
 import io.jsonwebtoken.Claims;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.json.JSONObject;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.JsonPathResultMatchers;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 

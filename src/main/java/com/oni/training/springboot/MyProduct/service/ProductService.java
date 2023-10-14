@@ -3,6 +3,7 @@ package com.oni.training.springboot.MyProduct.service;
 import com.oni.training.springboot.MyProduct.aop.ActionType;
 import com.oni.training.springboot.MyProduct.aop.EntityType;
 import com.oni.training.springboot.MyProduct.aop.SendEmail;
+import com.oni.training.springboot.MyProduct.auth.auth_user.UserIdentity;
 import com.oni.training.springboot.MyProduct.entity.mail.SendMailRequest;
 import com.oni.training.springboot.MyProduct.entity.product.ProductQueryParameter;
 import com.oni.training.springboot.MyProduct.repository.ProductRepository;
@@ -31,9 +32,12 @@ public class ProductService  {
     @Value("${app.data.initialize}")
     private boolean initializeData;
     // 這邊的Autowired也被移除了
-    public ProductService(ProductRepository repository,MailService mailService) {
+    private UserIdentity userIdentity;
+
+    public ProductService(ProductRepository repository,MailService mailService,UserIdentity userIdentity) {
         this.mailService=mailService;
         this.repository=repository;
+        this.userIdentity=userIdentity;
     }
 
     @PostConstruct
@@ -67,7 +71,7 @@ public class ProductService  {
         Product product=new Product();
         product.setName(reqeust.getName());
         product.setPrice(reqeust.getPrice());
-
+        product.setCreator(userIdentity.getId());
         return repository.insert(product);
     }
     // CH11新增的方法
@@ -83,6 +87,7 @@ public class ProductService  {
     public ProductResponse createProductRtJSON(ProductRequest request){
         Product product=ProductConverter.toProduct(request);
         repository.insert(product);
+        product.setCreator(request.getId());
         return ProductConverter.toProductResponse(product);
     }
 
@@ -108,6 +113,7 @@ public class ProductService  {
         Product oldproduct=getProduct(id);
         Product newProduct=ProductConverter.toProduct(request);
         newProduct.setId(oldproduct.getId());
+
 
         return repository.save(newProduct);
 

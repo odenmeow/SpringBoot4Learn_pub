@@ -7,6 +7,15 @@ public class ProductResponse  {
     private String name;
 
     private int price;
+    private String creatorId;
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
 
     public String getId() {
         return id;

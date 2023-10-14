@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
+// 笑死下面沒有被用上
+// 下面有個夥伴 ApplicationConfig UserDetailsService (基本一模一樣但是下面這位有在authenticationProvider() 中被調用，前者則無人調用)
+// CH21 所以我要忽略下面這位，對我而言我使用的是ApplicationConfig的 @Bean UserDetailsService userDetailsService()
 @Service
 public class SpringUserService implements UserDetailsService {
 

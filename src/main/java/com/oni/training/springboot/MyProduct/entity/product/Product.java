@@ -1,6 +1,7 @@
 package com.oni.training.springboot.MyProduct.entity.product;
 
 
+import com.oni.training.springboot.MyProduct.converter.ProductConverter;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -32,6 +33,17 @@ public class Product {
     // 寫完後要去controller寫@Valid  安裝在put 跟post
     // 改成小寫比較好
     private int price;
+
+    private String creator;
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
     public Product(String name, Integer price) {
         this.name = name;
         this.price = price;
