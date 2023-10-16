@@ -1,0 +1,97 @@
+For those who need mongo-express Server Status. 
+# Add the 【ME_CONFIG_MONGODB_ENABLE_ADMIN 】property in your Docker Compose file
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=aaa
+      - MONGO_INITDB_ROOT_PASSWORD=_55$22AC76ccc
+      - MONGO_INITDB_DATABASE=admin
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_BASICAUTH_USERNAME=bbb
+      - ME_CONFIG_BASICAUTH_PASSWORD=bbb
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN:true
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=aaa
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=_55$22AC76ccc
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - useBasicAuth=true
+      
+volumes:
+  data: {}
+networks:
+  default:
+    name: mongodb_network
+    
+# Enter the MongoDB Express bash environment
+C:\_MongoDB4Learn> docker exec -it mongo-express bash
+
+# Install the Nano text editor
+bash-5.0# apk add nano
+
+# Find the router.js file
+bash-5.0# find / -name "router.js"
+
+# View the contents of the router.js file
+bash-5.0# cat /node_modules/mongo-express/lib/router.js
+
+# Edit the router.js file using Nano
+bash-5.0# nano /node_modules/mongo-express/lib/router.js
+
+# Inside Nano, locate the mongoMiddleware section and modify it
+#
+# Use (Ctrl+W) input (mongoMiddleware) enter to locate.
+# Before:
+# // mongodb mongoMiddleware
+# const mongoMiddleware = function (req, res, next) {
+#   req.mainClient = mongo.mainClient;
+#   req.adminDb = mongo.adminDb;
+#   req.databases = mongo.getDatabases(); // List of database names
+#   req.collections = mongo.collections; // List of collection names in all databases
+#   req.gridFSBuckets = utils.colsToGrid(mongo.collections);
+# }
+# After:
+# // mongodb mongoMiddleware
+# const mongoMiddleware = function (req, res, next) {
+#   req.mainClient = mongo.mainClient;
+#   req.adminDb = mongo.mainClient.adminDb || undefined;
+#   req.databases = mongo.getDatabases(); // List of database names
+#   req.collections = mongo.collections; // List of collection names in all databases
+#   req.gridFSBuckets = utils.colsToGrid(mongo.collections);
+# }
+# Save the changes (Ctrl+O, Enter) and exit Nano (Ctrl+X).
+
+# Go back to the Windows terminal (Ctrl+Z).
+
+# Restart the mongo-express container
+PS C:\_MongoDB4Learn> docker restart mongo-express
+
+# Reload localhost:8081 in your web browser
+
+ref=> https://github.com/mongo-express/mongo-express/issues/647.
+If using a specific version may lead to adminDb undefined.  I'm using the latest on 2023/9/18.
+
+
+
+
+
+
+
+
+
+
+
+
+

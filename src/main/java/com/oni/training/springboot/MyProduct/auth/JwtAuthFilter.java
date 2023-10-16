@@ -37,7 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
         if(authHeader==null || !authHeader.startsWith("Bearer ")){
-            System.out.println("請求未夾帶門票，無須浪費時間試圖驗證");
+//            System.out.println("請求未夾帶門票，無須浪費時間試圖驗證");
             filterChain.doFilter(request,response);
             // 直接讓他進入下一站( Maybe 要註冊帳號 ， 也不須驗 )
             return ; //記得要return否則 filter回來的時候 會往下 就會出錯喔

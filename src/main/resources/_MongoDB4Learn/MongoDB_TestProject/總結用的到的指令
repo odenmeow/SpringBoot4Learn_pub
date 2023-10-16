@@ -1,0 +1,563 @@
+【Git	(win11終端機下)】
+
+	git init
+	git add .
+	git config --global user.name "Oni"
+	git config --global user.eamil "qw28425382694@gmail.com"
+	git remote add origin https://github.com/odenmeow/MongoDB4Learn
+	git commit -m "Inintilize MongoDB4Learn!"
+	git push origin master
+	
+
+
+
+
+【docker (win11終端機下)】
+	
+	編輯完畢 docker-compose.yaml 檔案 使用下面指令type docker-compose.yaml 在win11確保沒顯示錯誤出來。
+	
+	C:\_MongoDB4Learn>docker-compose -f docker-compose.yaml up  或是一個一個打指令(雖然一樣啦)
+	C:\_MongoDB4Learn>docker compose -f docker-compose.yaml up
+	
+	若名稱 為docker-compose.yaml 則可以 
+	C:\_MongoDB4Learn>docker-compose up 		若關閉終端機則終止
+						docker-compose up -d  	分離式關閉終端也沒關係
+	
+	docker ps 印出 狀態
+	docker-compose stop  				停止 (保存資料)
+	docker-compose start 				繼續 
+	docker-compose down  				全部清除 關機了 什麼設定都不見
+	docker exec -it mongo-express bash	開啟mongo-express bash(類Linux終端機的意思)
+					
+										【注意 docker ps列出的Container Id 也可以用做名稱】
+										=>docker exec -it containerId bash 也可以
+	
+	docker restart mongo-express 		重新啟動某容器 (這個裡面東西設定檔改過不會不見)
+	
+	
+	
+
+
+
+
+
+=============原本應該進去的是 Mongodb 我進到express=====================
+
+【 Mongo-Express (bash內)】
+	
+	apk add nano 					增加小軟體 文字編輯器
+	nano router.js 					開啟.js檔案編輯文字
+									^W =Ctrl+W 可以查找文字
+									M+? =ALT +? 
+									^O =Ctrl+O 保存  要按enter確認
+									^X =Ctrl+X 退出 
+									^Z =Ctrl+Z 離開 bash終端機 
+	find / -name "router.js" 		找到這份檔案
+	cat router.js					查看不更動
+	apk add nodejs npm 				要先安裝nodejs npm 才能用 然後才能安裝mongosh
+	npm install -g mongosh			安裝 然後 很久 正長
+	
+				<<<	然後原本想要用 mongosh --version 發現不行>>>
+					ERROR: npm v10.1.0 is known not to run on Node.js v12.22.7.  This version of npm supports the following node versions: `^18.17.0 || >=20.5.0`. You can fi
+												把垃圾移除 重新安裝需要的版本
+	rm /usr/local/bin/mongosh						
+	rm /usr/local/bin/npm
+	rm -r /usr/local/lib/node_modules/mongosh
+	rm -r /usr/local/lib/node_modules/npm
+	
+				<<<	先安裝curl 才能用nvm進行版本切換 node>>>	
+					網路受限的話 去把文檔抓下來 在丟進去容器
+					正常應該可以 只要wget + 下面這段網路
+				https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh
+				
+				<< 或者檔案寫外面資料夾 然後 >>
+				docker cp C:/_MongoDB4Learn/helllo.js mongo-express:/helllo.js
+				
+	ls								可能找不到helllo.js
+	ls /							他藏這邊根目錄
+	mkdir /Nano_download			建立資料夾
+	pwd								顯示目前在哪個資料夾 (Print Working Directory)
+	cd /Nano_download				切換到目標資料夾位置
+	
+【接下來需要確認有git curl wget可使用，		上面會安裝失敗 請看下面】
+	
+	apk update
+	apk add git
+	apk add curl					wget似乎有自帶 缺這個跟git而已
+	
+	touch ~/.bashrc					第一次使用要用這指令
+	nano ~/.bashrc(不需要打 用不到，給你看而已)
+	mkdir ~/.nvm					文件权限问题： 确保你有足够的权限来在安装目录中创建文件和文件夹。
+									通常情况下，你可以在用户主目录下创建一个名为 .nvm 	
+									的目录，并确保你有写入权限。
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+	下面三行不要弄 用上面一行抵三行!
+	bash 							+(Tab 可以選檔案，其實其他也能用如果當前資料夾下面有檔案)												
+//	放棄右邊	wget -P /Nano_download https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh	
+									注意 P 大寫才行~(反正報錯你也知道)
+		
+//	上面和這一起的	bash install.sh					安裝檔案(順帶一提剛剛抓的這是nvm的指令安裝腳本)
+	<<用下面這個>>
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+		
+	source ~/.bashrc 				如果使用這個 就不用下面那樣退出生效					
+	<<<退出 ctrl+z 回到win11外面從新進來docker-bash>>>
+	source ~/.nvm/nvm.sh		不知這先還是下面先
+	nvm install --latest-npm
+	
+	nvm --version 					應該有了!
+	
+	nvm install 16					安裝這個版本的nvm
+	nvm list 						交代有什麼版本 (->N/A) 好像代表沒有
+									lts/* -> lts/hydrogen (-> N/A)
+									lts/argon -> v4.9.1 (-> N/A)
+									lts/boron -> v6.17.1 (-> N/A)
+									lts/carbon -> v8.17.0 (-> N/A)
+									lts/dubnium -> v10.24.1 (-> N/A)
+									lts/erbium -> v12.22.12 (-> N/A)
+									lts/fermium -> v14.21.3 (-> N/A)
+	=>使用中的是右邊這個					lts/gallium -> v16.20.2 *
+									lts/hydrogen -> v18.17.1 (-> N/A)
+									
+	nvm alias default 16.20.2		預設改成這個 避免用到12	(?)
+	
+	nvm use 16.20.2					使用!
+	npm install -g mongosh			會出錯!!原因如下
+	
+	
+	
+	https://titangene.github.io/article/nvm.html
+	這邊提到說 
+	node							沒東西或者有錯誤
+	nvm use node					沒東西
+	nvm install node
+	nvm debug						查看目前nvm 問題
+	
+	
+
+	sudo ln -sf /root/.nvm/versions/node/v16.20.2/bin/node /usr/local/bin/node
+	軟連結
+
+
+
+
+【換成npm版本不兼容，沒關係，改!!!!!】
+	
+	0.npm install -g npm@latest		想說更新npm 但不可以，因為版本太舊語法不行 
+	1.先做	nvm install 14.17.0 	(若版本不一就去問GPT)
+	2.		nvm use 14.17.0         這版本好像支持
+	3.npm install -g npm@latest		這樣好像就更新了
+	4.nvm use 18.17.0				切換回來高級版本重新使用
+	5.npm install -g mongosh		重新使用90行的那個指令!這次要安裝!!!
+	
+	<幹勒又失敗>
+	
+	6.nvm install 16.13.0
+	7.nvm use 16.13.0
+	8.npm install -g mongosh		這次降一點版本
+	
+	bash-5.0# ls /root/.nvm/versions/node
+v12.22.7  v14.17.0  v16.13.0  v16.20.2  v18.17.0
+	
+	<失敗>
+	9.nvm uninstall v12.22.7		我目前把這個版本移除
+	10.npm uninstall -g mongosh		重新安裝
+	11.npm install -g mongosh
+	12.nvm list						顯示版本
+	
+	cat ~/.bashrc
+	nano ~/.bashrc
+	export PATH="/root/.nvm/versions/node/v16.20.2/bin:$PATH"
+	source ~/.bashrc
+	
+	rm -rf /root/.nvm  				nvm壞掉 全砍!
+	
+	
+浪費10小時
+=============到這邊為止 有興趣就看吧 ， 我用錯 (大概ㄏㄏ)==================
+
+
+
+
+✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔
+docker exec -it mongodb bash
+mongosh mongodb://localhost:27017 -u aaa -p ccc
+
+
+發現進不去 我把密碼改成ccc了@@
+express對應的也需要改!		ME_CONFIG_MONGODB_ADMINPASSWORD=ccc
+						- MONGO_INITDB_ROOT_PASSWORD=ccc
+
+
+
+Using MongoDB:          7.0.1
+Using Mongosh:          1.10.6
+
+test> show dbs;
+	admin   100.00 KiB
+	config   60.00 KiB
+	local    72.00 KiB
+✔
+test> use amigosccode;
+	switched to db amigosccode   			(如果存在就切換 否則創建，還沒塞東西不會真創)
+amigosccode>
+amigosccode> db.getName();
+		amigosccode
+amigosccode>
+✔
+amigosccode> db.createCollection("hello");
+		{ ok: 1 }
+amigosccode> show dbs;						✔此時show才會有 因為有collection了
+		admin        100.00 KiB
+		amigosccode    8.00 KiB
+		config        92.00 KiB
+		local         72.00 KiB
+amigosccode> db.dropDatabase();				
+		{ ok: 1, dropped: 'amigosccode' }	刪除!
+amigosccode> db.help()						印出來指令
+
+amigosccode> db.createCollection("person")	創類似table
+		{ ok: 1 }
+amigosccode> show collections				印出table
+		person
+amigosccode> db.person.stats()				印出一堆東西 
+
+amigosccode> db.person.drop()				刪除
+		true
+amigosccode> show collections
+
+amigosccode> db.createCollection("person",{ capped:true,size:6142800,max:3000})
+	
+	{ ok: 1 }
+amigosccode> db.person.stats()
+
+
+
+...
+...
+...
+  sharded: false,
+  size: 0,
+  count: 0,
+  numOrphanDocs: 0,
+  storageSize: 4096,
+  totalIndexSize: 4096,
+  totalSize: 8192,
+  indexSizes: { _id_: 4096 },
+  avgObjSize: 0,
+  maxSize: 6142800,
+  ns: 'amigosccode.person',
+  nindexes: 1,
+  scaleFactor: 1
+}
+amigosccode>							提到說如果使用insert但沒有那collecion會自己創
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@evgenykuznetsov7759
+10 個月前 (已編輯)
+42:47  db.student.insert(student) will throw: 
+			insertDeprecationWarning: 
+				Collection.insert() is deprecated.
+				
+【✔】>>> Use insertOne, insertMany,or bulkWrite.
+		
+
+On top of that db.student.count() will throw: 
+	DeprecationWarning: 
+		Collection.count() is deprecated. 
+【✔】>>> Use countDocuments or estimatedDocumentCount.
+
+
+
+amigosccode> student = {
+... "firstName": "Retha",
+... "lastName":"Killeen",
+... "email": "rkilleen@@mysql.com",
+... "gender": "F",
+... "country": "Philippines",
+... "isStudentActive":false,
+... "favouriteSubjects": [
+...          "maths",
+...          "english",
+...         "it"
+...      ],
+...     "totalSpentInBooks": 0.00
+...  }
+{
+  firstName: 'Retha',
+  lastName: 'Killeen',
+  email: 'rkilleen@@mysql.com',
+  gender: 'F',
+  country: 'Philippines',
+  isStudentActive: false,
+  favouriteSubjects: [ 'maths', 'english', 'it' ],
+  totalSpentInBooks: 0
+}
+amigosccode> db.student.insert
+	db.student.insertMany  db.student.insertOne
+
+✔amigosccode> db.student.insertOne(student)
+	{
+	  acknowledged: true,
+	  insertedId: ObjectId("65084d15cc54c4fbffa81585")
+	}
+amigosccode>db.student.countDocuments()
+
+
+✔amigosccode> show collections
+person
+student
+✔amigosccode> db.student.find()  或用find().pretty()
+[
+  {
+    _id: ObjectId("65084d15cc54c4fbffa81585"),
+    firstName: 'Retha',
+    lastName: 'Killeen',
+    email: 'rkilleen@@mysql.com',
+    gender: 'F',
+    country: 'Philippines',
+    isStudentActive: false,
+    favouriteSubjects: [ 'maths', 'english', 'it' ],
+    totalSpentInBooks: 0
+  }
+]
+
+=====✔以下是GPT贊助資料=============
+
+
+const students = [
+  {
+    firstName: "Retha",
+    lastName: "Killeen",
+    email: "rkilleen@@mysql.com",
+    gender: "F",
+    country: "Philippines",
+    isStudentActive: false,
+    favouriteSubjects: ["maths", "english", "it"],
+    totalSpentInBooks: 0.00
+  },
+  {
+    firstName: "John",
+    lastName: "Doe",
+    email: "johndoe@example.com",
+    gender: "M",
+    country: "USA",
+    isStudentActive: true,
+    favouriteSubjects: ["science", "history", "art"],
+    totalSpentInBooks: 120.50
+  },
+  {
+    firstName: "Alice",
+    lastName: "Smith",
+    email: "alice.smith@example.com",
+    gender: "F",
+    country: "Canada",
+    isStudentActive: true,
+    favouriteSubjects: ["math", "chemistry", "physics"],
+    totalSpentInBooks: 85.20
+  },
+  {
+    firstName: "Bob",
+    lastName: "Johnson",
+    email: "bob.johnson@example.com",
+    gender: "M",
+    country: "UK",
+    isStudentActive: false,
+    favouriteSubjects: ["computer science", "english", "business"],
+    totalSpentInBooks: 45.75
+  }
+];
+
+
+
+
+
+
+
+
+
+
+✔ 使用node.js語法 還能回傳錯誤之類
+amigosccode> db.student.insertMany(students, (err, result) => { if (err) { console.error("插入學生資料時發生錯誤：", err); } else { console.log(`${result.insertedCount} 筆學 生資料已成功插入`); } });
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("65085294cc54c4fbffa81586"),
+    '1': ObjectId("65085294cc54c4fbffa81587"),
+    '2': ObjectId("65085294cc54c4fbffa81588"),
+    '3': ObjectId("65085294cc54c4fbffa81589")
+  }
+}
+amigosccode>
+
+
+================✔GPT  語法教室===============
+const query = {
+  country: "USA", // 假設您想查找在美國的學生
+  isStudentActive: true // 假設您想查找活躍的學生
+};
+
+const cursor = db.student.find(query);
+
+cursor.toArray((err, students) => {
+  if (err) {
+    console.error("查找文件時發生錯誤：", err);
+  } else {
+    console.log("符合條件的文件：", students);
+  }
+});
+
+cursor.count((err, count) => {
+  if (err) {
+    console.error("計算文件數量時發生錯誤：", err);
+  } else {
+    console.log("符合條件的文件數量：", count);
+  }
+});
+
+
+=========自己完完 等耗盡cursor就懂===========
+=======不要每次都一定要const query也複製 就會觸發======
+
+db.users.find(				< collection >
+	{age:{$gt:18}},			< query criteria > 
+	{name:1,address:1}		< projection > 投影select name,addr from的對應
+).limit(5)					< cursor modifier >
+
+✔db.student.find().count()
+amigosccode> db.student.find({firstName:'Alice'}).count()
+	1	
+✔只要求  顯示特定參數	
+amigosccode> db.student.find({firstName:'Alice'},{email:1})
+	[
+	  {
+	    _id: ObjectId("65085294cc54c4fbffa81588"),
+	    email: 'alice.smith@example.com'
+	  }
+	]
+✔投影的值可以是 1 或 0，具體含義如下：
+
+✔1：表示包括這個字段在內。
+✔0：表示排除這個字段。
+
+amigosccode> db.student.find({firstName:'Alice'},{email:1,gender:1})
+[
+  {
+    _id: ObjectId("65085294cc54c4fbffa81588"),
+    email: 'alice.smith@example.com',
+    gender: 'F'
+  }
+]
+amigosccode> db.student.find({},{email:1,gender:1 })
+	
+	
+	全部印出來 但只要兩個屬性
+	
+✔	【Update更新資料】
+amigosccode> db.student.update({_id:ObjectId("65085294cc54c4fbffa81589")},{$set:{firstName:'BooB'}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+✔	【下面要用firstName 去find才看得出變化 $set】	
+		
+amigosccode> db.student.updateOne({_id:ObjectId("65085294cc54c4fbffa81589")},{$set:{firstName:'BooB'}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+amigosccode> db.student.find({},{firstName:1,email:1,gender:1,gender:1 })
+	
+	
+✔	【刪除某個物件的field的方式 $unset】
+	
+amigosccode> db.student.updateOne({_id:ObjectId("65085294cc54c4fbffa81589")},{$unset:{firstName:1}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+	
+  {
+    _id: ObjectId("65085294cc54c4fbffa81589"),
+    email: 'bob.johnson@example.com',
+    gender: 'M'
+  } 找不到了拉 不是故意不讓它顯示	
+✔	【	增加某常量 $inc	】	
+amigosccode> db.student.updateOne({_id:ObjectId("65084d15cc54c4fbffa81585")},{$inc:{totalSpentInBooks:1}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}	
+✔	【	依照_id去查找	】
+amigosccode> db.student.find({_id: ObjectId("65084d15cc54c4fbffa81585")})	
+	
+✔	【	刪除資料 $pull	】	
+	
+amigosccode> db.student.updateOne({_id:ObjectId("65084d15cc54c4fbffa81585")},{$pull:{favouriteSubjects:'it'}});
+
+✔	【	刪除內部資料 $push	】	
+
+
+
+✔  【	真的刪除物件	deleteOne	】
+amigosccode> db.student.find({},{_id:1}).pretty()
+[
+  { _id: ObjectId("65084d15cc54c4fbffa81585") },
+  { _id: ObjectId("65085294cc54c4fbffa81586") },
+  { _id: ObjectId("65085294cc54c4fbffa81587") },
+  { _id: ObjectId("65085294cc54c4fbffa81588") },
+  { _id: ObjectId("65085294cc54c4fbffa81589") }
+]
+✔	小心刪除 如果沒打上filter criteria 會直接刪掉 deleteOne({}) 看見就刪除1個
+amigosccode> db.student.deleteOne({_id:ObjectId("65084d15cc54c4fbffa81585")});
+{ acknowledged: true, deletedCount: 1 }
+
+
+✔  【	真的刪除物件	deleteMany	】
+amigosccode> db.student.deleteMany({gender:'M'})
+{ acknowledged: true, deletedCount: 2 }
+amigosccode> db.student.find({},{gender:1,email:1})
+[
+  {
+    _id: ObjectId("65085294cc54c4fbffa81586"),
+    email: 'rkilleen@@mysql.com',
+    gender: 'F'
+  },
+  {
+    _id: ObjectId("65085294cc54c4fbffa81588"),
+    email: 'alice.smith@example.com',
+    gender: 'F'
+  }
+]
+amigosccode>
+
+
+
+
+
+	

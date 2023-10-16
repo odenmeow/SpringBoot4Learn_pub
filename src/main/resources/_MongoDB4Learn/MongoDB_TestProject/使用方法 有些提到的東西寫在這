@@ -1,0 +1,262 @@
+這邊總結用到的指令
+
+先到 C:\_MongoDB4Learn>
+
+C:\Users\qw284>cd C:\_MongoDB4Learn
+
+C:\_MongoDB4Learn>git init
+Initialized empty Git repository in C:/_MongoDB4Learn/.git/
+
+C:\_MongoDB4Learn>git add .
+
+C:\_MongoDB4Learn>git config --global user.name "Oni"
+
+C:\_MongoDB4Learn>git config --global user.eamil "qw28425382694@gmail.com"
+
+C:\_MongoDB4Learn>git remote add origin https://github.com/odenmeow/MongoDB4Learn
+
+C:\_MongoDB4Learn>git commit -m "Inintilize MongoDB4Learn!"
+
+C:\_MongoDB4Learn>git add .
+
+C:\_MongoDB4Learn>git commit -m "Inintilize MongoDB4Learn! new test"
+
+C:\_MongoDB4Learn>git push origin master
+
+編輯完畢下面 docker-compose.yaml 檔案 使用下面指令type docker-compose.yaml 在win11確保沒顯示錯誤出來。
+
+version: “3.8”
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data
+      # 这个数据卷用于存储 MongoDB 数据
+      # 数据会持久化保存在主机上的 data 卷中
+      # 即使容器停止或删除，数据仍然存在
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=rootuser
+      - MONGO_INITDB_ROOT_PASSWORD=rootpass    
+  mongo-express: 
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports: 
+      - 8081:8081
+      #這個特定的設定中， 意味著將容器內部的連接埠 映射到主機上的連接埠 。 
+      #這樣做的目的是允許從主機上通過訪問容器內部的服務
+	
+volumes:
+	data: {}
+
+networks:
+	default:
+		name: mongodb_network
+		
+		
+影片中使用 cat docker-compose.yaml 
+但我們用win11  type docker-compose.yaml 
+
+C:\_MongoDB4Learn>type docker-compose.yaml
+version: ??.8??  <-  因為我是用複製的 youtube留言格式造成
+
+自己要改成 "3.8"
+
+以上都ok後 往下做
+
+C:\_MongoDB4Learn>docker-compose -f docker-compose.yaml up  或是一個一個打指令(雖然一樣啦)
+C:\_MongoDB4Learn>docker compose -f docker-compose.yaml up
+	【如果你使用的檔案名稱是 docker-compose.yaml 那麼】
+C:\_MongoDB4Learn>docker-compose up
+parsing C:\_MongoDB4Learn\docker-compose.yaml: yaml: line 24: found character that cannot start any token
+
+有可能是因為你 【使用】 cmd wsl --update 完畢後沒有重新開電腦 不然應該就可以run了
+
+
+接下來【使用】 -d detached mode 讓他不要占用terminal也能跑
+
+mongo-express  | Server is open to allow connections from anyone (0.0.0.0)
+mongo-express  | basicAuth credentials are "admin:pass", it is recommended you change this in your config.js!
+Gracefully stopping... (press Ctrl+C again to force)
+canceled
+Aborting on container exit...
+
+C:\_MongoDB4Learn>docker-compose down
+[+] Running 3/3
+ ✔ Container mongo-express  Removed                                                                                0.6s
+ ✔ Container mongodb        Removed                                                                                0.7s
+ ✔ Network mongodb_network  Removed                                                                                0.3s
+
+C:\_MongoDB4Learn>docker-compose up -d
+[+] Running 3/3
+ ✔ Network mongodb_network  Created                                                                                0.0s
+ ✔ Container mongo-express  Started                                                                                0.1s
+ ✔ Container mongodb        Started                                                                                0.1s
+
+C:\_MongoDB4Learn>
+
+
+==========接著可能遇到 =======
+Server Status
+Turn on admin in config.js to view server stats!
+========================
+下方這小段是網路文章_
+		有同樣的問題。所以我去檢查了mongo-express-docker Github問題頁面。有人在那裡提出了一個問題。
+		顯然，docker 最新版本中的 mongo-express 是 1.0.0-alpha，沒有伺服器狀態，但 0.54.0 有它。
+		嘗試：docker pull mongo-express:0.54.0
+		然後記住用於你以後要做的任何事情。mongo-express:0.54.0
+		
+=====================================================
+【使用】docker exec -it mongo-express bash 可以進去docker自帶內部terminal
+===============================================
+然後
+【使用】 npm list express
+發現缺失依賴包之類 :npm ERR! missing: express@4.17.1, required by mongo-express@1.0.0-alpha.4
+【使用】 npm audit fix  看到有弱點什麼的 然後 npm audit fix 沒用
+【使用】 npm install 發現有些東西需要git 
+【使用】 apk add git 下載git後
+【使用】 npm install 
+ 然後found 21 vulnerabilities (5 low, 4 moderate, 8 high, 4 critical)
+ 幹林娘又有問題  上面vulnerabilites=弱點或者風險
+ 要更新 【使用】 npm audit fix  
+ 
+ 終於沒問題了)應該  其實還有6個需要更改的 
+ ====>(use `npm audit fix --force` to install breaking changes; or refer to `npm audit` for steps to fix these manually)
+ 不過 嫌麻煩先不使用了  
+ ==>
+【if使用】 docker commit [容器ID] [新容器名称]
+	好像可以保存目前鏡像 避免不見~   
+	
+我不想要操作上面小文章那個了 沒有辦法跟影片一樣就算了 沒顯示最大連線數量而已 哼。
+
+
+【使用】docker exec -it mongo-express bash 
+【使用】vm config.js 可以修改文本但是我不習慣 
+
+【使用】docker exec -it mongo-express bash 
+【使用】apk add nano 用這個比較習慣
+
+進去之後可以【使用】 ctrl+W 查找admin 會發現  另外 M-U 代表meta=alt或者esc按鈕 +U【undo】
+ admin: process.env.ME_CONFIG_MONGODB_ENABLE_ADMIN
+      ? process.env.ME_CONFIG_MONGODB_ENABLE_ADMIN.toLowerCase() === 'true'
+      : false,
+      
+ 他根據我vscode編輯的 docker-compose.yaml 內的environment 設定
+ 來決定要不要顯示  所以才會看不到統計資料(可能原因) 也可能是上面說的版本? 總之試試看吧!
+ 
+【使用】 【查找router.js】
+bash-5.0# find / -name "router.js"
+	/node_modules/mongo-express/lib/router.js
+bash-5.0#
+ 
+ 
+ 
+ 
+ 
+ 
+=============刪除environment ===========
+    environment:
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      
+      
+=======================================
+
+........
+根據我【超過六小時以上的重複試錯】 
+
+我發現  使用basic 是登入web express mongo唯一帳密
+
+至於 authenUser之類  那是讓 連進去 express mongo的basic可以以admin身分操作admin資料庫
+
+
+
+所以我還是不知道怎麼讓status顯示
+
+
+https://hub.docker.com/_/mongo-express
+建議下次先觀察官方網站手冊比較穩 這邊有講到
+Name                            | Default         | Description
+--------------------------------|-----------------|------------
+ME_CONFIG_BASICAUTH_USERNAME    | ''              | mongo-express web username
+ME_CONFIG_BASICAUTH_PASSWORD    | ''              | mongo-express web password
+ME_CONFIG_MONGODB_ENABLE_ADMIN  | 'true'          | Enable admin access to all databases. Send strings: `"true"` or `"false"`
+ME_CONFIG_MONGODB_ADMINUSERNAME | ''              | MongoDB admin username
+ME_CONFIG_MONGODB_ADMINPASSWORD | ''              | MongoDB admin password
+ME_CONFIG_MONGODB_PORT          | 27017           | MongoDB port
+ME_CONFIG_MONGODB_SERVER        | 'mongo'         | MongoDB container name. Use comma delimited list of host names for replica sets.
+ME_CONFIG_OPTIONS_EDITORTHEME   | 'default'       | mongo-express editor color theme, [more here](http://codemirror.net/demo/theme.html)
+ME_CONFIG_REQUEST_SIZE          | '100kb'         | Maximum payload size. CRUD operations above this size will fail in [body-parser](https://www.npmjs.com/package/body-parser).
+ME_CONFIG_SITE_BASEURL          | '/'             | Set the baseUrl to ease mounting at a subdirectory. Remember to include a leading and trailing slash.
+ME_CONFIG_SITE_COOKIESECRET     | 'cookiesecret'  | String used by [cookie-parser middleware](https://www.npmjs.com/package/cookie-parser) to sign cookies.
+ME_CONFIG_SITE_SESSIONSECRET    | 'sessionsecret' | String used to sign the session ID cookie by [express-session middleware](https://www.npmjs.com/package/express-session).
+ME_CONFIG_SITE_SSL_ENABLED      | 'false'         | Enable SSL.
+ME_CONFIG_SITE_SSL_CRT_PATH     | ''              | SSL certificate file.
+ME_CONFIG_SITE_SSL_KEY_PATH     | ''              | SSL key file.
+
+
+==================跟我下面步驟做:修改docker內mongo-express的檔案============
+【驚喜:GPT無用 經過https://github.com/mongo-express/mongo-express/issues/647】
+【花了約10個小時左右終於有結果了 可以顯示status了】
+
+首先https://github.com/mongo-express/mongo-express/issues/647
+
+這邊說要去找一個叫做router.js的東西 
+	【使用指令進入mongo express bash指令環境】
+C:\_MongoDB4Learn> docker exec -it mongo-express bash
+	【使用指令增加 編輯文本的小軟體】
+bash-5.0# apk add nano
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
+(1/2) Installing libmagic (5.37-r1)
+(2/2) Installing nano (4.6-r0)
+Executing busybox-1.31.1-r10.trigger
+OK: 15 MiB in 23 packages
+	【使用指令 找尋router.js 具體位置】
+bash-5.0# find / -name "router.js"
+/node_modules/mongo-express/lib/router.js
+	【使用指令可以查看 一下內容】
+bash-5.0# cat router.js
+
+	
+	【使用nano編輯文本】	
+bash-5.0# nano /node_modules/mongo-express/lib/router.js
+=============文本內============
+	【ctrl+w】輸入  mongoMiddleware 按下enter
+	找到後
+	before:
+		// mongodb mongoMiddleware
+	  	const mongoMiddleware = function (req, res, next) {
+	    req.mainClient = mongo.mainClient;
+	    req.adminDb = mongo.adminDb;
+	    req.databases = mongo.getDatabases(); // List of database names
+	    req.collections = mongo.collections; // List of collection names in all databases
+	    req.gridFSBuckets = utils.colsToGrid(mongo.collections);
+	after:
+		// mongodb mongoMiddleware
+	  	const mongoMiddleware = function (req, res, next) {
+	    req.mainClient = mongo.mainClient;
+	    req.adminDb = mongo.mainClient.adminDb || undefined;
+	    req.databases = mongo.getDatabases(); // List of database names
+	    req.collections = mongo.collections; // List of collection names in all databases
+	    req.gridFSBuckets = utils.colsToGrid(mongo.collections);
+	    
+	【only revised】
+		req.adminDb = mongo.mainClient.adminDb || undefined; 
+	【ctrl+o, enter】=>save
+	【ctrl+x】 =>exit
+=============================
+bash-5.0# 【ctrl+z】=>go out to windows terminal 
+【use】
+PS C:\_MongoDB4Learn> docker restart mongo-express
+mongo-express
+PS C:\_MongoDB4Learn> 
+【u got it】
+
+docker exec -it mongodb bash
+mongosh mongodb://localhost:27017 -u aaa -p ccc

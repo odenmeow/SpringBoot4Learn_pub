@@ -27,6 +27,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -75,8 +76,10 @@ public class UserServiceTest {
 
     @Test(expected = UsernameNotFoundException.class)
     public void testLoadSpringUserButNotFound(){
+//        Mockito.when(userDetailsService.loadUserByUsername(Mockito.anyString())) 不是你啊 是下面!!!!
         Mockito.when(repository.findByEmailAddress(Mockito.anyString()))
-                .thenThrow(new UsernameNotFoundException("找不到"));
+                .thenThrow(new NotFoundException("找不到"));  //為什麼不管丟什麼錯誤都會被變成UsernameNotFoundException
+                                                                            //現在丟NoSuchElementException 會出錯了!!
         userDetailsService.loadUserByUsername("oni@gmail.com");
     }
 

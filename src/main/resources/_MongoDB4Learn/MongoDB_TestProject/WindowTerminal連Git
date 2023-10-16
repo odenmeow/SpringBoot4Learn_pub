@@ -1,0 +1,55 @@
+Microsoft Windows [版本 10.0.22621.2283]
+(c) Microsoft Corporation. 著作權所有，並保留一切權利。
+
+C:\Users\qw284>cd C:\_MongoDB4Learn
+
+C:\_MongoDB4Learn>git init
+Initialized empty Git repository in C:/_MongoDB4Learn/.git/
+
+C:\_MongoDB4Learn>git add .
+
+C:\_MongoDB4Learn>git config --global user.name "Oni"
+
+C:\_MongoDB4Learn>git config --global user.eamil "qw28425382694@gmail.com"
+
+C:\_MongoDB4Learn>git remote add origin https://github.com/odenmeow/MongoDB4Learn
+
+C:\_MongoDB4Learn>git commit -m "Inintilize MongoDB4Learn!"
+On branch master
+
+Initial commit
+
+nothing to commit (create/copy files and use "git add" to track)
+
+C:\_MongoDB4Learn>git add .
+
+C:\_MongoDB4Learn>git commit -m "Inintilize MongoDB4Learn! new test"
+[master (root-commit) 6b9a534] Inintilize MongoDB4Learn! new test
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 fortest.txt
+
+C:\_MongoDB4Learn>git push origin master
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 234 bytes | 234.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/odenmeow/MongoDB4Learn
+ * [new branch]      master -> master
+ 
+ 
+ 
+ 
+ ==================找一下文件config到底是誰
+ C:\_MongoDB4Learn>docker exec -it mongo-express bash
+bash-5.0# find / -name "config.js"
+/usr/local/lib/node_modules/npm/lib/config.js
+/usr/local/lib/node_modules/npm/node_modules/dotenv/config.js
+/usr/local/lib/node_modules/npm/node_modules/npm-registry-fetch/config.js
+/usr/local/lib/node_modules/npm/node_modules/libnpm/config.js
+/node_modules/mongo-express/config.js
+bash-5.0# 這麼多個我怎麼知道我用nano打開誰了= =
+
+【使用】docker cp mongo-express:/node_modules/mongo-express/config.js C:\Users\
+會發現可能出現deny 之類
+那就開管理員權限Terminal! 
+ 

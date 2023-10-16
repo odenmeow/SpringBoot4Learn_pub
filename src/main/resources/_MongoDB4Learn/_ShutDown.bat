@@ -6,6 +6,7 @@ set /p user_input=shutdown(Y/N)-case insensitive:
 if /i "%user_input%"=="Y" (
     docker stop mongodb
 	docker stop mongo-express
+    docker stop mytutu
     shutdown /s /t 5
 ) else (
     echo Canceled

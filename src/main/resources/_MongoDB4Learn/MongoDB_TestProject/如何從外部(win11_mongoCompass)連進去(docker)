@@ -1,0 +1,17 @@
+
+docker exec -it mongodb bash
+mongosh mongodb://localhost:27017 -u aaa -p ccc
+
+
+
+docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" mongodb
+
+
+得到ip  192.168.112.3
+
+mongodb://aaa:ccc@localhost:27017
+
+
+回到桌面使用win+r  輸入services.msc
+
+找到Mongodb服務 關閉他 這樣就可以連進去docker內的db了
