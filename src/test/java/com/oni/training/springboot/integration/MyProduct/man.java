@@ -20,11 +20,12 @@ public class man {
             ApplicationContext ac=new AnnotationConfigApplicationContext(MyConverter.class);
 
             ((ConfigurableApplicationContext)ac).close();
+//            上面沒搞頭的樣子
             System.out.println("========anno搞完換別人搞========");
             ChildOrigin co=new ChildOrigin(null,0,0);
 
 //            hi(@Valid co);
-//          上面無效 必須要在controller才行
+//          上面無效 @Valid必須要在controller才行
 //            手動驗證
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
@@ -34,6 +35,7 @@ public class man {
             Set<ConstraintViolation<ChildOrigin>> violations = validator.validate(co);
 
             if (!violations.isEmpty()) {
+                // 失敗 會有很多消息可以遍歷
                 for (ConstraintViolation<ChildOrigin> violation : violations) {
                     System.out.println(violation.getPropertyPath() + ": " + violation.getMessage());
                 }

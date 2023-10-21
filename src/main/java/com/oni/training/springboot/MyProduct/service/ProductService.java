@@ -86,8 +86,10 @@ public class ProductService  {
     @SendEmail(entity = EntityType.PRODUCT,action = ActionType.CREATE)
     public ProductResponse createProductRtJSON(ProductRequest request){
         Product product=ProductConverter.toProduct(request);
+
         repository.insert(product);
-        product.setCreator(request.getId());
+
+        product.setCreator(userIdentity.getId());
         return ProductConverter.toProductResponse(product);
     }
 
@@ -156,7 +158,7 @@ public class ProductService  {
         String keyword=Optional.ofNullable(param.getKeyword()).orElse("");
         Integer priceFrom=Optional.ofNullable(param.getPricefrom()).orElse(0);
         Integer priceTo=Optional.ofNullable(param.getPriceto()).orElse(Integer.MAX_VALUE);
-
+        System.out.println("PriceFrom="+priceFrom+"PriceTo="+priceTo);
         Sort sort=genSortingStrategy(param.getOrderBy(), param.getSortRule());
         System.out.println("keyword"+keyword+priceFrom+priceTo);
         List<Product> list= repository.findByPriceBetweenAndNameLikeIgnoreCase(priceFrom,priceTo,keyword,sort);

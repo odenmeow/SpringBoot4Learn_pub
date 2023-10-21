@@ -24,19 +24,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@RunWith(MockitoJUnitRunner.class)
+
+// @RunWith(SpringRunner.class)  使用這個沒有用 因為這邊玩的是mock
 // 不想要自己配置 想使用springboot 使用的@Autowired UserdetailsService的話
 
 // 下面兩個都會依賴外部 ， 一個是依賴部分 一個是完全載入
-@ContextConfiguration(classes = ApplicationConfig.class) // <先提到，帶過就好>
-// @SpringBootTest 使用這個可以搭配@Autorwired 但是這樣就依賴外部了
-@SpringBootTest
+// @ContextConfiguration(classes = ApplicationConfig.class) // <先提到，帶過就好> 不使用也能pass
+// @SpringBootTest 使用這個會啟動整個專案(使用TEST 的 properties 供測試)
+
+@RunWith(MockitoJUnitRunner.class)   //總之發現只需要這個就可以模擬測試Spring Bean了
 public class UserServiceTest {
 
 //    @Mock的成員變數會被注入mock物件，也就是假的物件。
@@ -46,9 +49,19 @@ public class UserServiceTest {
 //    @InjectMock 會真的去找對像來注入 但是跟上述說的一樣 只會引入第一層相依，更多就無效。
     @Mock
     private AppUserRepository repository; // 被塞進去applicationConfig <以模擬之姿>
-
     @InjectMocks
+
     private ApplicationConfig applicationConfig; // 依賴的依賴不會被處理 這一點要小心喔
+
+    /*
+            使用 @Autowired  然後拿除@InjectMocks改用 @ContextConfiguration +@Before => @PosrConstruct
+            確實會注入 applicationConfig不至於null
+            但是 mock的repository 就無效了(不會注入到InjectMocks) ，這會導致後續的失靈
+            也就是 後面使用 loadUserbyUserName的方法的時候 原本會使用repository.findByEmailAddress....(這個repo原本是注入的)
+            會被替換 但是沒有用InjectMock 就不會被替換進去 而是使用原始天然的
+            加上 沒啟用SpringBootTest 沒跟資料庫連線 所以也不可能找到AppUser對象 直接壞掉
+     * */
+
 
     @Mock
     private UserDetailsService userDetailsService;

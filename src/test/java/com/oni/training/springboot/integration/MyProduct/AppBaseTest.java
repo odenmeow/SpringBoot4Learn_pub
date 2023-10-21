@@ -39,8 +39,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RunWith(SpringRunner.class)
 //@RunWith(SpringRunner.class)：用于在Spring应用程序中运行测试。它允许测试类与Spring框架集成，并使用Spring的功能，如依赖注入和事务管理。
-@SpringBootTest  //因為這個所以會啟用 @SpringBootApplication 這對像 啟動整個項目
 @AutoConfigureMockMvc //當你使用 @AutoConfigureMockMvc 時，Spring Boot將自動設定一個MockMvc實例，並注入到測試類中。
+//因為springBootTest所以會啟用 @SpringBootApplication 這對象 啟動整個項目
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
 public class AppBaseTest {
 
     @Autowired
@@ -59,10 +61,10 @@ public class AppBaseTest {
     protected HttpHeaders httpHeaders;
     protected final ObjectMapper mapper=new ObjectMapper();
 
-
+    protected final String USER_PASSWORD="123456";
 
     @Before
-    public void init(){
+    public void initHttpHeaders(){
         httpHeaders=new HttpHeaders();
         httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
     }

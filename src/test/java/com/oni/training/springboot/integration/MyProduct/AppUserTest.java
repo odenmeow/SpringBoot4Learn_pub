@@ -11,8 +11,11 @@ import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -26,6 +29,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AppUserTest extends AppBaseTest {
 
     private final String URL_USER="/users";
+
+
+    @Test
+    public void testAuthenticate() throws Exception {
+
+        logout();
+        AppUserRequest appUserRequest= AppUserRequest.builder()
+                .emailAddress("qw28425382694@gmail.com")
+                .password(USER_PASSWORD)
+                .name("onini666").build();
+        AuthResponse authResponse= createUser(appUserRequest);
+        MvcResult body=    mockMvc.perform(
+                            MockMvcRequestBuilders.post("/users/authenticate")
+                                    .headers(httpHeaders)
+                                    .content(authResponse.toString()))
+                            .andExpect(status().isOk())
+                            .andReturn();
+        System.out.println(body.getResponse());
+
+
+    }
+
 
     @Test
     public void testCreateUser() throws Exception {

@@ -94,7 +94,7 @@ public class ProductController {
         }else {
             System.out.println("進來了(ProductQueryParameter)");
             List<ProductResponse> products = productService.getProductsRtJSON(param);
-            products=productService.getProductsRtJSON(param);
+//            products=productService.getProductsRtJSON(param);
 //                    >> proxyMode=Target.Class  如果調用兩次會多產生一個ProductService出來
 //                   .  >>  this.hashcode 表示 這兩個方法所使用的productService 不同! 雖然引用的Repo是同一個
             System.out.println("準備出去");

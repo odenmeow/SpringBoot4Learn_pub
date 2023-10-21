@@ -52,7 +52,8 @@ public class SendEmailAspect {
     @Pointcut("@annotation(com.oni.training.springboot.MyProduct.aop.SendEmail)")
     public void pointcut(){
     }
-
+//     擁有注解的方法如果發生例外 則不會觸發這邊 而應該使用@AfterThrowing
+//     或者不管錯誤 就是要做 那也能考慮 @After
     @AfterReturning(pointcut = "pointcut()",returning = "result")
     public void sendEmail(JoinPoint joinPoint,Object result) throws Exception {
 

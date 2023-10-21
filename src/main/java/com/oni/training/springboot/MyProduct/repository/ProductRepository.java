@@ -15,7 +15,13 @@ public interface ProductRepository extends MongoRepository<Product,String> {
 
     List<Product> findByNameLike(String productName);
     List<Product> findByNameLikeIgnoreCase(String name, Sort sort);
+
+//  Query怎填入 自己查資料很多 gpt也可以快速輔助
+    @Query("{'$and': [{'price': {'$gte': ?0, '$lte': ?1}}, {'name': {'$regex': ?2, '$options': 'i'}}]}")
     List<Product> findByPriceBetweenAndNameLikeIgnoreCase(int priceFrom,int priceTo,String keyword,Sort sort);
+
+//    下面這傢伙 between居然跟MySQL 不同 不會包含兩個輸入數字本身
+//    List<Product> findByPriceBetweenAndNameLikeIgnoreCase(int priceFrom,int priceTo,String keyword,Sort sort);
 
 //    因為以下是類似宣告field的事情 ，只是常量並無不可。
 //    Sort sort = Sort.by(

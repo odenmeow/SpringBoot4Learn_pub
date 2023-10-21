@@ -48,7 +48,8 @@ public class AppUserController {
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> UserLogin(@Valid @RequestBody AuthRequest body){
-        System.out.println(body.getEmail());
+        System.out.println(repository.findByEmailAddress(body.getEmail()));
+        System.out.println("印出從裡面印出的 不見得真有"+body.getEmail());
         AuthResponse response=service.authenticate(body);
         System.out.println(response.getToken());
         return ResponseEntity.ok(response);
