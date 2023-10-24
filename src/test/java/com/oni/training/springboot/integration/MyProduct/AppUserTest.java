@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
@@ -40,10 +41,21 @@ public class AppUserTest extends AppBaseTest {
                 .password(USER_PASSWORD)
                 .name("onini666").build();
         AuthResponse authResponse= createUser(appUserRequest);
+//        我們要傳入的應該是 AuthRequest 唷
+//        System.out.println("注意我"+mapper.writeValueAsString(authResponse));
+//        System.out.println("注意我"+mapper.writeValueAsString(appUserRequest));
+//        System.out.println("注意我"+appUserRequest.toString());
+//        建造AuthRequest作為傳入!
+
+        AuthRequest authRequest= AuthRequest.builder()
+                .email(appUserRequest.getEmailAddress())
+                .password(appUserRequest.getPassword())
+                .build();
         MvcResult body=    mockMvc.perform(
                             MockMvcRequestBuilders.post("/users/authenticate")
                                     .headers(httpHeaders)
-                                    .content(authResponse.toString()))
+//                                    .content(authResponse.toString()))
+                                    .content(mapper.writeValueAsString(authRequest)))
                             .andExpect(status().isOk())
                             .andReturn();
         System.out.println(body.getResponse());

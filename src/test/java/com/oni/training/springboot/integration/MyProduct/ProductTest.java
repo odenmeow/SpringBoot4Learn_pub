@@ -182,6 +182,7 @@ public class ProductTest {
                         .param("keyword","Manage")
                         .param("orderBy","price")
                         .param("sortRule","asc")
+                        .param("pricefrom","100")   //2023/10/23新增 (CH23)
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -213,10 +214,21 @@ public class ProductTest {
                                         .param("keyword","Manage")
                                         .param("orderBy","price")
                                         .param("sortRule","asc")
+                                        .param("pricefrom","100")
                             ).andReturn();
-        MockHttpServletResponse mockResponse=result.getResponse();
+        MockHttpServletResponse mockResponse=result.getResponse(); //拆開理解 先有這位 再來才是.getContentAsString()唷
         String responseJSONStr=mockResponse.getContentAsString();
-        JSONArray productJSONArray=new JSONArray(responseJSONStr);
+        JSONArray productJSONArray=new JSONArray(responseJSONStr); // 錯誤原因是 輸出400 然後自帶錯誤訊息處理
+        // 如果沒有增加上.param("pricefrom",100") =>失敗
+        // 然後會會傳錯誤訊息
+        //{
+        //      "path":"\/products",
+        //      "error":"Bad Request",
+        //      message":
+        //           {"pricefrom":"æ²æå¡«å¥è¢«è¨­çºnullä¸å¯ä»¥"},
+        //      "timestamp":"2023-10-23T19:35:14.411572400","status":"400"
+        // }
+//       如果直接想要轉成 JSONArray 會出錯  因為他不是數組 [  {} ,{} , {}] 這種形式!!
 
 
         List<String> productIds=new ArrayList<>();

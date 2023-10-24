@@ -153,9 +153,29 @@
 
 
 
+<!--			加入之後會發生一串錯誤，主要是controller相關的啟動後，會有找不到方法問題-->
+<!--		'io.github.classgraph.ClassGraph io.github.classgraph.ClassGraph.acceptPaths(java.lang.String[])'-->
+<!--		這邊使用最新版本吧 1.7.0-->
+<!--		<dependency>-->
+<!--			<groupId>org.springdoc</groupId>-->
+<!--			<artifactId>springdoc-openapi-ui</artifactId>-->
+<!--			<version>1.7.0</version>-->
+<!--		</dependency>-->
+<!--		透過下面這位解出來了 不過需要上面原本作者提供的先block起來-->
+<!--		https://medium.com/@f.s.a.kuzman/using-swagger-3-in-spring-boot-3-c11a483ea6dc -->
+<!--		http://localhost:8080/swagger-ui/index.html#/ -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.0.2</version>
+		</dependency>
 
-
-
+<!--				試圖加入下面這個試試看-->
+		<dependency>
+			<groupId>io.github.classgraph</groupId>
+			<artifactId>classgraph</artifactId>
+			<version>4.8.139</version>
+		</dependency>
 
 
 	</dependencies>

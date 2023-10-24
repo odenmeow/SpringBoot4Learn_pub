@@ -39,6 +39,9 @@ SpringbootApplication {
 // alt+9 叫出 log (Git)的
 // ctrl+alt+l 自動格式 相當於ctrl+shift+f (eclipse)
 // Ctrl+W expand 選取範圍
+// Editor > Inlay hint 關閉 提示
+
+
 
 //	Ctrl + Alt + V。 introduce to local variable
 //	@GetMapping

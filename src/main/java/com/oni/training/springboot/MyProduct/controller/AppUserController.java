@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/users",produces = MediaType.APPLICATION_JSON_VALUE)
-public class AppUserController {
+public class AppUserController implements AppUserControllerApi {
     //TODO 看能不能添加   1.黑名單功能 2.Token ReLogin  => disable old one.
 
     @Autowired
@@ -46,6 +46,7 @@ public class AppUserController {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
+    @Override
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> UserLogin(@Valid @RequestBody AuthRequest body){
         System.out.println(repository.findByEmailAddress(body.getEmail()));
@@ -54,6 +55,7 @@ public class AppUserController {
         System.out.println(response.getToken());
         return ResponseEntity.ok(response);
     }
+    @Override
     @PostMapping
     public ResponseEntity<AuthResponse> createUser(@Valid @RequestBody AppUserRequest request){
 
@@ -73,27 +75,31 @@ public class AppUserController {
 //        AppUserResponse user= service.getUserResponseById(id);
 //        return ResponseEntity.ok(user);
 //    }
+    @Override
     @GetMapping("/GetEmails")
     public ResponseEntity<List<String>> getEmailsByAdminToken(){
         List<AppUser> users=repository.findAll();
         List<String> emails=users.stream().map(AppUser::getEmailAddress).collect(Collectors.toList());
         return ResponseEntity.ok(emails);
     }
+    @Override
     @GetMapping("/GetUserDetail")
     public ResponseEntity<AppUser> getByEmail(@RequestParam("email") String email){
         Optional<AppUser> optionalAppUserUser=repository.findByEmailAddress(email);
         AppUser appUser= optionalAppUserUser.orElseThrow(()->new NotFoundException("找不到該用戶"));
         return ResponseEntity.ok(appUser);
     }
+    @Override
     @GetMapping(value = "/username")
     public String getUsername(Authentication authentication) {
         String username = authentication.getName();
         System.out.println(username); // user
         return username;
     }
+    @Override
     @GetMapping(value = "/test/ByPass/addRole")
     public ResponseEntity<AppUser> setUserAuthRole(@RequestParam(value = "email") String email,
-                                  @RequestParam(value = "role") String role
+                                                   @RequestParam(value = "role") String role
 
     ){
        Optional <AppUser> opuser=repository.findByEmailAddress(email);

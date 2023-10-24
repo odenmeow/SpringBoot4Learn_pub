@@ -10,6 +10,7 @@ import com.oni.training.springboot.MyProduct.auth.auth_user.SpringUser;
 import com.oni.training.springboot.MyProduct.entity.app_user.*;
 import com.oni.training.springboot.MyProduct.repository.AppUserRepository;
 import com.oni.training.springboot.WebExceptions.ConflictException;
+import com.oni.training.springboot.WebExceptions.NotFoundException;
 import com.oni.training.springboot.WebExceptions.UnprocessableEntityException;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
@@ -62,6 +63,8 @@ public class AuthenticationService {
                 .build();
     }
     public AuthResponse authenticate(AuthRequest request){
+        // 不放這邊會被 Manager先攔截 就不知道誰錯誤了@@ 反而需要另外去設置
+        var user=repository.findByEmailAddress(request.getEmail()).orElseThrow(()->{throw  new NotFoundException("找不到該信箱");});
 
         //  SpringSecurity不鼓勵自己寫驗證方法 建議用這
         authenticationManager.authenticate(
@@ -70,7 +73,9 @@ public class AuthenticationService {
                     request.getPassword()
                 )
         );
-        var user=repository.findByEmailAddress(request.getEmail()).orElseThrow();
+//        【2023/10/24】 如果只有throw 會被歸類到403  ! 使用自定義 ControllerAdvice
+//        var user=repository.findByEmailAddress(request.getEmail()).orElseThrow();
+
         SpringUser springUser=new SpringUser(user);
         var jwtToken=jwtService.generateToken(springUser);
         return AuthResponse.builder()

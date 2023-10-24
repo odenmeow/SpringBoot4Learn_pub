@@ -27,13 +27,32 @@ public class SecurityConfig  {
     private final AuthenticationProvider authenticationProvider;
     @Autowired
     private final JwtAuthFilter jwtAuthFilter;
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "v3",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/v3/api-docs.yaml",
 
+            // other public endpoints of your API may be appended to this array
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequest->
                         authorizeRequest
+                                // 2023/10/23 新增白名單 讓 網頁可以連swagger
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers(AUTH_WHITELIST).permitAll()
                                 .requestMatchers(HttpMethod.GET,"/users/GetEmails").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/users/authenticate").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/users/GetUserDetail").hasAuthority(UserAuthority.ADMIN.name())

@@ -1,0 +1,522 @@
+
+
+
+
+	【主要問題卡在】
+		1. 安裝jdk
+		2. maven 測試需要 版本低的<plugin>
+					            <groupId>org.apache.maven.plugins</groupId>
+					            <artifactId>maven-surefire-plugin</artifactId>
+					            <version>2.21.0</version> <!-- 使用2.21版本或更旧版本 -->
+							</plugin>
+		3. mongodb根mytutu要溝通 
+		
+		
+
+
+
+找個資料夾 然後 cmd切換過去			>	docker pull ubuntu
+
+然後							>	docker run -it --name mytutu ubuntu
+				
+
+更新才找得到jdk17				>	apt update		
+
+							>	apt install -y openjdk-17-jdk  
+				
+							.
+							.
+							.
+
+
+出現錯誤需要						>	apt-get update
+
+
+重新安裝JDK					>	apt install -y openjdk-17-jdk  
+							
+						
+				
+				
+							>	java -version
+							
+							>	mkdir my-github-projects
+							>	cd my-github-projects
+							
+							
+							
+							
+先安裝git						>	apt-get install git
+							
+							
+Clone不能克隆分支				>	git clone https://github.com/ntub46010/SpringBootTutorial.git
+							
+							>	cd SpringBootTutorial
+							>	git checkout Ch21-fin
+							
+							
+文字編輯器						>	apt-get install nano
+							
+需要maven構建SpringBoot		>	apt install maven
+
+	
+	
+	
+	
+接下來就是落落長 你會很怕他出錯阿哈哈哈	>	mvn test        	注意路徑應該是/my-github-projects/SpringBootTutorial#  <這邊打字>
+
+
+
+
+
+							>	mvn test -Dtest=YourTest   "YourTest"是 測試類的名稱
+							
+							>			 -Dtest=YourTestClass#yourTestMethod
+							
+							
+							
+							>	mvn test -Dtest=UserServiceTest#testLoadSpringUserButNotFound
+							
+							
+							
+							
+							你會發現怎麼測試都無法測試成功 文章在這邊
+							
+							https://www.cnblogs.com/shoufeng/p/16223777.html
+							
+							
+							
+							
+	編輯pom.xml				>	nano pom.xml
+
+								
+							
+	往內添加					> 			<plugin>
+								            <groupId>org.apache.maven.plugins</groupId>
+								            <artifactId>maven-surefire-plugin</artifactId>
+								            <version>2.21.0</version> <!-- 使用2.21版本或更旧版本 -->
+								        </plugin>
+							
+										"可以使用2.21測試才會被執行 具體自己看文章"
+	
+							>	mvn clean install 		再試試看
+	
+	
+	
+	【DOCKER  保存鏡像 方法】		>	docker start mytutu     "確保執行中"
+	
+							>	docker commit mytutu mytutu-image						"註冊"
+							
+							>	docker images											"查看有哪些"
+							
+							>	docker save -o mytutu-image.tar mytutu-image			"保存到c:/_ubantu"
+							
+							>	docker load -i mytutu-image-image.tar							"以後使用就這樣用"
+	
+	
+	{改動Test的properties}		>	/my-github-projects/SpringBootTutorial/src/test/resources#  nano application.properties
+
+	
+								spring.data.mongodb.uri=mongodb://aaa:ccc@localhost:27017
+								spring.data.mongodb.database=demoT							"內容修改一下因為我資料庫不同於作者"
+	
+	
+	{MONGODB}				> 	"外面的mongodb service請記得關閉  win+R 輸入services.msc 手動關閉"
+	
+	
+	
+	
+	"	不起作用 依舊無法連線到 MONGODB		"
+	
+							>	C:\Users\qw284> 
+									docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb
+									172.18.0.3
+								
+								spring.data.mongodb.uri=mongodb://aaa:ccc@localhost:27017      "改成使用ip \ 容器name:mongodb"
+	
+	
+				
+	
+	"	可能是只有允許127.0.0.1本機	"
+	"   ipconfig 設定看看			"
+							>	CMD  
+							>	docker exec -it mongodb bash
+							
+							
+							>	apt-get update							"總之先更新"
+							
+							>	apt-get install nano					"文字編輯器"
+							>	find / -name "mongod.conf"				"不給搜尋呢!"
+	
+																	
+							>	nano /etc/mongod.conf
+							
+							
+							
+							
+							
+========================		如果打算全新 才使用 	==================================							
+	"詳細講解docker Ip"		https://juejin.cn/post/6844903847383547911  
+							
+							>	"依舊錯誤"
+							>	"當初的compose file還記得嗎"
+							
+							
+								version: "3.8"
+								services:
+								  mongodb:
+								    image: mongo
+								    container_name: mongodb
+								    ports:
+								      - 27017:27017
+								    volumes:
+								      - data:/data
+								    environment:
+								      - MONGO_INITDB_ROOT_USERNAME=aaa
+								      - MONGO_INITDB_ROOT_PASSWORD=_55$22AC76ccc
+								      - MONGO_INITDB_DATABASE=admin
+								  mongo-express:
+								    image: mongo-express
+								    container_name: mongo-express
+								    restart: always
+								    ports:
+								      - 8081:8081
+								    environment:
+								      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+								      - ME_CONFIG_BASICAUTH_USERNAME=bbb
+								      - ME_CONFIG_BASICAUTH_PASSWORD=bbb
+								      - ME_CONFIG_MONGODB_ENABLE_ADMIN:true
+								      - ME_CONFIG_MONGODB_ADMINUSERNAME=aaa
+								      - ME_CONFIG_MONGODB_ADMINPASSWORD=_55$22AC76ccc
+								      - ME_CONFIG_MONGODB_SERVER=mongodb
+								      - useBasicAuth=true
+								      
+								volumes:
+								  data: {}
+								networks:
+								  default:
+								    name: mongodb_network
+							
+							>	"我猜應該可以透過 更改 開放所有人連線進入27017 而不是只有127.0.0.1本電腦 "
+								ports:
+								      - 27017:27017 "
+								      
+							>	ports:
+								      - 0.0.0.0:27017:27017
+							
+							
+							
+		{使用自製的新規則}		>	
+		
+								version: "3.8"
+								services:
+								  mongodb:
+								    image: mongo
+								    container_name: mongodb
+								    ports:
+								      - 27017:27017
+								    volumes:
+								      - data:/data
+								    environment:
+								      - MONGO_INITDB_ROOT_USERNAME=aaa
+								      - MONGO_INITDB_ROOT_PASSWORD=_55$22AC76ccc
+								      - MONGO_INITDB_DATABASE=admin
+								  mongo-express:
+								    image: mongo-express
+								    container_name: mongo-express
+								    restart: always
+								    ports:
+								      - 8081:8081
+								    environment:
+								      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+								      - ME_CONFIG_BASICAUTH_USERNAME=bbb
+								      - ME_CONFIG_BASICAUTH_PASSWORD=bbb
+								      - ME_CONFIG_MONGODB_ENABLE_ADMIN:true
+								      - ME_CONFIG_MONGODB_ADMINUSERNAME=aaa
+								      - ME_CONFIG_MONGODB_ADMINPASSWORD=_55$22AC76ccc
+								      - ME_CONFIG_MONGODB_SERVER=mongodb
+								      - useBasicAuth=true
+								
+								  mytutu:
+								    image: ubuntu
+								    container_name: mytutu
+								    networks:
+								      - default
+								    # 其他配置...
+								      
+								volumes:
+								  data: {}
+								
+								networks:
+								  default:
+								    name: mongodb_network
+							
+							>	使它們連線到同一個網路 		
+							
+							
+							>	docker-compose -f MongoTutu.yml up -d     
+							
+========================		如果打算全新 才使用上述	==================================
+
+		上面是文件配置的時候讓他們 通網路
+
+		手動讓他們溝通			>	docker network create my-network
+							
+							>	docker network connect my-network mytutu
+		
+							>	docker network connect my-network mongodb
+
+		
+		接下來會成功喔
+		
+							>	spring.data.mongodb.uri=mongodb://aaa:ccc@mongodb:27017    "回去改src/test/resourecs/properties"
+							
+							>   切回 SpringBootTutorial 目錄 ( 專案根目錄 ) 
+							
+							>	mvn clean test  
+							
+							>	成功!
+
+
+							>	cd /my-github-projects/SpringBootTutorial/src/test/java/com/vincent/demo/unit/  
+							
+							>	nano UserServiceTest.java
+							
+								加入 import java.util.NoSuchElementException;
+								
+								還有修改 
+	
+								 @Test(expected = UsernameNotFoundException.class)
+								    public void testLoadSpringUserButNotFound() {
+								        when(appUserService.getUserByEmail(anyString()))
+								                .thenThrow(new NoSuchElementException());
+								
+								        springUserService.loadUserByUsername("vincent@gmail.com");			"ctrl+s 保存 ctrl+X退出"
+								    }
+								"ctrl+s 保存 ctrl+X退出"    
+								    
+								    
+	因為我想要知道拋出任何都會被PASS	>	如果PASS 代表 springUserService.loadUserByUsername 不是執行模擬而是真的執行然後發生錯誤 
+	
+	
+							>	mvn test -Dtest=UserServiceTest#testLoadSpringUserButNotFound
+							
+							
+		"""		他的好像是真的拋出我要求的錯誤				看起來應該是我這邊有問題?	"
+		
+		
+		"""		自己去看吧 主要原因出在  他把mock注入 然後引用的時候是mock在SpringUser內作動 所以 
+		
+		"""		appUserService.getUserByEmail(username); 這邊是注入的模擬物件拋出錯誤 然後被try捕捉  
+				如下所示 	因此跟我不同
+		
+				public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+			        try {
+			            AppUser appUser = appUserService.getUserByEmail(username);
+			            return new SpringUser(appUser);
+			        } catch (NotFoundException e) {
+			            throw new UsernameNotFoundException("Username is wrong.");
+			        }
+			    }
+		
+		
+		
+
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.vincent.demo.unit.UserServiceTest
+[ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.321 s <<< FAILURE! - in com.vincent.demo.unit.UserServiceTest
+[ERROR] testLoadSpringUserButNotFound(com.vincent.demo.unit.UserServiceTest)  Time elapsed: 0.278 s  <<< ERROR!
+java.lang.Exception: Unexpected exception, expected<org.springframework.security.core.userdetails.UsernameNotFoundException> but was<java.util.NoSuchElementException>
+        at com.vincent.demo.unit.UserServiceTest.testLoadSpringUserButNotFound(UserServiceTest.java:58)
+
+[INFO]
+[INFO] Results:
+[INFO]
+[ERROR] Errors:
+[ERROR]   UserServiceTest.testLoadSpringUserButNotFound ?  Unexpected exception, expecte...
+[INFO]
+[ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.790 s
+[INFO] Finished at: 2023-10-16T16:08:32Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.21.0:test (default-test) on project demo: There are test failures.
+[ERROR]
+[ERROR] Please refer to /my-github-projects/SpringBootTutorial/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date]-jvmRun[N].dump, [date].dumpstream and [date]-jvmRun[N].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+
+
+【2023/10/23 網路溝通mongodb問題、讓外網可以連接mytutu】
+    【事件】
+        先在mytutu做點事情，之後我想要做個鏡像 然後重新run的時候 暴露port出去 8087:8080  外面8087對應裡面8080這樣子
+        然後還有要讓mongodb能夠跟我的mytutu和等新的Container互相連接 。
+    【手動讓他們溝通】			>	docker network create my-network
+
+    							>	docker network connect my-network mytutu
+
+    							>	docker network connect my-network mongodb
+
+    							>   等會 創建新的容器後 它也要記得加入
+    Dokcer Inspect 下面會找得到 自己創的 網路  然後 找到ip  我下面的是mongodb的 ip
+    "tutuNetwork": {
+    				"IPAMConfig": {},
+    				"Links": null,
+    				"Aliases": [
+    					"0e9e7b6de2c5"
+    				],
+    				"NetworkID": "07abfbcda81c6b302821eaa8eb46739428aa237c348afd60797a9e944af8a0d6",
+    				"EndpointID": "a77b9db10dfa4e7d71a062f75366f1493270af0302fe111696cea3602bbe3ed2",
+    				"Gateway": "172.20.0.1",
+    				"IPAddress": "172.20.0.3",
+    				"IPPrefixLen": 16,
+    				"IPv6Gateway": "",
+    				"GlobalIPv6Address": "",
+    				"GlobalIPv6PrefixLen": 0,
+    				"MacAddress": "02:42:ac:14:00:03",
+    				"DriverOpts": {}
+    			}
+        切換過去
+            > root@6538b21cb6f8:/my-github-projects/SpringBootTutorial/src/main/resources#
+            > cd /my-github-projects/SpringBootTutorial/src/main/resources
+        修改連線資料
+            > nano application.properties
+        內容改成
+            > spring.data.mongodb.uri=mongodb://aaa:ccc@172.20.0.3:27017
+
+        跑 mvn spring-boot:run 試試看
+            > cd /my-github-projects/SpringBootTutorial/
+            > mvn spring-boot:run
+
+    【會發現外面PostMan無法連線 因為沒有暴露 8087:8080】
+    >>>> 下面有描述怎麼做 【DOCKER  保存鏡像 方法】
+        ...
+        ..
+        .
+        > docker run -it -p 8087:8080 mytutu-image                      "成功建立了"
+
+        剛剛說要加入 docker network connect my-network 新容器名稱
+        docker ps  可以找到新容器名稱
+        加入了才能夠透過剛剛的ip 172.20.0.3 連線喔  ( 因為我是已經做完改動properties才複製 所以不用在做事了)
+        接下來直接 mvn spring-boot:run
+        結束。
+
+【2023/10/23 SWAGGER】 不用跟著做沒關係 沒太多意義 因為失敗 最重要只有docker run -it -p 8087:8080 mytutu-image
+
+
+
+
+mvn spring-boot:run
+【2023/10/23】  動作: 想要拿原po的 springboot測試，用docker開啟然後使用外面連進去裡面，並且在外面看swagger能否用
+
+            dokcer stop mytutu
+            docker run -d -p 8087:8080 mytutu
+            無法如同上這面這樣做
+            必須剛開始部屬就好好使用 所以必須刪除  但是之前我們應該有備份 所以拿備份來重新佈署
+            部屬的時候加上規則就可以了
+
+【我不刪除舊的 ， 直接新增一個mytutu2】
+
+        <讀取檔案>
+
+                docker load -i mytutu-image.tar
+
+        <命名叫做mytutu2 並且指定port>
+
+                docker run -d -p 8087:8080 --name mytutu2 tutu2-image
+
+
+【DOCKER  保存鏡像 方法】		>	docker start mytutu     "確保執行中"
+
+							>	docker commit mytutu mytutu-image						"註冊"
+
+							>	docker images											"查看有哪些"
+
+							>	docker save -o tutu2-image.tar mytutu-image			"保存到c:/_ubantu"
+
+							>	docker load -i tutu2-image.tar
+
+                PS C:\_ubantu> docker load -i tutu2-image.tar
+                Loaded image: mytutu-image:latest    <<<< 跟我存檔名稱不同 他還是依造他自己的規則 唷!!
+
+                > 使用 docker run -d -p 8087:8080 --name mytutu2 mytutu-image
+
+
+                ========================= 以上可能都沒用 ， 試試看換指令 =============
+                >  docker run -it mytutu-image
+
+                > 但我們需要更改port
+
+                > docker run -it -p 8087:8080 mytutu-image
+
+應該可以正常使用了
+
+                > mvn spring-boot:run
+
+
+
+                【異常關閉 port被占用 ， GPT 幫忙一下喔】
+                >   ps aux | grep java          找出 誰被占用 訊息交給gpt 跟他說要刪除
+                >  kill (數字)                    就可以重新再run了
+
+                【除錯模式】
+                > mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.error.include-message=always"
+
+                【退出好像是ctrl+c】
+
+                【CURL 工具 安裝 使用他來 shell內 測試Post】
+
+                apt install curl
+
+                >
+                【使用 java jar 運行 而非 mvn ， 先讓mytutu建構程序】
+                > mvn clean install
+                > 建完之後
+                    >   java -jar target/demo-0.0.1-SNAPSHOT.jar   自己觀察 應該預設生成這個沒錯
+
+                =====================       【啟動了 發現還是沒有 ， 原來是被騙了 branch 26 -fin 根本沒有內容 ================
+                ======================================================================================================
+
+
+沒事，重新抓取clone另外一份吧 乖   < 不用抓 因為裡面根本沒有ch23給我用  !!! 不玩了 放棄
+
+                root@17637099d79b:/my-github-projects/20231023/SpringBootTutorial# git branch -a
+                * Ch26-fin
+                  remotes/origin/Ch1
+                  remotes/origin/Ch10
+                  remotes/origin/Ch11
+                  remotes/origin/Ch12
+                  remotes/origin/Ch13-fin
+                  remotes/origin/Ch13-start
+                  remotes/origin/Ch14
+                  remotes/origin/Ch15-fin
+                  remotes/origin/Ch15-start
+                  remotes/origin/Ch16
+                  remotes/origin/Ch17-fin
+                  remotes/origin/Ch17-start
+                  remotes/origin/Ch18
+                  remotes/origin/Ch19
+                  remotes/origin/Ch20
+                  remotes/origin/Ch21-fin
+                  remotes/origin/Ch21-start
+                  remotes/origin/Ch22
+
+
+
+
+                ========SWAGGER 只能另外自己想辦法 找到原因 ================
+
+【2023/10/23 以上】
+
+
+

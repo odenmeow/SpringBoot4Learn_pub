@@ -1,0 +1,35 @@
+
+
+跟下面學習
+https://medium.com/@f.s.a.kuzman/using-swagger-3-in-spring-boot-3-c11a483ea6dc
+網址  http://localhost:8080/swagger-ui/index.html#/
+
+Swagger 是一個用於構建、文檔和測試 RESTful Web 服務的強大工具。 它有助於開發人員和團隊更輕鬆地設計、實施和維護 API。 Swagger 提供了許多註解（@Annotations）來指導 API 文檔的生成，以及可以在運行時進行互動式測試和探索的用戶介面。
+
+以下是一些常用的 Swagger 注解及其用途：
+
+    @Api：用於對整個 API 進行描述，包括 API 名稱、描述和版本。
+
+    @ApiOperation：用於對 API 操作（即方法）進行描述，包括操作的名稱、描述、HTTP 方法（GET、POST、PUT、DELETE 等）以及其他屬性。
+
+    @ApiParam：用於對操作參數進行描述，包括參數名稱、描述、是否必需等資訊。
+
+    @ApiResponse：用於對操作回應進行描述，包括響應的狀態碼、描述和回應模型。
+
+    @ApiModel：用於對數據模型進行描述，包括模型的名稱、屬性、描述等。
+
+    @ApiModelProperty：用於對模型屬性進行描述，包括屬性名稱、描述、範例值等。
+
+    @ApiIgnore：用於忽略特定的 API 操作或模型，通常用於隱藏不需要在文檔中顯示的內容。
+
+    @ApiImplicitParam：用於指定請求參數的額外資訊，如參數類型、數據格式等。
+
+    @ApiImplicitParams：用於為操作指定多個輸入參數。
+
+    @ApiResponses：用於為操作指定多個回應。
+
+    @ApiError：用於描述 API 操作可能引發的錯誤。
+
+    @ApiOperationSupport：用於為操作提供額外的支援，如排序、分頁等。
+
+這些註解使開發人員能夠通過代碼描述 API 和數據模型，然後 Swagger 根據這些註解生成互動式文檔，使用者可以使用 Swagger UI 進行測試和探索。 這些文件還可以用於協作、交流和自動化生成用戶端 SDK。

@@ -31,7 +31,7 @@ import java.util.*;
 // 似乎會讓方法都變成JSON表示  原本String 應該直接傳回字串吧?
 // 讓所屬類別加上路徑
 // docker連線測試的時候使用mongosh mongodb://localhost:27017 -u aaa -p ccc
-public class ProductController {
+public class ProductController implements ProductControllerApi {
     private ProductService productService;
 
 
@@ -41,13 +41,17 @@ public class ProductController {
         this.productService=productService;
     }
 
+
+
     // 按照 REST GET POST PUT DEL 放置，然後按先後盡量。
+    @Override
     @GetMapping("/hi")
     public String hi(@RequestParam(value = "myname") String name){
         return name;
     }
 
     // CH12 不同於 CH11 (Method Changed)
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") String id){
         ProductResponse product=productService.getProductResponse(id);
@@ -69,8 +73,9 @@ public class ProductController {
 //    }
     // CH12-2  改變消息 更精細 fine-grained
     // postman localhost:8080/products?orderBy=price&keyword=&sortRule=desc&pricefrom=&priceto=
+    @Override
     @GetMapping  // 這邊ModelAttribute 傳入GET 其實也是解析 ?a="a"&b="b"而已
-    public ResponseEntity<?> getProducts( @Valid @ModelAttribute ProductQueryParameter param,Errors errors) throws JsonProcessingException {
+    public ResponseEntity<?> getProducts(@Valid @ModelAttribute ProductQueryParameter param, Errors errors) throws JsonProcessingException {
         if(errors.hasErrors()){
             Map<String, String> map = new HashMap<>();
             List<FieldError> fieldErrors = errors.getFieldErrors();
@@ -134,6 +139,7 @@ public class ProductController {
 ////        取決於一開始傳送資料的路徑是否帶上請求參數 (但我function接收BODY JSON格式而已)。
 //    }
 
+    @Override
     @PostMapping                     //在需要驗證Product傳入對象加上@Valid
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductRequest request, Errors errors){
 
@@ -168,9 +174,10 @@ public class ProductController {
 
 
 
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<?> replaceProduct(
-            @PathVariable("id") String id,@Valid @RequestBody ProductRequest request,Errors errors){
+            @PathVariable("id") String id, @Valid @RequestBody ProductRequest request, Errors errors){
         if(errors.hasErrors()){
             HashMap<String,String> map =new HashMap<>();
             for( var err:errors.getFieldErrors()){
@@ -194,6 +201,7 @@ public class ProductController {
         }
     }
     // Void表示不返回實例數據 僅返回狀態碼
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") String id){
 
@@ -203,9 +211,10 @@ public class ProductController {
 
     /** @Note 請注意雖然這邊測試沒跳出錯誤 但是 其實MailService 有setPortListener 會佔據port 如果有人還沒離開就觸發程式 那會出bug*/
     // 做一個寄信的功能 使用到product service內部的 mailService對象
+    @Override
     @DeleteMapping("/{id}/mail")
 //                                      這是參數強制要求之類的 回憶一下   @RequestParam(name = "paramName", required = true)
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") String id ,@Valid @RequestBody SendMailRequest mailRequest) throws Exception {
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") String id, @Valid @RequestBody SendMailRequest mailRequest) throws Exception {
 
         productService.deleteProduct(id);
         productService.mailNotify(mailRequest);

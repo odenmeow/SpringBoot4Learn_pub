@@ -21,13 +21,13 @@ public class ObjectMapperTest {
         private String id;
         private String name;
         private int price;
-        @JsonIgnore  //序列化輸出 會忽略此項
+        /**        @JsonIgnore  //序列化輸出時會忽略此項    根據需求自己開關   */
         private String isbn;
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        /**       @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")     */
 //        使日期可以轉換成指定格式輸出
         private Date createdTime; //我使用util
-        @JsonUnwrapped
+        /**        @JsonUnwrapped       */
         private Publisher publisher;
 //        加入 @JsonUnwrapped 之前
 //{
@@ -107,7 +107,7 @@ public class ObjectMapperTest {
     private static class Publisher{
         private String companyName;
         private String address;
-        @JsonProperty("telephone")
+//        @JsonProperty("telephone")   根據需求自由調整
         private String tel;
 //  由於         @JsonProperty("telephone")    所以序列化會輸出
 //{
