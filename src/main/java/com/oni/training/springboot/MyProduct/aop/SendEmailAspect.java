@@ -62,6 +62,7 @@ public class SendEmailAspect {
 
             // 使用者為未紀錄
             System.out.println("無登入，產品操作，不寄信");
+            // 同一個server只會有一個enum的實例
             if(annotation.entity().equals(EntityType.APP_USER)){
                 String subject=composeSubject(annotation);
                 String message=composeMessage(annotation,joinPoint,result);
@@ -158,7 +159,7 @@ public class SendEmailAspect {
             Field field =obj.getClass().getDeclaredField("id");
             field.setAccessible(true);
             return (String) field.get(obj);
-            // |  可以捕捉多個異常 || 若A成立B就捉不到
+            // |  可以捕捉多個異常 || 若A成立B就捉不到 <catch>只能 | 不能 || ，||其他地方可以
         }catch (NoSuchFieldException | IllegalAccessException e){
             e.printStackTrace();
             return "";

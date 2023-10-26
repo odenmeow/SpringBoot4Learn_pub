@@ -63,7 +63,7 @@ public class AuthenticationService {
                 .build();
     }
     public AuthResponse authenticate(AuthRequest request){
-        // 不放這邊會被 Manager先攔截 就不知道誰錯誤了@@ 反而需要另外去設置
+        // 不放這邊會被 Manager先攔截 就不知道誰錯誤了@@ 反而需要另外去設置SecurityConfig error的樣子
         var user=repository.findByEmailAddress(request.getEmail()).orElseThrow(()->{throw  new NotFoundException("找不到該信箱");});
 
         //  SpringSecurity不鼓勵自己寫驗證方法 建議用這

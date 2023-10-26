@@ -43,9 +43,10 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
 //              最好別setId因為根本UserDetails 沒有提供 與要求 所以就先跳過比較安全不然就是另外提供參數進來
-//                2023/10/21 11:54 笑死 我想說怎麼會通過 (RestTemplateTest 產品創建者跟透過Token取得user id
+//                2023/10/21 11:54 笑死 我想說怎麼會測試通過 (RestTemplateTest <產品創建者> compareTo <透過Token取得user id>)
 //                原來是因為兩個都是null ， 好的 ， 我準備來這邊真正設置看看
                 .setId(user.getId())
+//                2023/10/26 13:02 注意一下這id好像通常不是這樣用 而是識別token編號 以防token重用
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

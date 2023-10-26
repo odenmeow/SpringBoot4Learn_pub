@@ -1,10 +1,12 @@
 package com.oni.training.springboot.MyProduct.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oni.training.springboot.MyProduct.auth.AuthenticationService;
 import com.oni.training.springboot.MyProduct.auth.JwtService;
 import com.oni.training.springboot.MyProduct.auth.auth_user.AuthRequest;
 import com.oni.training.springboot.MyProduct.auth.auth_user.AuthResponse;
+import com.oni.training.springboot.MyProduct.entity.CustomBadResponse;
 import com.oni.training.springboot.MyProduct.entity.app_user.AppUser;
 import com.oni.training.springboot.MyProduct.entity.app_user.AppUserRequest;
 import com.oni.training.springboot.MyProduct.entity.app_user.Role;
@@ -19,6 +21,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -46,14 +51,30 @@ public class AppUserController implements AppUserControllerApi {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
+//     這邊沒有使用 自定義攔截錯誤並回傳的話 就會只出現badRequest 400
+//     如果把Error帶入 自己處理並生成的話 會更好，api呼叫者可以知道更詳細的錯誤 !
+//    ( 把 @Validate 遇到的 @NonBlank 的消息拋出)
     @Override
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthResponse> UserLogin(@Valid @RequestBody AuthRequest body){
-        System.out.println(repository.findByEmailAddress(body.getEmail()));
-        System.out.println("印出從裡面印出的 不見得真有"+body.getEmail());
-        AuthResponse response=service.authenticate(body);
-        System.out.println(response.getToken());
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> UserLogin(@Valid @RequestBody AuthRequest body, Errors errors){
+        if(errors.hasErrors()){
+            Map<String,String> map=new HashMap<>();
+            List<FieldError> fielderrors=errors.getFieldErrors();
+            for(var fielderror:fielderrors){
+                map.put(fielderror.getField(), fielderror.getDefaultMessage());
+            }
+            String path=ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath();
+            CustomBadResponse customBadResponse=new CustomBadResponse(map,path);
+//          使用建構式避免Builder，怕預設值沒被用上(畢竟我Builder模式下只有設定timestamp不輸入也有預設)
+            return ResponseEntity.badRequest().body(customBadResponse);
+
+        }else {
+            System.out.println(repository.findByEmailAddress(body.getEmail()));
+            System.out.println("印出從裡面印出的 不見得真有" + body.getEmail());
+            AuthResponse response = service.authenticate(body);
+            System.out.println(response.getToken());
+            return ResponseEntity.ok(response);
+        }
     }
     @Override
     @PostMapping

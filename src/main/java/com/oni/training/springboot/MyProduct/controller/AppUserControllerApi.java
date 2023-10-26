@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,9 @@ import java.util.List;
 
 @Tag(name = "AppUser" ,description = "Authentication and Basic CRUD with User")
 public interface AppUserControllerApi {
+
+
+
     @PostMapping("/authenticate")
     @Operation(summary = "Generate a token for you", description = "You will receive a token for the specified email by AuthRequest",
             responses = {
@@ -38,7 +42,8 @@ public interface AppUserControllerApi {
 //                    根據不同的 狀態回不同的body的話 可以如上描述告知
             }
     )
-    ResponseEntity<AuthResponse> UserLogin(@Valid @RequestBody AuthRequest body);
+//    ResponseEntity<AuthResponse> UserLogin(@Valid @RequestBody AuthRequest body, Errors errors);
+    ResponseEntity<?> UserLogin(@Valid @RequestBody AuthRequest body, Errors errors);
 
     @PostMapping
     @Operation(summary = "Create a User", description = "You will receive a token in the AuthResponse",

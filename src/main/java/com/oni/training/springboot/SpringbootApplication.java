@@ -40,8 +40,8 @@ SpringbootApplication {
 // ctrl+alt+l 自動格式 相當於ctrl+shift+f (eclipse)
 // Ctrl+W expand 選取範圍
 // Editor > Inlay hint 關閉 提示
-
-
+// Ctrl+p  提示方法參數
+// Ctrl+j  .後面的提示
 
 //	Ctrl + Alt + V。 introduce to local variable
 //	@GetMapping
@@ -67,6 +67,10 @@ SpringbootApplication {
 //		//edge://flags/   裡面可以去改json
 //	}
 //  java -jar .\demo-0.0.1-SNAPSHOT.jar --server.port=8081
+
+
+
+
 
 /**   G    i    t
  * 		預設會忽略空的folder file 所以建議 folder內要放file然後打字 才會被加入!
