@@ -84,9 +84,9 @@ public class AppUserController implements AppUserControllerApi {
     public ResponseEntity<AuthResponse> createUser(@Valid @RequestBody AppUserRequest request){
         System.out.println("你好");
         AuthResponse user= service.register(request);
-        if (true){
-            throw new RuntimeException("故意的錯誤");
-        }
+//        if (true){
+//            throw new RuntimeException("故意的錯誤");
+//        }
 
         String id=jwtService.extractClaim(user.getToken(), Claims::getId);
         URI location= ServletUriComponentsBuilder
