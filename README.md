@@ -184,11 +184,11 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
 
 ### 使用 swagger可以browser 查看 api 消息
 
-> [Swagger UI]([Swagger UI](http://localhost:8080/swagger-ui/index.html#/)) 
+> [Swagger UI]([Swagger UI](http://localhost:8083/swagger-ui/index.html#/)) 
 > 
 > 二選一都一樣
 > 
-> http://localhost:8080/swagger-ui/index.html#/  
+> http://localhost:8083/swagger-ui/index.html#/  
 
 ## 專案架構 請忽略
 
