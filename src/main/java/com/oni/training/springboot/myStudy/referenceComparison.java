@@ -20,6 +20,10 @@ public class referenceComparison {
         Runnable methodRef2 = obj1::myMethod;
 
         // 檢查方法引用是否相等
+
+
+
+
         System.out.println(methodRef1 == methodRef2);   //false
         // false，因為它們引用了不同的方法
 
