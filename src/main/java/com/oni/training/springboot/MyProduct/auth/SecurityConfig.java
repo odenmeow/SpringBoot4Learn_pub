@@ -73,7 +73,6 @@ public class SecurityConfig  {
 //                                要跟之前一樣 使用Error物件跟自己定義想回傳的ResponseEntity去回傳!
                                 .anyRequest().authenticated()
 
-
                 )
                 .sessionManagement(sessionManagement->
                         sessionManagement

@@ -42,7 +42,7 @@ public class LogAspect {
         System.out.println("=========================after advice ends=========================");
     }
     // Before > method > AfterReturning > After
-    //AfterReturning　如果發生例外則不執行
+    // AfterReturning　如果發生例外則不執行
     @AfterReturning(pointcut = "pointcut()",returning = "result")
     public void afterReturning(JoinPoint joinPoint, Object result){
 

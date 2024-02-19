@@ -33,7 +33,7 @@ public class ProductService  {
     private boolean initializeData;
     // 這邊的Autowired也被移除了
     private UserIdentity userIdentity;
-
+    
     public ProductService(ProductRepository repository,MailService mailService,UserIdentity userIdentity) {
         this.mailService=mailService;
         this.repository=repository;

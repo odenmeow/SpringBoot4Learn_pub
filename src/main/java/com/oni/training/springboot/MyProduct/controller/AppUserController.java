@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -78,9 +79,15 @@ public class AppUserController implements AppUserControllerApi {
     }
     @Override
     @PostMapping
+//    @Transactional // runtime不會觸發
+    @Transactional(rollbackFor = Exception.class) //故意讓runtime也會被觸發!
     public ResponseEntity<AuthResponse> createUser(@Valid @RequestBody AppUserRequest request){
-
+        System.out.println("你好");
         AuthResponse user= service.register(request);
+        if (true){
+            throw new RuntimeException("故意的錯誤");
+        }
+
         String id=jwtService.extractClaim(user.getToken(), Claims::getId);
         URI location= ServletUriComponentsBuilder
                 .fromCurrentRequest()

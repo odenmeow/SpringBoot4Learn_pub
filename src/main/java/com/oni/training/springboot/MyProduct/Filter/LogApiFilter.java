@@ -1,19 +1,13 @@
 package com.oni.training.springboot.MyProduct.Filter;
 
-import com.google.common.io.ByteSource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.checkerframework.checker.units.qual.C;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
-
 import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 public class LogApiFilter  extends OncePerRequestFilter {
     @Override

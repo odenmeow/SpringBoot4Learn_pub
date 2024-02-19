@@ -27,7 +27,7 @@ import java.util.*;
 // 回傳String的話   被視為HTML內容            Content-Type: text/plain;charset=UTF-8
 // 回傳物件或者HashMap則換成 Json 方式回傳      Content-Type: application/json
 @RequestMapping(value="/products", produces = MediaType.APPLICATION_JSON_VALUE)
-// Content-Type   application/json  (那怕回傳是String)
+// Content-Type   application/json  (哪怕回傳是String)
 // 似乎會讓方法都變成JSON表示  原本String 應該直接傳回字串吧?
 // 讓所屬類別加上路徑
 // docker連線測試的時候使用mongosh mongodb://localhost:27017 -u aaa -p ccc
