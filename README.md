@@ -91,7 +91,7 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
 
 - 建立好網路之後，去 `tutu-copy` 內部 設定 `test` 跟 `main` 的 `application.properties` 。
 
-##### tutu的 db設定 (main+test)
+##### tutu的 db設定 (main+test)、基本mongodb 連線查看內部資料
 
 - 完成網路之間的連接後，要去設定 `MongoDB` 的 `uri` 。
   
@@ -101,7 +101,73 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
     
     因為我有安裝 `nano` 請直接使用指令更改
 
-###### 注意，我是使用 SpringBoot4Learn_pub 唷。
+- `使用指令` 進入 **ubuntu (tutu-copy) docker bash** 介面 
+  
+  ```batch
+  docker exec -it tutu-copy bash
+  ```
+
+- `使用指令` 進入 **mongoDB** 
+  
+  ```batch
+  docker exec -it mongodb bash
+  ```
+  
+  `使用指令` 連接  **mongodb** 
+  
+  ```batch
+   mongosh mongodb://localhost:27017 -u aaa -p ccc
+  ```
+  
+  > 透過指令操作 可以看 db 內部。
+  > 
+  > show dbs;
+  > 
+  > use demo;
+  > 
+  > show collections
+  > 
+  > db.products.find({});  // 找出全部商品 
+  
+  - 大致如下
+    
+    ```json
+    demo> db.products.find()
+    [
+      {
+        _id: ObjectId("65d39af607373933193f6212"),
+        name: 'Android Development (Java)',
+        price: 380,
+        _class: 'com.oni.training.springboot.MyProduct.entity.product.Product'
+      },
+      {
+        _id: ObjectId("65d39af607373933193f6213"),
+        name: 'Android Development (Kotlin)',
+        price: 420,
+        _class: 'com.oni.training.springboot.MyProduct.entity.product.Product'
+      },
+      {
+        _id: ObjectId("65d39af607373933193f6214"),
+        name: 'Data Structure (Java)',
+        price: 250,
+        _class: 'com.oni.training.springboot.MyProduct.entity.product.Product'
+      },
+      {
+        _id: ObjectId("65d39af607373933193f6215"),
+        name: 'Finance Management',
+        price: 450,
+        _class: 'com.oni.training.springboot.MyProduct.entity.product.Product'
+      },
+      {
+        _id: ObjectId("65d39af607373933193f6216"),
+        name: 'Human Resource Management',
+        price: 330,
+        _class: 'com.oni.training.springboot.MyProduct.entity.product.Product'
+      }
+    ]
+    ```
+
+###### 另外注意，ubuntu內專案，我是使用 SpringBoot4Learn_pub 唷。
 
 - 請不要在這邊隨便使用pull，我已經改過內容了，如果失敗就自己從`image`再做一次，
   

@@ -7,7 +7,12 @@ import com.oni.training.springboot.MyProduct.entity.product.ProductRequest;
 import com.oni.training.springboot.MyProduct.entity.product.ProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +34,10 @@ public interface ProductControllerApi {
 
     // CH12 不同於 CH11 (Method Changed)
     @GetMapping("/{id}")
-    @Operation(summary = "getProductById", description = "Literally Just Give Me Product ID",
+    @Operation(summary = "getProductById which you just inserted is the best.", description =
+            "Literally Just Give Me Product ID. Each time restart the sever, the product id will be changed." +"<br>"+
+            "注意，id 最好使用自己剛剛新增的商品(最好先去新增再來這查)，才會出現creator id，" + "<br>"+
+            " 否則需要重新查詢bash db 的商品id， 因為每次開啟伺服器都會清空、生成。",
             responses = {
                 @ApiResponse(responseCode = "200",
                             description = "Get Product info successfully"),
@@ -41,7 +49,11 @@ public interface ProductControllerApi {
                             content = @Content)
             }
     )
-    ResponseEntity<ProductResponse> getProduct(@Parameter(description = "ID of product.") @PathVariable("id") String id);
+    ResponseEntity<ProductResponse> getProduct(
+            // 下面不可以使用 name ，否則不會自動轉化 pathvariable {id} ，會導致錯誤。
+//           @Parameter(in = ParameterIn.PATH,name = "ID of product.", description = "productID", example = "65d39af607373933193f6212")
+           @Parameter( description = "productID", example = "65d39af607373933193f6212")
+           @PathVariable("id") String id);
 
     // CH12 不同於 CH11 (Method Changed)
 //    @GetMapping  // 這邊ModelAttribute 傳入GET 其實也是解析 ?a="a"&b="b"而已
@@ -60,7 +72,35 @@ public interface ProductControllerApi {
     @Operation(summary = "getByProductQueryParameter", description = "Give Me ProductQueryParameter Form.",
             responses = {
                     @ApiResponse(responseCode = "200",
-                            description = "Get Products info successfully"),
+                            description = "Get Products info successfully",
+                            content =@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)) ,
+                            examples ={
+                                    // 陣列[]一定要給 不能只給 {} , {} 會壞掉
+                                    // 沒有填入value 也沒關係，語法糖，預設直接輸入是對應value
+                                    @ExampleObject(
+
+                                            """
+                                                            [
+                                                               {
+                                                                 "id": "65d45fe765bd6233636ec4ce",
+                                                                 "name": "Android Development (Java)",
+                                                                 "price": 380,
+                                                                 "creatorId": null
+                                                               },
+                                                               {
+                                                                 "id": "65d45fe765bd6233636ec4d0",
+                                                                 "name": "Data Structure (Java)",
+                                                                 "price": 250,
+                                                                 "creatorId": null
+                                                               }
+                                                             ]
+                                                    """
+
+                                    ) ,
+                            })
+
+
+                    ),
                     @ApiResponse(responseCode = "403",
                             description = "Only authenticate user can do this ,or Maybe not permit url.",
                             content = @Content),
@@ -75,8 +115,20 @@ public interface ProductControllerApi {
         //在需要驗證Product傳入對象加上@Valid
     @Operation(summary = "insert a new Product", description = "If login(Authenticated Token) ,the product will contain the creatorID",
             responses = {
-                    @ApiResponse(responseCode = "200",
-                            description = "Create Product successfully"),
+                    @ApiResponse(responseCode = "201",
+                            description = "Create Product successfully",
+                            content = @Content(mediaType = "application/json",
+                                    examples = {@ExampleObject(value =
+                                            """
+                                                        {
+                                                                  "id": "65d440fcafce1d56df946b30",
+                                                                  "name": "Android Development (JavaScript)",
+                                                                  "price": 205
+                                                                }        
+                                                    """),
+
+                                    })
+                    ),
                     @ApiResponse(responseCode = "403",
                             description = "Only authenticate user can do this ,or Maybe not permit url.",
                             content = @Content),
@@ -91,7 +143,32 @@ public interface ProductControllerApi {
     @Operation(summary = "Replace a Product's detail", description = "Should Provide ID in url and the same id in ProductRequest",
             responses = {
                     @ApiResponse(responseCode = "200",
-                            description = "Replacement successful"),
+                        description = "Replacement successful",
+                        content = @Content(mediaType = "application/json",
+                                examples = {@ExampleObject(value =
+                                        """
+                                                    {
+                                                              "id": "65d440fcafce1d56df946b30",
+                                                              "name": "Android Development (JavaScript)",
+                                                              "price": 205
+                                                            }        
+                                                """),
+
+                                }),
+                            headers = {
+                                    @Header(name = "Cache-Control", description = "no-cache,no-store,max-age=0,must-revalidate"),
+                                    @Header(name = "Connection", description = "keep-alive"),
+                                    @Header(name = "Content-Length", description = "104"),
+                                    @Header(name = "Content-Type", description = "application/json"),
+                                    @Header(name = "Date", description = "Tue,20 Feb 2024 06:45:30 GMT"),
+                                    @Header(name = "Expires", description = "0"),
+                                    @Header(name = "Keep-Alive", description = "timeout=60"),
+                                    @Header(name = "Pragma", description = "no-cache"),
+                                    @Header(name = "X-Content-Type-Options", description = "nosniff"),
+                                    @Header(name = "X-Frame-Options", description = "DENY"),
+                                    @Header(name = "X-XSS-Protection", description = "0"),
+                            }
+                    ),
                     @ApiResponse(responseCode = "403",
                             description = "Only authenticate user can do this ,or Maybe not permit url.",
                             content = @Content),
@@ -102,13 +179,14 @@ public interface ProductControllerApi {
             }
     )
     ResponseEntity<?> replaceProduct(
-            @PathVariable("id") String id, @Parameter(description = "You should input same id as the url.") @Valid @RequestBody ProductRequest request, Errors errors);
+            @Parameter( description = "id as the pathVariable of url .", example = "65d440fcafce1d56df946b30")
+            @PathVariable("id") String id,  @Valid @RequestBody ProductRequest request, Errors errors);
 
     // Void表示不返回實例數據 僅返回狀態碼
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete the Product", description = "Should Provide ID in url",
             responses = {
-                    @ApiResponse(responseCode = "200",
+                    @ApiResponse(responseCode = "204",
                             description = "Success"),
                     @ApiResponse(responseCode = "403",
                             description = "Only authenticate user can do this ,or Maybe not permit url.",
