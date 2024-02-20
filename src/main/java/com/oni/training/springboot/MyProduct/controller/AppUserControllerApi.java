@@ -17,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -149,7 +146,7 @@ public interface AppUserControllerApi {
     )
     String getUsername(Authentication authentication);
 
-    @GetMapping(value = "/test/ByPass/addRole")
+    @PutMapping(value = "/test/ByPass/addRole")
     @Operation(summary = "Assign a Role to a specific user (email)", description = "This operation adds a new Role to the AppUser.  ",
 //            Fetch the email associated with the User's Token
             responses = {

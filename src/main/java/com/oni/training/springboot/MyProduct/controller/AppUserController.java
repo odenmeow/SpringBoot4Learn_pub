@@ -125,7 +125,7 @@ public class AppUserController implements AppUserControllerApi {
         return username;
     }
     @Override
-    @GetMapping(value = "/test/ByPass/addRole")
+    @PutMapping(value = "/test/ByPass/addRole")
     public ResponseEntity<AppUser> setUserAuthRole(@RequestParam(value = "email") String email,
                                                    @RequestParam(value = "role") String role
 

@@ -152,7 +152,7 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
     
     demo> db.products.find()
     
-    ```javs
+    ```javascript
     [
       {
         _id: ObjectId("65d39af607373933193f6212"),
