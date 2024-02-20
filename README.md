@@ -4,6 +4,12 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
 
 ## 使用前注意:
 
+> 不一定兩個都要使用 ， 你想體驗docker之間互動，就兩個都弄，我已經架好了。
+> 
+> 至少使用: docker mongodb 就可以，因為外面springboot如果你使用intellj 會需要
+> 
+> 連接到內部的mongodb，如果要自己弄也是可以。
+
 ### docker pull 我的 image
 
 - 透過 docker hub 取得我已經架設的 ubuntu + mongodb Image，直接使用、避免中毒危險 + 節省部屬時間，以Postman搭配下面swagger api 快速了解、直接使用Project。
@@ -106,6 +112,19 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
   ```batch
   docker exec -it tutu-copy bash
   ```
+  
+  - **⚠️錯誤提示⚠️** 
+    
+    你可能沒開啟 要先開啟 ，也就是 `start` 才能進入。
+    
+    ```batch
+    PS C:\Users\qw284> docker exec -it tutu-copy bash
+    Error response from daemon: Container 3f37307aa362171639e71d99e8ed44cd899918bae588f58169c2ba073b390e89 is not running
+    PS C:\Users\qw284> docker start tutu-copy
+    tutu-copy
+    PS C:\Users\qw284> docker exec -it tutu-copy bash
+    root@3f37307aa362:/#
+    ```
 
 - `使用指令` 進入 **mongoDB** 
   
@@ -131,8 +150,9 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
   
   - 大致如下
     
-    ```json
     demo> db.products.find()
+    
+    ```javs
     [
       {
         _id: ObjectId("65d39af607373933193f6212"),
@@ -226,11 +246,13 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
 
 - Email 給我 qw28425382694@gmail.com ，我會再更新 Git Repository。
 
-- pull 的時候 請先 切換到 `SpringBoot4Leran_public`
+- pull 的時候 請先 切換到 `SpringBoot4Leran_public` 
   
   ```batch
   git stash save yourstashName
   ```
+  
+  - 先將現有資料保存至 stash  之後pull完畢再取出即可。
   
   - 使用自己想要給的該 stash 名稱 
   
@@ -245,6 +267,78 @@ https://chikuwa-tech-study.blogspot.com/search/label/Spring%20Boot
   ```
   
   - 如果有衝突，請保持自己原本設定的 pom.xml、test、main的application.properties。
+
+- 衝突基本上應該只會發生在 pom.xml **解決辦法如下** 
+  
+  > unmerged paths 這邊有寫 pom.xml
+  > 
+  > 直接 nano pom.xml就對了，進去會發現要修改的部分git幫忙 標記了
+  > 
+  > 直接刪除就對了!
+  
+  ```batch
+  root@3f37307aa362:/my-github-projects/SpringBoot4Learn_pub# git stash pop
+  Auto-merging pom.xml
+  CONFLICT (content): Merge conflict in pom.xml
+  On branch master
+  Your branch is up to date with 'origin/master'.
+  
+  Changes to be committed:
+    (use "git restore --staged <file>..." to unstage)
+          modified:   src/main/resources/application.properties
+          modified:   src/test/resources/application.properties
+  
+  Unmerged paths:
+    (use "git restore --staged <file>..." to unstage)
+    (use "git add <file>..." to mark resolution)
+          both modified:   pom.xml
+  
+  The stash entry is kept in case you need it again.
+  root@3f37307aa362:/my-github-projects/SpringBoot4Learn_pub# nano pom.xml
+  root@3f37307aa362:/my-github-projects/SpringBoot4Learn_pub# git add .
+  root@3f37307aa362:/my-github-projects/SpringBoot4Learn_pub# git status
+  On branch master
+  Your branch is up to date with 'origin/master'.
+  
+  Changes to be committed:
+    (use "git restore --staged <file>..." to unstage)
+          modified:   pom.xml
+          modified:   src/main/resources/application.properties
+          modified:   src/test/resources/application.properties
+  
+  root@3f37307aa362:/my-github-projects/SpringBoot4Learn_pub#
+  ```
+  
+  - 刪除示意如下
+    
+    ```xml
+                            <plugin>
+                                    <groupId>org.apache.maven.plugins</groupId>
+                                    <artifactId>maven-surefire-plugin</artifactId>
+                                    <version>2.21.0</version> <!--     ^t 2.21 ^i^h ^|  ^h^v ^{  ^w  ^i^h ^| >
+    <<<<<<< Updated upstream
+    =======
+                                    <configuration>
+                                            <encoding>UTF-8</encoding>
+                                    </configuration>
+    >>>>>>> Stashed changes
+                            </plugin>
+                    </plugins>
+    
+            </build>
+    ```
+    
+    - 這個區塊是 git 自動生成介入，你刪除後 `git add .` 他就知道你處理好了。
+      把被箭頭包圍的區塊刪除，ctrl+s ctrl+x離開就可以，之後再用`git add .` 就好。
+      
+      ```batch
+      <<<<<<< Updated upstream
+      =======
+                                      <configuration>
+                                              <encoding>UTF-8</encoding>
+                                      </configuration>
+      >>>>>>> Stashed changes
+      ```
 
 ### 完成後，請透過下面從容器外面的網頁連接 容器內部的服務 !
 
