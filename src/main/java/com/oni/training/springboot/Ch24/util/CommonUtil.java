@@ -21,7 +21,7 @@ public class CommonUtil {
         }
     }
     public static String toSearchText(String s){
-        return Optional.ofNullable(s)
+        return Optional.ofNullable(s) // 把對象包裹起來，如果為Optional(null)，map則不會對其做事。
                 .map(String::trim)  // 移除用戶String 前後多餘的空白 && tab 只留訊息本身(但中間空白可存在)
                 .map(String::toLowerCase)
                 .orElse("");

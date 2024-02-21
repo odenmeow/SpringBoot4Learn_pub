@@ -3,6 +3,7 @@ package com.oni.training.springboot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.web.bind.annotation.GetMapping;
 
 
 @SpringBootApplication
@@ -31,7 +32,7 @@ SpringbootApplication {
 // ctrl+shift +  (+/-)  展開或收攏到只剩方法標題名稱
 // alt+shift +  (+/-)   最小只能100%  不能往下QQ
 // end / fn+左或右邊 行尾 行首
-
+//
 // run之後會出現target 裡面是你的byte code 。
 // 對應影片https://www.youtube.com/watch?v=XCqVCq249Iw
 // alt+` (~)    (自己選擇要不comment) VCS enable version control integeration
@@ -42,7 +43,7 @@ SpringbootApplication {
 // Editor > Inlay hint 關閉 提示
 // Ctrl+p  提示方法參數
 // Ctrl+j  .後面的提示
-
+//
 //	Ctrl + Alt + V。 introduce to local variable
 //	@GetMapping
 //	public String Hello() {

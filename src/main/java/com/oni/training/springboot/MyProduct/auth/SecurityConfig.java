@@ -66,7 +66,7 @@ public class SecurityConfig  {
                                 .requestMatchers("/errors").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/AOP/**").permitAll()
-
+                                .requestMatchers("/ch24/products").permitAll()
 //                                上面驗證的時候再打開就好 (無需要先不要開 有點麻煩<err需要處理加工會用到>)
 //                                如果沒打開 基本上有錯誤都會被 變成403 然後如果打開就會顯示真的錯誤
 //                                但是想要詳細內容
